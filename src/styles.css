@@ -1,0 +1,43 @@
+:root {
+  --glass-bg: rgba(255,255,255,0.6);
+  --glass-border: rgba(0,0,0,0.06);
+}
+
+[data-bs-theme="dark"] {
+  --glass-bg: rgba(0,0,0,0.3);
+  --glass-border: rgba(255,255,255,0.08);
+}
+
+.glass {
+  backdrop-filter: saturate(180%) blur(8px);
+  background: var(--glass-bg) !important;
+}
+
+.card-hover:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  transform: translateY(-1px);
+  transition: all .2s ease;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #0d6efd, #6f42c1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.avatar-frame .avatar {
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border: 2px solid var(--glass-border);
+}
+
+.page-hero {
+  border: 1px solid var(--glass-border);
+  border-radius: .75rem;
+}
+
+.section + .section { margin-top: 1.25rem; }
+

@@ -1,8 +1,8 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages (Vite)
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]      # repo của bạn đang dùng master
   workflow_dispatch:
 
 permissions:
@@ -11,7 +11,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: "pages"
   cancel-in-progress: true
 
 jobs:
@@ -25,17 +25,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install deps
+        run: npm ci || npm i
 
-      - name: Build
-        env:
-          GITHUB_PAGES: 'true'
+      - name: Build (Vite)
         run: npm run build
 
-      - name: SPA fallback (404.html)
+      # SPA fallback để tránh 404 khi refresh route
+      - name: Copy 404.html
         run: cp dist/index.html dist/404.html
 
       - name: Upload artifact
@@ -53,4 +51,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-

@@ -1,23 +1,88 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import Home from './pages/Home.jsx';
 import CV from './pages/CV.jsx';
+import Blog from './pages/Blog.jsx';
+import Repos from './pages/Repos.jsx';
+import BlogPost from './pages/BlogPost.jsx';
+import { WithPresence, PageWrapper } from './components/PageTransition.jsx';
 
 export default function App() {
+  const location = useLocation();
+
+  // Robust scroll-reveal for elements with [data-animate]
+  useEffect(() => {
+    const supportsIO = 'IntersectionObserver' in window;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // If user prefers reduced motion, reveal everything immediately
+    if (!supportsIO || reduceMotion) {
+      document.querySelectorAll('[data-animate]').forEach((el) => el.classList.add('is-visible'));
+      return;
+    }
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
+
+    const observeAll = () => {
+      const els = document.querySelectorAll('[data-animate]:not(.is-visible)');
+      els.forEach((el) => io.observe(el));
+    };
+
+    // Observe initially and after a short delay (for transitions/mounts)
+    const t1 = setTimeout(observeAll, 0);
+    const t2 = setTimeout(observeAll, 250);
+    const t3 = setTimeout(observeAll, 800);
+
+    // MutationObserver to catch dynamically added nodes (e.g., fetched lists, MDX)
+    const mo = new MutationObserver((records) => {
+      for (const r of records) {
+        r.addedNodes.forEach((n) => {
+          if (n.nodeType === 1) {
+            if (n.matches && n.matches('[data-animate]:not(.is-visible)')) io.observe(n);
+            n.querySelectorAll && n.querySelectorAll('[data-animate]:not(.is-visible)').forEach((el) => io.observe(el));
+          }
+        });
+      }
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+
+    // Safety: ensure nothing stays hidden after 2s
+    const safety = setTimeout(() => {
+      document.querySelectorAll('[data-animate]:not(.is-visible)').forEach((el) => el.classList.add('is-visible'));
+    }, 2000);
+
+    return () => {
+      clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(safety);
+      mo.disconnect();
+      io.disconnect();
+    };
+  }, [location.pathname]);
+
   return (
     <div className="app">
       <Header />
       <main className="container py-4">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/cv" element={<CV />} />
-          <Route path="*" element={<Home />} />
-        </Routes>
+        <WithPresence location={location}>
+          <Routes location={location}>
+            <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+            <Route path="/blog" element={<PageWrapper><Blog /></PageWrapper>} />
+            <Route path="/blog/:slug" element={<PageWrapper><BlogPost /></PageWrapper>} />
+            <Route path="/cv" element={<PageWrapper><CV /></PageWrapper>} />
+            <Route path="/repos" element={<PageWrapper><Repos /></PageWrapper>} />
+            <Route path="*" element={<PageWrapper><Home /></PageWrapper>} />
+          </Routes>
+        </WithPresence>
       </main>
       <Footer />
     </div>
   );
 }
-

@@ -1,4 +1,11 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
+import { motion } from 'framer-motion';
+import Particles from '../components/Particles.jsx';
+import Typewriter from '../components/Typewriter.jsx';
+import Tilt from '../components/Tilt.jsx';
+import Sidebar from '../components/Sidebar.jsx';
+import { toast } from '../components/Toast.jsx';
+import { social } from '../config/site.js';
 
 function Section({ id, title, children }) {
   return (
@@ -10,47 +17,56 @@ function Section({ id, title, children }) {
 }
 
 export default function Home() {
+  const sectionIds = ['about', 'focus', 'goals', 'tech', 'projects', 'contact'];
+
+  const allProjects = useMemo(() => ([
+    { title: 'Mini‑VLM Playground', desc: 'Retrieval/grounding demos with small benchmarks', tags: ['VLM', 'Retrieval'], preview: null },
+    { title: 'QML for Vision', desc: 'Hybrid quantum‑classical baselines on MNIST/CIFAR', tags: ['QML', 'Vision'], preview: null },
+    { title: 'Edge‑friendly CV', desc: 'Distilled/quantized models for edge inference', tags: ['Edge', 'CV'], preview: null },
+  ]), []);
+  const [query, setQuery] = useState('');
+  const [tag, setTag] = useState('All');
+  const tags = ['All', 'VLM', 'Retrieval', 'QML', 'Vision', 'Edge', 'CV'];
+  const filtered = allProjects.filter(p => (
+    (tag === 'All' || p.tags.includes(tag)) &&
+    (query.trim() === '' || p.title.toLowerCase().includes(query.toLowerCase()) || p.desc.toLowerCase().includes(query.toLowerCase()))
+  ));
+
   return (
     <div className="row g-4">
       <aside className="col-12 col-lg-4">
-        <div className="sticky-top" style={{ top: 84 }}>
-          <div className="card card-hover mb-3">
-            <div className="card-body d-flex align-items-center gap-3">
-              <span className="avatar-frame">
-                <img className="avatar photo" src="/assets/avatar.svg" alt="Profile" width="64" height="64" />
-              </span>
-              <div>
-                <div className="fw-semibold">Nguyễn Minh Trí</div>
-                <div className="text-secondary small d-flex align-items-center gap-2"><i className="bi bi-geo-alt"></i> Ho Chi Minh City, VN</div>
-              </div>
-            </div>
-          </div>
-          <div className="card card-hover mb-3">
-            <div className="card-body">
-              <div className="d-flex justify-content-between align-items-center mb-2">
-                <div className="fw-semibold">On GitHub</div>
-                <a className="text-decoration-none small" href="https://github.com/mihtriii" target="_blank" rel="noopener">View →</a>
-              </div>
-              <p className="mb-0 text-secondary small">Recent work and repositories.</p>
-            </div>
-          </div>
-        </div>
+        <Sidebar sectionIds={sectionIds} showSocial={false} />
       </aside>
 
       <div className="col-12 col-lg-8">
-        <section className="page-hero p-4 mb-3" data-animate>
-          <div className="row align-items-center g-4">
+        <section className="page-hero hero-with-bg p-4 mb-3 position-relative overflow-hidden" data-animate>
+          <Particles />
+          <div className="row align-items-center g-4 position-relative">
             <div className="col-12 col-md-7">
-              <h1 className="h3 mb-1"><span className="gradient-text">Hi, I’m Trí.</span></h1>
-              <p className="text-secondary mb-3">AI @ FPTU HCM — Computer Vision, Vision‑Language Models, and Quantum ML.</p>
+              <h1 className="h3 mb-2"><span className="gradient-text">Hi, I’m Trí.</span></h1>
+              <p className="text-secondary mb-3">
+                AI @ FPTU HCM —
+                <Typewriter words={[
+                  'Computer Vision',
+                  'Vision‑Language Models',
+                  'Quantum ML'
+                ]} />
+              </p>
+              <div className="d-flex flex-wrap gap-2 mb-3">
+                <span className="badge badge-glow">Computer Vision</span>
+                <span className="badge badge-glow">VLMs</span>
+                <span className="badge badge-glow">Quantum ML</span>
+              </div>
               <div className="d-flex flex-wrap gap-2">
-                <span className="badge text-bg-primary">Computer Vision</span>
-                <span className="badge text-bg-primary">VLMs</span>
-                <span className="badge text-bg-primary">Quantum ML</span>
+                <a href="#contact" className="btn btn-primary btn-sm">Contact</a>
+                <a href="/cv" className="btn btn-outline-secondary btn-sm">View CV</a>
+                <a className="btn btn-outline-secondary btn-sm" href="https://github.com/mihtriii" target="_blank" rel="noopener noreferrer">GitHub</a>
               </div>
             </div>
             <div className="col-12 col-md-5 text-center">
-              <img className="img-fluid rounded shadow-sm" src="/assets/avatar.svg" alt="Portrait" style={{ maxHeight: 200 }} />
+              <Tilt className="d-inline-block">
+                <img className="img-fluid rounded shadow-sm" src="/assets/avatar.svg" alt="Portrait" style={{ maxHeight: 200 }} />
+              </Tilt>
             </div>
           </div>
         </section>
@@ -58,6 +74,23 @@ export default function Home() {
         <Section id="about" title="About">
           <p>I’m an AI student who learns by building. I enjoy working at the intersection of <strong>Computer Vision</strong> and <strong>Vision‑Language Models</strong>, and I’m exploring <strong>Quantum ML</strong> for vision as a long‑term research direction. I value clarity, simple baselines, and reproducible demos that make ideas tangible.</p>
           <p>Right now, I’m focused on practical VLM applications (retrieval, grounding, instruction‑tuning) and setting up strong habits for research: reading, small experiments, and writing. I’m open to collaborations that are lightweight, focused, and shipping‑oriented.</p>
+          <div className="icon-row mt-2" data-animate>
+            <a className="btn btn-outline-secondary btn-sm icon-btn" href={social.kaggle} target="_blank" rel="noopener" aria-label="Kaggle">
+              <img src="/assets/kaggle.svg" alt="Kaggle" width="18" height="18" />
+            </a>
+            <a className="btn btn-outline-secondary btn-sm icon-btn" href={social.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">
+              <i className="bi bi-linkedin"></i>
+            </a>
+            <a className="btn btn-outline-secondary btn-sm icon-btn" href={social.github} target="_blank" rel="noopener" aria-label="GitHub">
+              <i className="bi bi-github"></i>
+            </a>
+            <a className="btn btn-outline-secondary btn-sm icon-btn" href={social.email} aria-label="Email">
+              <i className="bi bi-envelope"></i>
+            </a>
+            <a className="btn btn-outline-secondary btn-sm icon-btn" href={social.scholar} target="_blank" rel="noopener" aria-label="Google Scholar">
+              <i className="bi bi-mortarboard"></i>
+            </a>
+          </div>
         </Section>
 
         <Section id="focus" title="Research Focus">
@@ -78,57 +111,100 @@ export default function Home() {
         <Section id="tech" title="Technologies">
           <div className="row g-3 row-cols-1 row-cols-md-3">
             <div className="col">
+              <Tilt className="h-100">
               <div className="card card-hover h-100">
                 <div className="card-body">
                   <h3 className="h6 mb-2">Core</h3>
                   <div className="d-flex flex-wrap gap-2">
-                    <span className="badge text-bg-secondary">Python</span>
-                    <span className="badge text-bg-secondary">C++</span>
+                    <span className="badge text-bg-secondary badge-pulse">Python</span>
+                    <span className="badge text-bg-secondary badge-pulse">C++</span>
                   </div>
                 </div>
               </div>
+              </Tilt>
             </div>
             <div className="col">
+              <Tilt className="h-100">
               <div className="card card-hover h-100">
                 <div className="card-body">
                   <h3 className="h6 mb-2">ML/CV</h3>
                   <div className="d-flex flex-wrap gap-2">
-                    <span className="badge text-bg-secondary">PyTorch</span>
-                    <span className="badge text-bg-secondary">OpenCV</span>
-                    <span className="badge text-bg-secondary">Transformers</span>
-                    <span className="badge text-bg-secondary">timm</span>
+                    <span className="badge text-bg-secondary badge-pulse">PyTorch</span>
+                    <span className="badge text-bg-secondary badge-pulse">OpenCV</span>
+                    <span className="badge text-bg-secondary badge-pulse">Transformers</span>
+                    <span className="badge text-bg-secondary badge-pulse">timm</span>
                   </div>
                 </div>
               </div>
+              </Tilt>
             </div>
             <div className="col">
+              <Tilt className="h-100">
               <div className="card card-hover h-100">
                 <div className="card-body">
                   <h3 className="h6 mb-2">Tooling</h3>
                   <div className="d-flex flex-wrap gap-2">
-                    <span className="badge text-bg-secondary">Git/GitHub</span>
-                    <span className="badge text-bg-secondary">Linux</span>
-                    <span className="badge text-bg-secondary">LaTeX/Overleaf</span>
+                    <span className="badge text-bg-secondary badge-pulse">Git/GitHub</span>
+                    <span className="badge text-bg-secondary badge-pulse">Linux</span>
+                    <span className="badge text-bg-secondary badge-pulse">LaTeX/Overleaf</span>
                   </div>
                 </div>
               </div>
+              </Tilt>
             </div>
           </div>
         </Section>
 
         <Section id="projects" title="Projects (Planned)">
-          <ul className="mb-0">
-            <li>Mini‑VLM Playground — small‑scale retrieval/grounding demos with benchmarks.</li>
-            <li>QML for Vision — hybrid quantum‑classical baselines on MNIST/CIFAR.</li>
-            <li>Edge‑friendly CV — distilled/quantized models for edge inference.</li>
-          </ul>
+          <div className="d-flex flex-wrap gap-2 mb-3">
+            {tags.map((t) => (
+              <button key={t} className={`btn btn-sm ${tag === t ? 'btn-primary' : 'btn-outline-secondary'}`} onClick={() => setTag(t)}>{t}</button>
+            ))}
+            <div className="ms-auto"></div>
+            <input className="form-control form-control-sm" style={{ maxWidth: 220 }} placeholder="Search projects" value={query} onChange={(e) => setQuery(e.target.value)} />
+          </div>
+          <motion.div className="row g-3 row-cols-1 row-cols-md-2"
+            initial="hidden" animate="show"
+            variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06, delayChildren: 0.06 } } }}
+          >
+            {filtered.map((p, i) => (
+              <motion.div className="col" key={i} variants={{ hidden: { opacity: 0, y: 6 }, show: { opacity: 1, y: 0 } }}>
+                <Tilt>
+                  <div className="card h-100 card-hover project-card">
+                    {p.preview && (
+                      <div className="project-preview"><img src={p.preview} alt="preview" /></div>
+                    )}
+                    <div className="card-body">
+                      <div className="d-flex justify-content-between align-items-start mb-2">
+                        <h3 className="h6 mb-0">{p.title}</h3>
+                        <span className="badge text-bg-primary">Soon</span>
+                      </div>
+                      <p className="mb-2 text-secondary small">{p.desc}</p>
+                      <div className="d-flex gap-2 flex-wrap">
+                        {p.tags.map((t) => (
+                          <span key={t} className="badge text-bg-secondary">{t}</span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </Tilt>
+              </motion.div>
+            ))}
+          </motion.div>
         </Section>
 
         <Section id="contact" title="Contact">
-          <p className="mb-0"><a href="mailto:mihtriii295@gmail.com">mihtriii295@gmail.com</a></p>
+          <div className="d-flex align-items-center gap-2">
+            <a href="mailto:mihtriii295@gmail.com">mihtriii295@gmail.com</a>
+            <button className="btn btn-outline-secondary btn-sm" onClick={() => {
+              navigator.clipboard.writeText('mihtriii295@gmail.com');
+              toast('Copied email to clipboard');
+            }}>
+              Copy
+            </button>
+          </div>
         </Section>
       </div>
     </div>
   );
 }
-

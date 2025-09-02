@@ -53,10 +53,13 @@ export default function Header() {
                 <NavLink end to="/" className={({isActive}) => `nav-link${isActive ? ' active' : ''}`}>About</NavLink>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="https://mihtriii.github.io/" target="_blank" rel="noopener noreferrer">Blog</a>
+                <NavLink to="/blog" className={({isActive}) => `nav-link${isActive ? ' active' : ''}`}>Blog</NavLink>
               </li>
               <li className="nav-item">
                 <NavLink to="/cv" className={({isActive}) => `nav-link${isActive ? ' active' : ''}`}>CV</NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink to="/repos" className={({isActive}) => `nav-link${isActive ? ' active' : ''}`}>Repos</NavLink>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="https://github.com/mihtriii" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -74,4 +77,3 @@ export default function Header() {
     </header>
   );
 }
-

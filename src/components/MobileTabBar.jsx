@@ -1,0 +1,51 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+
+const Item = ({ to, exact, icon, label }) => (
+  <NavLink end={exact} to={to} className={({ isActive }) => `tab-link${isActive ? ' active' : ''}`}>
+    {({ isActive }) => (
+      <span className="tab-inner">
+        {isActive && <motion.span layoutId="tabbarHighlight" className="tab-highlight" />}
+        <i className={`bi ${icon}`}></i>
+        <span className="label">{label}</span>
+      </span>
+    )}
+  </NavLink>
+);
+
+export default function MobileTabBar() {
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
+  const ticking = useRef(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (ticking.current) return;
+      ticking.current = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        const dy = y - lastY.current;
+        const down = dy > 6;
+        const up = dy < -6;
+        const nearTop = y < 40;
+        if (nearTop) setHidden(false);
+        else if (down) setHidden(true);
+        else if (up) setHidden(false);
+        lastY.current = y;
+        ticking.current = false;
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <div className={`mobile-tabbar${hidden ? ' hidden' : ''}`} role="navigation" aria-label="Primary bottom navigation">
+      <Item to="/" exact icon="bi-house" label="About" />
+      <Item to="/blog" icon="bi-journal-text" label="Blog" />
+      <Item to="/cv" icon="bi-badge-ad" label="CV" />
+      <Item to="/repos" icon="bi-git" label="Repos" />
+    </div>
+  );
+}

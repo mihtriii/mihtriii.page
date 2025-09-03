@@ -51,6 +51,32 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
     return () => mq.removeEventListener?.('change', apply);
   }, []);
 
+  const SectionChips = () => {
+    if (!isSmall || !sectionIds || sectionIds.length === 0) return null;
+    return (
+      <div className="section-chips" role="tablist" aria-label="Quick sections">
+        <div className="chips-row">
+          {sectionIds.map((id) => {
+            const label = id.replace(/-/g, ' ');
+            const active = activeId === id;
+            return (
+              <a
+                key={id}
+                href={`#${id}`}
+                className={`chip ${active ? 'active' : ''}`}
+                role="tab"
+                aria-selected={active}
+              >
+                <span className="chip-dot" />
+                <span className="text-capitalize">{label}</span>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
   // Load GitHub mini-stats using cache first
   useEffect(() => {
     const fromRepos = (arr) => {
@@ -158,6 +184,7 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
   }, []);
   return (
     <div className="sticky-top sidebar">
+      <SectionChips />
       <div className="card card-hover card-elevate mb-3 profile-card">
         <div className="card-body d-flex align-items-center gap-3 py-3">
           <span className="avatar-frame">
@@ -193,7 +220,7 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
           </div>
         </div>
       </div>
-      <div className="card card-hover card-elevate mb-3">
+      <div className="card card-hover card-elevate mb-3 d-none d-sm-block">
         <div className="card-body py-3">
           <div className="d-flex justify-content-between align-items-center mb-2">
             <div className="fw-semibold text-uppercase small letter d-flex align-items-center gap-2">
@@ -251,7 +278,7 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
         </div>
       )}
       {recentPosts.length > 0 && (
-        <div className="card card-hover card-elevate mb-3" data-animate>
+        <div className="card card-hover card-elevate mb-3 d-none d-sm-block" data-animate>
           <div className="card-body py-3">
             <div className="fw-semibold text-uppercase small letter mb-2">Recent Posts</div>
             <div className="d-flex flex-column gap-2">
@@ -266,7 +293,7 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
         </div>
       )}
       {showSocial && (
-        <div className="card card-hover card-elevate mb-3" data-animate>
+        <div className="card card-hover card-elevate mb-3 d-none d-sm-block" data-animate>
           <div className="card-body py-3">
             <div className="fw-semibold text-uppercase small letter mb-2">Social</div>
             <div className="social-grid">

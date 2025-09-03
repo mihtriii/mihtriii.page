@@ -7,6 +7,7 @@ import ScrollProgress from './components/ScrollProgress.jsx';
 import ToastContainer from './components/Toast.jsx';
 import BackToTop from './components/BackToTop.jsx';
 import RippleProvider from './components/RippleProvider.jsx';
+import MobileTabBar from './components/MobileTabBar.jsx';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -18,6 +19,7 @@ root.render(
       <ToastContainer />
       <BackToTop />
       <RippleProvider />
+      <MobileTabBar />
       <App />
     </BrowserRouter>
   </React.StrictMode>

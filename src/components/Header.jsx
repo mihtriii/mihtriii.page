@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import MobileNav from './MobileNav.jsx';
@@ -24,6 +24,10 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [tone, setTone] = useState(() => localStorage.getItem('tone') || 'warm');
   const [palette, setPalette] = useState(() => localStorage.getItem('palette') || 'earth');
+  const [navHidden, setNavHidden] = useState(false);
+  const headerRef = useRef(null);
+  // Stabilize layout: auto-hide header is opt-in to avoid layout clashes
+  const [autoHide, setAutoHide] = useState(() => (localStorage.getItem('ui:autoHideHeader') || 'false') === 'true');
 
   useEffect(() => {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -36,9 +40,68 @@ export default function Header() {
     localStorage.setItem('palette', palette);
   }, [theme, tone, palette]);
 
+  // Auto-hide header on mobile when scrolling down (opt-in)
+  useEffect(() => {
+    if (!autoHide) { setNavHidden(false); return; }
+    const mq = window.matchMedia('(max-width: 767.98px)');
+    let lastY = window.scrollY;
+    let ticking = false;
+    const onScroll = () => {
+      if (!mq.matches) return setNavHidden(false);
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        const dy = y - lastY;
+        const down = dy > 6;
+        const up = dy < -6;
+        const nearTop = y < 40;
+        if (nearTop) setNavHidden(false);
+        else if (down) setNavHidden(true);
+        else if (up) setNavHidden(false);
+        lastY = y;
+        ticking = false;
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    const onChange = () => { if (!mq.matches) setNavHidden(false); };
+    mq.addEventListener?.('change', onChange);
+    return () => { window.removeEventListener('scroll', onScroll); mq.removeEventListener?.('change', onChange); };
+  }, [autoHide]);
+
+  // Keep --header-offset synced with actual header height, and reduce when hidden on mobile
+  useEffect(() => {
+    const root = document.documentElement;
+    const isMobile = () => window.matchMedia('(max-width: 767.98px)').matches;
+    const compute = () => {
+      const h = headerRef.current?.getBoundingClientRect().height || 72;
+      const value = (navHidden && isMobile()) ? '8px' : `${Math.round(h)}px`;
+      root.style.setProperty('--header-offset', value);
+    };
+    compute();
+    const onResize = () => compute();
+    const ro = new ResizeObserver(compute);
+    if (headerRef.current) ro.observe(headerRef.current);
+    window.addEventListener('resize', onResize);
+    window.addEventListener('orientationchange', onResize);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('orientationchange', onResize);
+    };
+  }, [navHidden]);
+
   const toggleTheme = () => setTheme(t => (t === 'light' ? 'dark' : t === 'dark' ? 'auto' : 'light'));
   const toggleTone = () => setTone(t => (t === 'warm' ? 'cool' : 'warm'));
   const togglePalette = () => setPalette(p => (p === 'earth' ? 'classic' : 'earth'));
+  const toggleAutoHide = () => setAutoHide(v => { const nv = !v; localStorage.setItem('ui:autoHideHeader', String(nv)); return nv; });
+
+  // Prefetch non-home routes to speed up navigation
+  const prefetch = {
+    blog: () => import('../pages/Blog.jsx'),
+    cv: () => import('../pages/CV.jsx'),
+    repos: () => import('../pages/Repos.jsx'),
+  };
 
   // Close mobile drawer on route change
   useEffect(() => {
@@ -46,7 +109,7 @@ export default function Header() {
   }, [location.pathname]);
 
   return (
-    <header className="sticky-top bg-body border-bottom">
+    <header ref={headerRef} className={`sticky-top bg-body border-bottom header-auto${navHidden ? ' header-hidden' : ''}`}>
       <nav className="navbar glass navbar-expand-lg py-2" aria-label="Primary">
         <div className="container d-flex align-items-center justify-content-between">
           <Link to="/" className="navbar-brand fw-bold d-flex align-items-center text-decoration-none me-2">
@@ -65,7 +128,7 @@ export default function Header() {
                 </NavLink>
               </li>
               <li className="nav-item position-relative">
-                <NavLink to="/blog" className="nav-link px-3">
+                <NavLink to="/blog" className="nav-link px-3" onMouseEnter={prefetch.blog}>
                   {({ isActive }) => (
                     <span className="position-relative d-inline-block">
                       {isActive && <motion.span layoutId="navHighlight" className="nav-highlight" />}
@@ -75,7 +138,7 @@ export default function Header() {
                 </NavLink>
               </li>
               <li className="nav-item position-relative">
-                <NavLink to="/cv" className="nav-link px-3">
+                <NavLink to="/cv" className="nav-link px-3" onMouseEnter={prefetch.cv}>
                   {({ isActive }) => (
                     <span className="position-relative d-inline-block">
                       {isActive && <motion.span layoutId="navHighlight" className="nav-highlight" />}
@@ -85,7 +148,7 @@ export default function Header() {
                 </NavLink>
               </li>
               <li className="nav-item position-relative">
-                <NavLink to="/repos" className="nav-link px-3">
+                <NavLink to="/repos" className="nav-link px-3" onMouseEnter={prefetch.repos}>
                   {({ isActive }) => (
                     <span className="position-relative d-inline-block">
                       {isActive && <motion.span layoutId="navHighlight" className="nav-highlight" />}
@@ -109,6 +172,9 @@ export default function Header() {
               <button onClick={togglePalette} className="btn btn-outline-secondary btn-sm" type="button" aria-label={`Palette: ${palette}`} title={`Palette: ${palette}`}>
                 <i className="bi bi-layers"></i>
               </button>
+              <button onClick={toggleAutoHide} className="btn btn-outline-secondary btn-sm" type="button" aria-label={`Auto hide header: ${autoHide}`} title={`Auto hide header: ${autoHide ? 'on' : 'off'}`}>
+                <i className="bi bi-chevron-bar-up"></i>
+              </button>
             </div>
           </div>
 
@@ -122,6 +188,9 @@ export default function Header() {
             </button>
             <button onClick={togglePalette} className="btn btn-outline-secondary btn-sm me-1" type="button" aria-label={`Palette: ${palette}`} title={`Palette: ${palette}`}>
               <i className="bi bi-layers"></i>
+            </button>
+            <button onClick={toggleAutoHide} className="btn btn-outline-secondary btn-sm me-1" type="button" aria-label={`Auto hide header: ${autoHide}`} title={`Auto hide header: ${autoHide ? 'on' : 'off'}`}>
+              <i className="bi bi-chevron-bar-up"></i>
             </button>
             <button className="btn btn-primary btn-sm" type="button" aria-label="Open menu" onClick={() => setMobileOpen(true)}>
               <i className="bi bi-list"></i>

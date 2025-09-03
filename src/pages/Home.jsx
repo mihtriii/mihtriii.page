@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import Particles from '../components/Particles.jsx';
 import Typewriter from '../components/Typewriter.jsx';
 import Tilt from '../components/Tilt.jsx';
+import { Link } from 'react-router-dom';
+import BlurImage from '../components/BlurImage.jsx';
 import Sidebar from '../components/Sidebar.jsx';
 import { toast } from '../components/Toast.jsx';
 import { social } from '../config/site.js';
@@ -59,13 +61,13 @@ export default function Home() {
               </div>
               <div className="d-flex flex-wrap gap-2">
                 <a href="#contact" className="btn btn-primary btn-sm">Contact</a>
-                <a href="/cv" className="btn btn-outline-secondary btn-sm">View CV</a>
+                <Link to="/cv" className="btn btn-outline-secondary btn-sm">View CV</Link>
                 <a className="btn btn-outline-secondary btn-sm" href="https://github.com/mihtriii" target="_blank" rel="noopener noreferrer">GitHub</a>
               </div>
             </div>
             <div className="col-12 col-md-5 text-center">
-              <Tilt className="d-inline-block">
-                <img className="img-fluid rounded shadow-sm" src="/assets/avatar.svg" alt="Portrait" style={{ maxHeight: 200 }} />
+              <Tilt className="d-inline-block portrait-wrap">
+                <BlurImage className="portrait rounded shadow-sm" src={`${import.meta.env.BASE_URL}assets/avatar.JPG`} alt="Portrait" imgProps={{loading:'eager', decoding:'async', fetchpriority:'high'}} />
               </Tilt>
             </div>
           </div>
@@ -76,7 +78,7 @@ export default function Home() {
           <p>Right now, I’m focused on practical VLM applications (retrieval, grounding, instruction‑tuning) and setting up strong habits for research: reading, small experiments, and writing. I’m open to collaborations that are lightweight, focused, and shipping‑oriented.</p>
           <div className="icon-row mt-2" data-animate>
             <a className="btn btn-outline-secondary btn-sm icon-btn" href={social.kaggle} target="_blank" rel="noopener" aria-label="Kaggle">
-              <img src="/assets/kaggle.svg" alt="Kaggle" width="18" height="18" />
+              <img src={`${import.meta.env.BASE_URL}assets/kaggle.svg`} alt="Kaggle" width="18" height="18" />
             </a>
             <a className="btn btn-outline-secondary btn-sm icon-btn" href={social.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">
               <i className="bi bi-linkedin"></i>
@@ -112,7 +114,7 @@ export default function Home() {
           <div className="row g-3 row-cols-1 row-cols-md-3">
             <div className="col">
               <Tilt className="h-100">
-              <div className="card card-hover h-100">
+              <div className="card card-hover card-elevate h-100">
                 <div className="card-body">
                   <h3 className="h6 mb-2">Core</h3>
                   <div className="d-flex flex-wrap gap-2">
@@ -125,7 +127,7 @@ export default function Home() {
             </div>
             <div className="col">
               <Tilt className="h-100">
-              <div className="card card-hover h-100">
+              <div className="card card-hover card-elevate h-100">
                 <div className="card-body">
                   <h3 className="h6 mb-2">ML/CV</h3>
                   <div className="d-flex flex-wrap gap-2">
@@ -140,7 +142,7 @@ export default function Home() {
             </div>
             <div className="col">
               <Tilt className="h-100">
-              <div className="card card-hover h-100">
+              <div className="card card-hover card-elevate h-100">
                 <div className="card-body">
                   <h3 className="h6 mb-2">Tooling</h3>
                   <div className="d-flex flex-wrap gap-2">
@@ -170,7 +172,7 @@ export default function Home() {
             {filtered.map((p, i) => (
               <motion.div className="col" key={i} variants={{ hidden: { opacity: 0, y: 6 }, show: { opacity: 1, y: 0 } }}>
                 <Tilt>
-                  <div className="card h-100 card-hover project-card">
+                  <div className="card h-100 card-hover card-elevate project-card">
                     {p.preview && (
                       <div className="project-preview"><img src={p.preview} alt="preview" /></div>
                     )}

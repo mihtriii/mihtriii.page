@@ -74,25 +74,25 @@ export default function CV() {
         <Section id="skills" title="Skills">
           <div className="row g-3 row-cols-1 row-cols-md-2">
             <div className="col">
-              <div className="card h-100"><div className="card-body">
+              <div className="card card-hover card-elevate h-100"><div className="card-body">
                 <h3 className="h6">Programming</h3>
                 <div className="d-flex gap-2 flex-wrap"><span className="badge text-bg-secondary">C++</span> <span className="badge text-bg-secondary">Python</span></div>
               </div></div>
             </div>
             <div className="col">
-              <div className="card h-100"><div className="card-body">
+              <div className="card card-hover card-elevate h-100"><div className="card-body">
                 <h3 className="h6">ML/CV</h3>
                 <div className="d-flex gap-2 flex-wrap"><span className="badge text-bg-secondary">PyTorch</span> <span className="badge text-bg-secondary">OpenCV</span> <span className="badge text-bg-secondary">Transformers (learning)</span> <span className="badge text-bg-secondary">timm (learning)</span></div>
               </div></div>
             </div>
             <div className="col">
-              <div className="card h-100"><div className="card-body">
+              <div className="card card-hover card-elevate h-100"><div className="card-body">
                 <h3 className="h6">Quantum</h3>
                 <div className="d-flex gap-2 flex-wrap"><span className="badge text-bg-secondary">Qiskit</span> <span className="badge text-bg-secondary">PennyLane</span> <span className="badge text-bg-secondary">Hybrid training</span></div>
               </div></div>
             </div>
             <div className="col">
-              <div className="card h-100"><div className="card-body">
+              <div className="card card-hover card-elevate h-100"><div className="card-body">
                 <h3 className="h6">Tooling</h3>
                 <div className="d-flex gap-2 flex-wrap"><span className="badge text-bg-secondary">Git/GitHub</span> <span className="badge text-bg-secondary">Linux CLI</span> <span className="badge text-bg-secondary">LaTeX/Overleaf</span></div>
               </div></div>

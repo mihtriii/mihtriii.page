@@ -92,7 +92,7 @@ export default function Repos() {
           ) : (
             filtered.map((r) => (
               <motion.div className="col" key={r.id} variants={{ hidden: { opacity: 0, y: 6 }, show: { opacity: 1, y: 0 } }}>
-                <a href={r.html_url} target="_blank" rel="noopener" className="card card-hover h-100 text-decoration-none" data-animate>
+                <a href={r.html_url} target="_blank" rel="noopener" className="card card-hover card-elevate h-100 text-decoration-none" data-animate>
                   <div className="card-body">
                     <div className="d-flex justify-content-between align-items-start">
                       <h2 className="h6 mb-2 d-flex align-items-center gap-2">

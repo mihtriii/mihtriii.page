@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useScrollSpy } from './ScrollSpy.jsx';
 import { github, social } from '../config/site.js';
 
@@ -109,7 +109,30 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
       <div className="card card-hover card-elevate mb-3 profile-card">
         <div className="card-body d-flex align-items-center gap-3 py-3">
           <span className="avatar-frame">
-            <img className="avatar photo" src="/assets/avatar.svg" alt="Profile" width="64" height="64" />
+            <img
+              className="avatar photo"
+              src={`${import.meta.env.BASE_URL}assets/avatar.JPG`}
+              alt="Profile"
+              width="64"
+              height="64"
+              loading="eager"
+              decoding="async"
+              onError={(e) => {
+                const candidates = [
+                  `${import.meta.env.BASE_URL}assets/avatar.jpg`,
+                  `${import.meta.env.BASE_URL}assets/4x6.JPG`,
+                  `${import.meta.env.BASE_URL}assets/avatar.svg`,
+                ];
+                const img = e.currentTarget;
+                const tried = img.getAttribute('data-tried')?.split('\n') || [];
+                const next = candidates.find((c) => !tried.includes(c));
+                if (next) {
+                  tried.push(next);
+                  img.setAttribute('data-tried', tried.join('\n'));
+                  img.src = next;
+                }
+              }}
+            />
           </span>
           <div>
             <div className="fw-semibold">Nguyễn Minh Trí</div>
@@ -121,7 +144,9 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
       <div className="card card-hover card-elevate mb-3">
         <div className="card-body py-3">
           <div className="d-flex justify-content-between align-items-center mb-2">
-            <div className="fw-semibold text-uppercase small letter">On GitHub</div>
+            <div className="fw-semibold text-uppercase small letter d-flex align-items-center gap-2">
+              <i className="bi bi-github"></i> On GitHub
+            </div>
             <a className="text-decoration-none small" href={`https://github.com/${github.username}`} target="_blank" rel="noopener">View →</a>
           </div>
           <p className="mb-2 text-secondary small">Recent work and repositories.</p>
@@ -164,7 +189,7 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
             <div className="fw-semibold text-uppercase small letter mb-2">Social</div>
             <div className="social-grid">
               <a className="btn btn-outline-secondary btn-sm icon-btn" data-brand="kaggle" href={social.kaggle} target="_blank" rel="noopener" aria-label="Kaggle">
-                <img src="/assets/kaggle.svg" alt="Kaggle" width="18" height="18" />
+                <img src={`${import.meta.env.BASE_URL}assets/kaggle.svg`} alt="Kaggle" width="18" height="18" />
               </a>
               <a className="btn btn-outline-secondary btn-sm icon-btn" data-brand="linkedin" href={social.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">
                 <i className="bi bi-linkedin"></i>

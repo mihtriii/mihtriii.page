@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import Sidebar from '../components/Sidebar.jsx';
+import { Link } from 'react-router-dom';
 const modules = import.meta.glob('../blog/*.mdx', { eager: true });
 
 export default function Blog() {
@@ -22,7 +23,7 @@ export default function Blog() {
         <div className="row g-3 row-cols-1 row-cols-md-2">
           {posts.map((p) => (
             <div className="col" key={p.slug}>
-              <a className="card card-hover h-100 text-decoration-none" href={`/blog/${p.slug}`} data-animate>
+              <Link className="card card-hover card-elevate h-100 text-decoration-none" to={`/blog/${p.slug}`} data-animate>
                 <div className="card-body">
                   <div className="d-flex justify-content-between align-items-baseline mb-2">
                     <h2 className="h6 mb-0">{p.title}</h2>
@@ -30,7 +31,7 @@ export default function Blog() {
                   </div>
                   {p.summary && <p className="mb-0 text-secondary">{p.summary}</p>}
                 </div>
-              </a>
+              </Link>
             </div>
           ))}
         </div>

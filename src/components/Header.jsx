@@ -34,7 +34,7 @@ export default function Header() {
       <nav className="navbar navbar-expand-md glass" aria-label="Primary">
         <div className="container">
           <Link to="/" className="navbar-brand fw-bold d-flex align-items-center text-decoration-none">
-            <img src="/assets/logo.svg" alt="Logo" width="28" height="28" className="me-2" /> NMTrí
+            <img src={`${import.meta.env.BASE_URL}assets/logo.svg`} alt="Logo" width="28" height="28" className="me-2" /> NMTrí
           </Link>
           <button
             className="navbar-toggler"

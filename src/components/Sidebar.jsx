@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollSpy } from './ScrollSpy.jsx';
 import { github, social } from '../config/site.js';
@@ -27,6 +28,19 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
     }, [value]);
     return <>{Number.isFinite(display) ? display : '—'}</>;
   }
+
+  // Recent posts from MDX (top 3)
+  const modules = import.meta.glob('../blog/*.mdx', { eager: true });
+  const recentPosts = useMemo(() => {
+    try {
+      const arr = Object.entries(modules).map(([path, mod]) => {
+        const slug = path.split('/').pop().replace(/\.mdx$/, '');
+        const meta = mod.meta || {};
+        return { slug, title: meta.title || slug, date: meta.date || '' };
+      }).sort((a, b) => (b.date || '').localeCompare(a.date || '')).slice(0, 3);
+      return arr;
+    } catch { return []; }
+  }, []);
 
   // Track small screens to collapse Sections
   useEffect(() => {
@@ -233,6 +247,21 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
                 </motion.nav>
               )}
             </AnimatePresence>
+          </div>
+        </div>
+      )}
+      {recentPosts.length > 0 && (
+        <div className="card card-hover card-elevate mb-3" data-animate>
+          <div className="card-body py-3">
+            <div className="fw-semibold text-uppercase small letter mb-2">Recent Posts</div>
+            <div className="d-flex flex-column gap-2">
+              {recentPosts.map((p) => (
+                <Link key={p.slug} className="text-decoration-none small d-flex justify-content-between align-items-center" to={`/blog/${p.slug}`}>
+                  <span className="text-truncate" style={{ maxWidth: '80%' }}>{p.title}</span>
+                  {p.date && <span className="text-secondary" style={{ fontSize: '0.75rem' }}>{p.date}</span>}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       )}

@@ -37,14 +37,15 @@ export default function Particles({ density = 40, speed = 0.25, disableOnMobile 
     let h = (canvas.height = Math.max(1, canvas.offsetHeight) * dpr);
 
     const computeColor = () => {
-      const dark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
-      return dark ? 'rgba(111, 66, 193, 0.7)' : 'rgba(13, 110, 253, 0.7)';
+      const cs = getComputedStyle(document.documentElement);
+      const c = cs.getPropertyValue('--particles-color')?.trim();
+      return c && c.length > 0 ? c : 'rgba(201, 122, 64, 0.55)';
     };
     let color = computeColor();
 
     const handleTheme = () => { color = computeColor(); };
     const mo = new MutationObserver(handleTheme);
-    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-bs-theme'] });
+    mo.observe(document.documentElement, { attributes: true });
 
     // Respect reduced motion
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

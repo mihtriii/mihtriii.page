@@ -22,15 +22,23 @@ export default function Header() {
   const location = useLocation();
   const time = useLocalTime();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [tone, setTone] = useState(() => localStorage.getItem('tone') || 'warm');
+  const [palette, setPalette] = useState(() => localStorage.getItem('palette') || 'earth');
 
   useEffect(() => {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const isDark = theme === 'dark' || (theme === 'auto' && prefersDark);
     document.documentElement.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-tone', tone);
+    document.documentElement.setAttribute('data-palette', palette);
     localStorage.setItem('theme', theme);
-  }, [theme]);
+    localStorage.setItem('tone', tone);
+    localStorage.setItem('palette', palette);
+  }, [theme, tone, palette]);
 
   const toggleTheme = () => setTheme(t => (t === 'light' ? 'dark' : t === 'dark' ? 'auto' : 'light'));
+  const toggleTone = () => setTone(t => (t === 'warm' ? 'cool' : 'warm'));
+  const togglePalette = () => setPalette(p => (p === 'earth' ? 'classic' : 'earth'));
 
   // Close mobile drawer on route change
   useEffect(() => {
@@ -95,6 +103,12 @@ export default function Header() {
               <button onClick={toggleTheme} className="btn btn-outline-secondary btn-sm" type="button" aria-label={`Theme: ${theme}`}>
                 <i className="bi bi-circle-half"></i>
               </button>
+              <button onClick={toggleTone} className="btn btn-outline-secondary btn-sm" type="button" aria-label={`Tone: ${tone}`} title={`Tone: ${tone}`}>
+                <i className="bi bi-palette2"></i>
+              </button>
+              <button onClick={togglePalette} className="btn btn-outline-secondary btn-sm" type="button" aria-label={`Palette: ${palette}`} title={`Palette: ${palette}`}>
+                <i className="bi bi-layers"></i>
+              </button>
             </div>
           </div>
 
@@ -102,6 +116,12 @@ export default function Header() {
             <span className="text-secondary small me-2"><i className="bi bi-clock"></i> {time}</span>
             <button onClick={toggleTheme} className="btn btn-outline-secondary btn-sm me-1" type="button" aria-label={`Theme: ${theme}`}>
               <i className="bi bi-circle-half"></i>
+            </button>
+            <button onClick={toggleTone} className="btn btn-outline-secondary btn-sm me-1" type="button" aria-label={`Tone: ${tone}`} title={`Tone: ${tone}`}>
+              <i className="bi bi-palette2"></i>
+            </button>
+            <button onClick={togglePalette} className="btn btn-outline-secondary btn-sm me-1" type="button" aria-label={`Palette: ${palette}`} title={`Palette: ${palette}`}>
+              <i className="bi bi-layers"></i>
             </button>
             <button className="btn btn-primary btn-sm" type="button" aria-label="Open menu" onClick={() => setMobileOpen(true)}>
               <i className="bi bi-list"></i>

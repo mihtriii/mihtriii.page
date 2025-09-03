@@ -5,6 +5,8 @@ import App from './App.jsx';
 import './styles.css';
 import ScrollProgress from './components/ScrollProgress.jsx';
 import ToastContainer from './components/Toast.jsx';
+import BackToTop from './components/BackToTop.jsx';
+import RippleProvider from './components/RippleProvider.jsx';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -14,6 +16,8 @@ root.render(
     <BrowserRouter>
       <ScrollProgress />
       <ToastContainer />
+      <BackToTop />
+      <RippleProvider />
       <App />
     </BrowserRouter>
   </React.StrictMode>

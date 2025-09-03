@@ -12,14 +12,15 @@ function Section({ id, title, children }) {
 }
 
 function SkillMeter({ label, level = 0 }) {
+  const clamped = Math.max(0, Math.min(100, level));
   return (
     <div className="skill-meter" data-animate>
       <div className="d-flex justify-content-between align-items-center mb-1">
         <span className="small fw-semibold">{label}</span>
-        <span className="small text-secondary">{level}%</span>
+        <span className="small text-secondary">{clamped}%</span>
       </div>
       <div className="meter-track">
-        <div className="meter-fill" style={{ width: `${Math.max(0, Math.min(100, level))}%` }} />
+        <div className="meter-fill" style={{ '--w': `${clamped}%` }} />
       </div>
     </div>
   );
@@ -29,10 +30,10 @@ export default function CV() {
   const sectionIds = ['summary','education','experience','research-interests','competitions-activities','skills','projects-planned'];
   return (
     <div className="row g-4">
-      <aside className="col-12 col-lg-4">
+      <aside className="col-12 col-lg-3">
         <Sidebar sectionIds={sectionIds} />
       </aside>
-      <div className="col-12 col-lg-8">
+      <div className="col-12 col-lg-9">
         <section className="page-hero hero-with-bg cv-hero p-4 mb-3 position-relative overflow-hidden" data-animate>
           <div className="d-flex flex-column gap-2">
             <h1 className="h3 mb-0"><span className="gradient-text">Curriculum Vitae</span></h1>

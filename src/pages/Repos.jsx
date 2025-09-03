@@ -52,8 +52,8 @@ export default function Repos() {
 
   return (
     <div className="row g-4">
-      <aside className="col-12 col-lg-4"><Sidebar /></aside>
-      <div className="col-12 col-lg-8">
+      <aside className="col-12 col-lg-3"><Sidebar /></aside>
+      <div className="col-12 col-lg-9">
         <section className="page-hero hero-with-bg p-4 mb-3" data-animate>
           <h1 className="h3 mb-1"><span className="gradient-text">Repositories</span></h1>
           <p className="text-secondary mb-0">Các dự án gần đây trên GitHub.</p>

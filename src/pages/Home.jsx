@@ -36,11 +36,11 @@ export default function Home() {
 
   return (
     <div className="row g-4">
-      <aside className="col-12 col-lg-4">
+      <aside className="col-12 col-lg-3">
         <Sidebar sectionIds={sectionIds} showSocial={false} />
       </aside>
 
-      <div className="col-12 col-lg-8">
+      <div className="col-12 col-lg-9">
         <section className="page-hero hero-with-bg p-4 mb-3 position-relative overflow-hidden" data-animate>
           <Particles />
           <div className="row align-items-center g-4 position-relative">

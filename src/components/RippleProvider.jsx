@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 
-// Adds a lightweight ripple on .btn, .mobile-link, .nav-link, .icon-btn
+// Adds a lightweight ripple on .btn, .mobile-link, .nav-link, .icon-btn, .tab-link
 export default function RippleProvider() {
   useEffect(() => {
-    const selector = '.btn, .mobile-link, .nav-link, .icon-btn';
+    const selector = '.btn, .mobile-link, .nav-link, .icon-btn, .tab-link';
     const onPointerDown = (e) => {
       const target = e.target.closest(selector);
       if (!target) return;
@@ -29,4 +29,3 @@ export default function RippleProvider() {
   }, []);
   return null;
 }
-

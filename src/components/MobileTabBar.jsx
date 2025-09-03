@@ -2,8 +2,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 
-const Item = ({ to, exact, icon, label }) => (
-  <NavLink end={exact} to={to} className={({ isActive }) => `tab-link${isActive ? ' active' : ''}`}>
+const Item = ({ to, exact, icon, label, prefetch }) => (
+  <NavLink
+    end={exact}
+    to={to}
+    className={({ isActive }) => `tab-link${isActive ? ' active' : ''}`}
+    aria-label={label}
+    title={label}
+    onMouseEnter={prefetch}
+    onTouchStart={prefetch}
+  >
     {({ isActive }) => (
       <span className="tab-inner">
         {isActive && <motion.span layoutId="tabbarHighlight" className="tab-highlight" />}
@@ -18,6 +26,11 @@ export default function MobileTabBar() {
   const [hidden, setHidden] = useState(false);
   const lastY = useRef(0);
   const ticking = useRef(false);
+  const prefetch = {
+    blog: () => import('../pages/Blog.jsx'),
+    cv: () => import('../pages/CV.jsx'),
+    repos: () => import('../pages/Repos.jsx'),
+  };
 
   useEffect(() => {
     const onScroll = () => {
@@ -43,9 +56,9 @@ export default function MobileTabBar() {
   return (
     <div className={`mobile-tabbar${hidden ? ' hidden' : ''}`} role="navigation" aria-label="Primary bottom navigation">
       <Item to="/" exact icon="bi-house" label="About" />
-      <Item to="/blog" icon="bi-journal-text" label="Blog" />
-      <Item to="/cv" icon="bi-badge-ad" label="CV" />
-      <Item to="/repos" icon="bi-git" label="Repos" />
+      <Item to="/blog" icon="bi-journal-text" label="Blog" prefetch={prefetch.blog} />
+      <Item to="/cv" icon="bi-badge-ad" label="CV" prefetch={prefetch.cv} />
+      <Item to="/repos" icon="bi-git" label="Repos" prefetch={prefetch.repos} />
     </div>
   );
 }

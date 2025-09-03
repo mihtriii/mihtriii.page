@@ -8,6 +8,7 @@ import BlurImage from '../components/BlurImage.jsx';
 import Sidebar from '../components/Sidebar.jsx';
 import { toast } from '../components/Toast.jsx';
 import { social } from '../config/site.js';
+import { useI18n } from '../i18n/index.jsx';
 
 function Section({ id, title, children }) {
   return (
@@ -19,6 +20,7 @@ function Section({ id, title, children }) {
 }
 
 export default function Home() {
+  const { t } = useI18n();
   const sectionIds = ['about', 'focus', 'goals', 'tech', 'projects', 'contact'];
 
   const allProjects = useMemo(() => ([
@@ -45,7 +47,7 @@ export default function Home() {
           <Particles />
           <div className="row align-items-center g-4 position-relative">
             <div className="col-12 col-md-7">
-              <h1 className="h3 mb-2"><span className="gradient-text">Hi, I’m Trí.</span></h1>
+              <h1 className="h3 mb-2"><span className="gradient-text">{t('home.heroHi')}</span></h1>
               <p className="text-secondary mb-3">
                 AI @ FPTU HCM —
                 <Typewriter words={[
@@ -60,8 +62,8 @@ export default function Home() {
                 <span className="badge badge-glow">Quantum ML</span>
               </div>
               <div className="d-flex flex-wrap gap-2">
-                <a href="#contact" className="btn btn-primary btn-sm">Contact</a>
-                <Link to="/cv" className="btn btn-outline-secondary btn-sm">View CV</Link>
+                <a href="#contact" className="btn btn-primary btn-sm">{t('home.buttons.contact')}</a>
+                <Link to="/cv" className="btn btn-outline-secondary btn-sm">{t('home.buttons.viewCV')}</Link>
                 <a className="btn btn-outline-secondary btn-sm" href="https://github.com/mihtriii" target="_blank" rel="noopener noreferrer">GitHub</a>
               </div>
             </div>
@@ -73,7 +75,7 @@ export default function Home() {
           </div>
         </section>
 
-        <Section id="about" title="About">
+        <Section id="about" title={t('home.sections.about')}>
           <p>I’m an AI student who learns by building. I enjoy working at the intersection of <strong>Computer Vision</strong> and <strong>Vision‑Language Models</strong>, and I’m exploring <strong>Quantum ML</strong> for vision as a long‑term research direction. I value clarity, simple baselines, and reproducible demos that make ideas tangible.</p>
           <p>Right now, I’m focused on practical VLM applications (retrieval, grounding, instruction‑tuning) and setting up strong habits for research: reading, small experiments, and writing. I’m open to collaborations that are lightweight, focused, and shipping‑oriented.</p>
           <div className="icon-row mt-2" data-animate>
@@ -157,13 +159,13 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section id="projects" title="Projects (Planned)">
+        <Section id="projects" title={t('home.sections.projects')}>
           <div className="d-flex flex-wrap gap-2 mb-3">
             {tags.map((t) => (
               <button key={t} className={`btn btn-sm ${tag === t ? 'btn-primary' : 'btn-outline-secondary'}`} onClick={() => setTag(t)}>{t}</button>
             ))}
             <div className="ms-auto"></div>
-            <input className="form-control form-control-sm" style={{ maxWidth: 220 }} placeholder="Search projects" value={query} onChange={(e) => setQuery(e.target.value)} />
+            <input className="form-control form-control-sm" style={{ maxWidth: 220 }} placeholder={t('home.projects.searchPlaceholder')} value={query} onChange={(e) => setQuery(e.target.value)} />
           </div>
           <motion.div className="row g-3 row-cols-1 row-cols-md-2"
             initial="hidden" animate="show"
@@ -179,7 +181,7 @@ export default function Home() {
                     <div className="card-body">
                       <div className="d-flex justify-content-between align-items-start mb-2">
                         <h3 className="h6 mb-0">{p.title}</h3>
-                        <span className="badge text-bg-primary">Soon</span>
+                        <span className="badge text-bg-primary">{t('home.projects.soon')}</span>
                       </div>
                       <p className="mb-2 text-secondary small">{p.desc}</p>
                       <div className="d-flex gap-2 flex-wrap">
@@ -195,14 +197,14 @@ export default function Home() {
           </motion.div>
         </Section>
 
-        <Section id="contact" title="Contact">
+        <Section id="contact" title={t('home.sections.contact')}>
           <div className="d-flex align-items-center gap-2">
             <a href="mailto:mihtriii295@gmail.com">mihtriii295@gmail.com</a>
             <button className="btn btn-outline-secondary btn-sm" onClick={() => {
               navigator.clipboard.writeText('mihtriii295@gmail.com');
-              toast('Copied email to clipboard');
+              toast(t('common.copied'));
             }}>
-              Copy
+              {t('common.copy')}
             </button>
           </div>
         </Section>

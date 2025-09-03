@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useCallback } from 'react';
+import { useI18n } from '../i18n/index.jsx';
 import { NavLink } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export default function MobileNav({ open, onClose }) {
+  const { t } = useI18n();
   const firstLinkRef = useRef(null);
   const drawerRef = useRef(null);
   const lastActive = useRef(null);
@@ -98,35 +100,35 @@ export default function MobileNav({ open, onClose }) {
             onTouchEnd={onPointerUp}
           >
             <div className="mobile-drawer-header">
-              <span id="mobileMenuTitle" className="fw-semibold">Menu</span>
-              <button className="btn btn-outline-secondary btn-sm" onClick={onClose} aria-label="Close menu">
+              <span id="mobileMenuTitle" className="fw-semibold">{t('common.menu')}</span>
+              <button className="btn btn-outline-secondary btn-sm" onClick={onClose} aria-label={t('common.closeMenu')}>
                 <i className="bi bi-x-lg"></i>
               </button>
             </div>
             <ul className="list-unstyled mb-0">
               <li>
-                <NavLink to="/" end className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} ref={firstLinkRef} aria-label="About">
-                  <i className="bi bi-person"></i> About
+                <NavLink to="/" end className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} ref={firstLinkRef} aria-label={t('nav.about')}>
+                  <i className="bi bi-person"></i> {t('nav.about')}
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/blog" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} onMouseEnter={() => import('../pages/Blog.jsx')} onTouchStart={() => import('../pages/Blog.jsx')} aria-label="Blog">
-                  <i className="bi bi-journal-text"></i> Blog
+                <NavLink to="/blog" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} onMouseEnter={() => import('../pages/Blog.jsx')} onTouchStart={() => import('../pages/Blog.jsx')} aria-label={t('nav.blog')}>
+                  <i className="bi bi-journal-text"></i> {t('nav.blog')}
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/cv" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} onMouseEnter={() => import('../pages/CV.jsx')} onTouchStart={() => import('../pages/CV.jsx')} aria-label="CV">
-                  <i className="bi bi-badge-ad"></i> CV
+                <NavLink to="/cv" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} onMouseEnter={() => import('../pages/CV.jsx')} onTouchStart={() => import('../pages/CV.jsx')} aria-label={t('nav.cv')}>
+                  <i className="bi bi-badge-ad"></i> {t('nav.cv')}
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/repos" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} onMouseEnter={() => import('../pages/Repos.jsx')} onTouchStart={() => import('../pages/Repos.jsx')} aria-label="Repos">
-                  <i className="bi bi-git"></i> Repos
+                <NavLink to="/repos" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} onMouseEnter={() => import('../pages/Repos.jsx')} onTouchStart={() => import('../pages/Repos.jsx')} aria-label={t('nav.repos')}>
+                  <i className="bi bi-git"></i> {t('nav.repos')}
                 </NavLink>
               </li>
               <li>
                 <a href="https://github.com/mihtriii" target="_blank" rel="noopener" className="mobile-link" onClick={onClose} aria-label="GitHub profile">
-                  <i className="bi bi-github"></i> GitHub
+                  <i className="bi bi-github"></i> {t('nav.github')}
                 </a>
               </li>
             </ul>

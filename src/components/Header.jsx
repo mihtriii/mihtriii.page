@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import MobileNav from './MobileNav.jsx';
+import { useI18n } from '../i18n/index.jsx';
 
 function useLocalTime(tz = 'Asia/Ho_Chi_Minh') {
   const [now, setNow] = useState(new Date());
@@ -18,6 +19,7 @@ function useLocalTime(tz = 'Asia/Ho_Chi_Minh') {
 }
 
 export default function Header() {
+  const { t, lang, setLang } = useI18n();
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'auto');
   const location = useLocation();
   const time = useLocalTime();
@@ -95,6 +97,7 @@ export default function Header() {
   const toggleTone = () => setTone(t => (t === 'warm' ? 'cool' : 'warm'));
   const togglePalette = () => setPalette(p => (p === 'earth' ? 'classic' : 'earth'));
   const toggleAutoHide = () => setAutoHide(v => { const nv = !v; localStorage.setItem('ui:autoHideHeader', String(nv)); return nv; });
+  const toggleLang = () => setLang(l => (l === 'en' ? 'vi' : 'en'));
 
   // Prefetch non-home routes to speed up navigation
   const prefetch = {
@@ -122,7 +125,7 @@ export default function Header() {
                   {({ isActive }) => (
                     <span className="position-relative d-inline-block">
                       {isActive && <motion.span layoutId="navHighlight" className="nav-highlight" />}
-                      <span>About</span>
+                      <span>{t('nav.about')}</span>
                     </span>
                   )}
                 </NavLink>
@@ -132,7 +135,7 @@ export default function Header() {
                   {({ isActive }) => (
                     <span className="position-relative d-inline-block">
                       {isActive && <motion.span layoutId="navHighlight" className="nav-highlight" />}
-                      <span>Blog</span>
+                      <span>{t('nav.blog')}</span>
                     </span>
                   )}
                 </NavLink>
@@ -142,7 +145,7 @@ export default function Header() {
                   {({ isActive }) => (
                     <span className="position-relative d-inline-block">
                       {isActive && <motion.span layoutId="navHighlight" className="nav-highlight" />}
-                      <span>CV</span>
+                      <span>{t('nav.cv')}</span>
                     </span>
                   )}
                 </NavLink>
@@ -152,17 +155,20 @@ export default function Header() {
                   {({ isActive }) => (
                     <span className="position-relative d-inline-block">
                       {isActive && <motion.span layoutId="navHighlight" className="nav-highlight" />}
-                      <span>Repos</span>
+                      <span>{t('nav.repos')}</span>
                     </span>
                   )}
                 </NavLink>
               </li>
               <li className="nav-item">
-                <a className="nav-link px-3" href="https://github.com/mihtriii" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a className="nav-link px-3" href="https://github.com/mihtriii" target="_blank" rel="noopener noreferrer">{t('nav.github')}</a>
               </li>
             </ul>
             <div className="d-flex ms-2 gap-2 align-items-center">
               <span className="text-secondary small d-none d-md-inline"><i className="bi bi-clock"></i> {time}</span>
+              <button onClick={toggleLang} className="btn btn-outline-secondary btn-sm" type="button" aria-label={`${t('common.language')}: ${lang}`} title={`${t('common.language')}: ${lang.toUpperCase()}`}>
+                <i className="bi bi-translate"></i>
+              </button>
               <button onClick={toggleTheme} className="btn btn-outline-secondary btn-sm" type="button" aria-label={`Theme: ${theme}`}>
                 <i className="bi bi-circle-half"></i>
               </button>
@@ -180,6 +186,9 @@ export default function Header() {
 
           <div className="d-flex align-items-center d-md-none ms-auto">
             <span className="text-secondary small me-2"><i className="bi bi-clock"></i> {time}</span>
+            <button onClick={toggleLang} className="btn btn-outline-secondary btn-sm me-1" type="button" aria-label={`${t('common.language')}: ${lang}`}>
+              <i className="bi bi-translate"></i>
+            </button>
             <button onClick={toggleTheme} className="btn btn-outline-secondary btn-sm me-1" type="button" aria-label={`Theme: ${theme}`}>
               <i className="bi bi-circle-half"></i>
             </button>
@@ -192,7 +201,7 @@ export default function Header() {
             <button onClick={toggleAutoHide} className="btn btn-outline-secondary btn-sm me-1" type="button" aria-label={`Auto hide header: ${autoHide}`} title={`Auto hide header: ${autoHide ? 'on' : 'off'}`}>
               <i className="bi bi-chevron-bar-up"></i>
             </button>
-            <button className="btn btn-primary btn-sm" type="button" aria-label="Open menu" onClick={() => setMobileOpen(true)}>
+            <button className="btn btn-primary btn-sm" type="button" aria-label={t('common.openMenu')} onClick={() => setMobileOpen(true)}>
               <i className="bi bi-list"></i>
             </button>
           </div>

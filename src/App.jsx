@@ -8,8 +8,10 @@ const Blog = React.lazy(() => import('./pages/Blog.jsx'));
 const Repos = React.lazy(() => import('./pages/Repos.jsx'));
 const BlogPost = React.lazy(() => import('./pages/BlogPost.jsx'));
 import { WithPresence, PageWrapper } from './components/PageTransition.jsx';
+import { useI18n } from './i18n/index.jsx';
 
 export default function App() {
+  const { t } = useI18n();
   const location = useLocation();
 
   // Robust scroll-reveal for elements with [data-animate]
@@ -72,7 +74,7 @@ export default function App() {
       <Header />
       <main className="container py-4">
         <WithPresence location={location}>
-          <Suspense fallback={<div className="text-center text-secondary py-5" aria-busy="true">Loading…</div>}>
+          <Suspense fallback={<div className="text-center text-secondary py-5" aria-busy="true">{t('common.loading')}</div>}>
             <Routes location={location}>
               <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
               <Route path="/blog" element={<PageWrapper><Blog /></PageWrapper>} />

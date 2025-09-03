@@ -8,6 +8,7 @@ import ToastContainer from './components/Toast.jsx';
 import BackToTop from './components/BackToTop.jsx';
 import RippleProvider from './components/RippleProvider.jsx';
 import MobileTabBar from './components/MobileTabBar.jsx';
+import { I18nProvider } from './i18n/index.jsx';
 
 // Simple media query hook to guard mobile-only UI
 function useMediaQuery(query) {
@@ -36,14 +37,16 @@ function Root() {
   const isMobile = useMediaQuery('(max-width: 767.98px)');
   return (
     <React.StrictMode>
-      <BrowserRouter>
-        <ScrollProgress />
-        <ToastContainer />
-        <BackToTop />
-        <RippleProvider />
-        {isMobile && <MobileTabBar />}
-        <App />
-      </BrowserRouter>
+      <I18nProvider>
+        <BrowserRouter>
+          <ScrollProgress />
+          <ToastContainer />
+          <BackToTop />
+          <RippleProvider />
+          {isMobile && <MobileTabBar />}
+          <App />
+        </BrowserRouter>
+      </I18nProvider>
     </React.StrictMode>
   );
 }

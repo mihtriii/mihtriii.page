@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useI18n } from '../i18n/index.jsx';
 
 const Item = ({ to, exact, icon, label, prefetch }) => (
   <NavLink
@@ -23,6 +24,7 @@ const Item = ({ to, exact, icon, label, prefetch }) => (
 );
 
 export default function MobileTabBar() {
+  const { t } = useI18n();
   const [hidden, setHidden] = useState(false);
   const lastY = useRef(0);
   const ticking = useRef(false);
@@ -55,10 +57,10 @@ export default function MobileTabBar() {
 
   return (
     <div className={`mobile-tabbar${hidden ? ' hidden' : ''}`} role="navigation" aria-label="Primary bottom navigation">
-      <Item to="/" exact icon="bi-house" label="About" />
-      <Item to="/blog" icon="bi-journal-text" label="Blog" prefetch={prefetch.blog} />
-      <Item to="/cv" icon="bi-badge-ad" label="CV" prefetch={prefetch.cv} />
-      <Item to="/repos" icon="bi-git" label="Repos" prefetch={prefetch.repos} />
+      <Item to="/" exact icon="bi-house" label={t('nav.about')} />
+      <Item to="/blog" icon="bi-journal-text" label={t('nav.blog')} prefetch={prefetch.blog} />
+      <Item to="/cv" icon="bi-badge-ad" label={t('nav.cv')} prefetch={prefetch.cv} />
+      <Item to="/repos" icon="bi-git" label={t('nav.repos')} prefetch={prefetch.repos} />
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollSpy } from './ScrollSpy.jsx';
 import { github, social } from '../config/site.js';
 
@@ -7,6 +8,25 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
   const [stats, setStats] = useState({ repos: null, stars: null, followers: null, loading: true });
   const [isSmall, setIsSmall] = useState(false);
   const [sectionsOpen, setSectionsOpen] = useState(true);
+  function AnimatedNumber({ value = 0, duration = 500 }) {
+    const [display, setDisplay] = useState(0);
+    useEffect(() => {
+      if (typeof value !== 'number') return;
+      const start = performance.now();
+      const from = display;
+      const diff = value - from;
+      let raf = 0;
+      const step = (t) => {
+        const p = Math.min(1, (t - start) / duration);
+        setDisplay(Math.round(from + diff * p));
+        if (p < 1) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+      return () => cancelAnimationFrame(raf);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [value]);
+    return <>{Number.isFinite(display) ? display : '—'}</>;
+  }
 
   // Track small screens to collapse Sections
   useEffect(() => {
@@ -61,7 +81,13 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
         setStats((st) => ({ ...st, loading: false }));
       }
     };
-    load();
+
+    // Defer network work to idle time to avoid blocking initial render
+    const idle = (cb) => {
+      if ('requestIdleCallback' in window) return requestIdleCallback(cb, { timeout: 2000 });
+      return setTimeout(cb, 200);
+    };
+    const idleId = idle(load);
 
     const onUpdated = () => {
       try {
@@ -73,7 +99,11 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
       } catch {}
     };
     window.addEventListener('gh:repos-updated', onUpdated);
-    return () => window.removeEventListener('gh:repos-updated', onUpdated);
+    return () => {
+      window.removeEventListener('gh:repos-updated', onUpdated);
+      if ('cancelIdleCallback' in window) cancelIdleCallback?.(idleId);
+      else clearTimeout(idleId);
+    };
   }, []);
 
   // Load user profile stats (followers) with TTL cache
@@ -102,10 +132,18 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
         /* ignore */
       }
     };
-    loadUser();
+    const idle = (cb) => {
+      if ('requestIdleCallback' in window) return requestIdleCallback(cb, { timeout: 2000 });
+      return setTimeout(cb, 300);
+    };
+    const idleId = idle(loadUser);
+    return () => {
+      if ('cancelIdleCallback' in window) cancelIdleCallback?.(idleId);
+      else clearTimeout(idleId);
+    };
   }, []);
   return (
-    <div className="sticky-top sidebar" style={{ top: 84 }}>
+    <div className="sticky-top sidebar">
       <div className="card card-hover card-elevate mb-3 profile-card">
         <div className="card-body d-flex align-items-center gap-3 py-3">
           <span className="avatar-frame">
@@ -154,9 +192,9 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
             <div className="placeholder-glow"><span className="placeholder col-3 me-2"></span><span className="placeholder col-3"></span></div>
           ) : (
             <div className="mini-stats">
-              <div className="stat-chip" title="Public repos"><i className="bi bi-journal-code me-1"></i>{stats.repos ?? '—'}</div>
-              <div className="stat-chip" title="Total stars"><i className="bi bi-star me-1"></i>{stats.stars ?? '—'}</div>
-              <div className="stat-chip" title="Followers"><i className="bi bi-people me-1"></i>{stats.followers ?? '—'}</div>
+              <div className="stat-chip" title="Public repos"><i className="bi bi-journal-code me-1"></i><AnimatedNumber value={stats.repos ?? 0} /></div>
+              <div className="stat-chip" title="Total stars"><i className="bi bi-star me-1"></i><AnimatedNumber value={stats.stars ?? 0} /></div>
+              <div className="stat-chip" title="Followers"><i className="bi bi-people me-1"></i><AnimatedNumber value={stats.followers ?? 0} /></div>
             </div>
           )}
         </div>
@@ -172,14 +210,29 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
                 </button>
               )}
             </div>
-            <nav id="sidebar-sections" className={`d-flex flex-column gap-1 spy-list ${isSmall && !sectionsOpen ? 'd-none' : ''}`} aria-label="Page sections">
-              {sectionIds.map((id) => (
-                <a key={id} href={`#${id}`} className={`spy-item ${activeId === id ? 'active' : ''}`}>
-                  <span className="dot"></span>
-                  <span className="text-capitalize">{id.replace(/-/g, ' ')}</span>
-                </a>
-              ))}
-            </nav>
+            <AnimatePresence initial={false}>
+              {(!isSmall || sectionsOpen) && (
+                <motion.nav
+                  id="sidebar-sections"
+                  key="sections"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
+                  className="d-flex flex-column gap-1 spy-list"
+                  aria-label="Page sections"
+                  style={{ overflow: 'hidden' }}
+                >
+                  {sectionIds.map((id) => (
+                    <a key={id} href={`#${id}`} className={`spy-item ${activeId === id ? 'active' : ''}`}>
+                      {activeId === id && <motion.span layoutId="spyHighlight" className="spy-highlight" />}
+                      <span className="dot"></span>
+                      <span className="text-capitalize position-relative" style={{ zIndex: 1 }}>{id.replace(/-/g, ' ')}</span>
+                    </a>
+                  ))}
+                </motion.nav>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       )}
@@ -189,7 +242,7 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
             <div className="fw-semibold text-uppercase small letter mb-2">Social</div>
             <div className="social-grid">
               <a className="btn btn-outline-secondary btn-sm icon-btn" data-brand="kaggle" href={social.kaggle} target="_blank" rel="noopener" aria-label="Kaggle">
-                <img src={`${import.meta.env.BASE_URL}assets/kaggle.svg`} alt="Kaggle" width="18" height="18" />
+                <img src={`${import.meta.env.BASE_URL}assets/kaggle.svg`} alt="Kaggle" width="18" height="18" loading="lazy" decoding="async" />
               </a>
               <a className="btn btn-outline-secondary btn-sm icon-btn" data-brand="linkedin" href={social.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">
                 <i className="bi bi-linkedin"></i>

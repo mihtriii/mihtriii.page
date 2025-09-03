@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import MobileNav from './MobileNav.jsx';
 
 function useLocalTime(tz = 'Asia/Ho_Chi_Minh') {
   const [now, setNow] = useState(new Date());
@@ -19,6 +21,7 @@ export default function Header() {
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'auto');
   const location = useLocation();
   const time = useLocalTime();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -29,51 +32,84 @@ export default function Header() {
 
   const toggleTheme = () => setTheme(t => (t === 'light' ? 'dark' : t === 'dark' ? 'auto' : 'light'));
 
+  // Close mobile drawer on route change
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
+
   return (
     <header className="sticky-top bg-body border-bottom">
-      <nav className="navbar navbar-expand-md glass" aria-label="Primary">
-        <div className="container">
-          <Link to="/" className="navbar-brand fw-bold d-flex align-items-center text-decoration-none">
+      <nav className="navbar glass navbar-expand-lg py-2" aria-label="Primary">
+        <div className="container d-flex align-items-center justify-content-between">
+          <Link to="/" className="navbar-brand fw-bold d-flex align-items-center text-decoration-none me-2">
             <img src={`${import.meta.env.BASE_URL}assets/logo.svg`} alt="Logo" width="28" height="28" className="me-2" /> NMTrí
           </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#primaryNav"
-            aria-controls="primaryNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="primaryNav">
-            <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
-                <NavLink end to="/" className={({isActive}) => `nav-link${isActive ? ' active' : ''}`}>About</NavLink>
+          <div className="d-none d-md-flex align-items-center ms-auto">
+            <ul className="navbar-nav position-relative flex-row align-items-center">
+              <li className="nav-item position-relative">
+                <NavLink end to="/" className="nav-link px-3">
+                  {({ isActive }) => (
+                    <span className="position-relative d-inline-block">
+                      {isActive && <motion.span layoutId="navHighlight" className="nav-highlight" />}
+                      <span>About</span>
+                    </span>
+                  )}
+                </NavLink>
+              </li>
+              <li className="nav-item position-relative">
+                <NavLink to="/blog" className="nav-link px-3">
+                  {({ isActive }) => (
+                    <span className="position-relative d-inline-block">
+                      {isActive && <motion.span layoutId="navHighlight" className="nav-highlight" />}
+                      <span>Blog</span>
+                    </span>
+                  )}
+                </NavLink>
+              </li>
+              <li className="nav-item position-relative">
+                <NavLink to="/cv" className="nav-link px-3">
+                  {({ isActive }) => (
+                    <span className="position-relative d-inline-block">
+                      {isActive && <motion.span layoutId="navHighlight" className="nav-highlight" />}
+                      <span>CV</span>
+                    </span>
+                  )}
+                </NavLink>
+              </li>
+              <li className="nav-item position-relative">
+                <NavLink to="/repos" className="nav-link px-3">
+                  {({ isActive }) => (
+                    <span className="position-relative d-inline-block">
+                      {isActive && <motion.span layoutId="navHighlight" className="nav-highlight" />}
+                      <span>Repos</span>
+                    </span>
+                  )}
+                </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink to="/blog" className={({isActive}) => `nav-link${isActive ? ' active' : ''}`}>Blog</NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink to="/cv" className={({isActive}) => `nav-link${isActive ? ' active' : ''}`}>CV</NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink to="/repos" className={({isActive}) => `nav-link${isActive ? ' active' : ''}`}>Repos</NavLink>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="https://github.com/mihtriii" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a className="nav-link px-3" href="https://github.com/mihtriii" target="_blank" rel="noopener noreferrer">GitHub</a>
               </li>
             </ul>
-            <div className="d-flex ms-md-2 mt-2 mt-md-0 gap-2 align-items-center">
+            <div className="d-flex ms-2 gap-2 align-items-center">
               <span className="text-secondary small d-none d-md-inline"><i className="bi bi-clock"></i> {time}</span>
               <button onClick={toggleTheme} className="btn btn-outline-secondary btn-sm" type="button" aria-label={`Theme: ${theme}`}>
                 <i className="bi bi-circle-half"></i>
               </button>
             </div>
           </div>
+
+          <div className="d-flex align-items-center d-md-none ms-auto">
+            <span className="text-secondary small me-2"><i className="bi bi-clock"></i> {time}</span>
+            <button onClick={toggleTheme} className="btn btn-outline-secondary btn-sm me-1" type="button" aria-label={`Theme: ${theme}`}>
+              <i className="bi bi-circle-half"></i>
+            </button>
+            <button className="btn btn-primary btn-sm" type="button" aria-label="Open menu" onClick={() => setMobileOpen(true)}>
+              <i className="bi bi-list"></i>
+            </button>
+          </div>
         </div>
       </nav>
+      <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} />
     </header>
   );
 }

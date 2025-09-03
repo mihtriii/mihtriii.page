@@ -1,26 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 export default function ScrollProgress() {
-  const [progress, setProgress] = useState(0);
+  const barRef = useRef(null);
+  const raf = useRef(0);
+  const pending = useRef(false);
 
   useEffect(() => {
-    const onScroll = () => {
+    const update = () => {
       const el = document.documentElement;
       const h = el.scrollHeight - el.clientHeight;
       const p = h > 0 ? (window.scrollY / h) * 100 : 0;
-      setProgress(Math.min(100, Math.max(0, p)));
+      if (barRef.current) barRef.current.style.width = `${Math.min(100, Math.max(0, p))}%`;
+      pending.current = false;
+    };
+    const onScroll = () => {
+      if (pending.current) return;
+      pending.current = true;
+      raf.current = requestAnimationFrame(update);
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     return () => {
+      cancelAnimationFrame(raf.current);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
     };
   }, []);
 
   return (
-    <div className="scroll-progress" style={{ width: `${progress}%` }} aria-hidden="true" />
+    <div ref={barRef} className="scroll-progress" aria-hidden="true" />
   );
 }
-

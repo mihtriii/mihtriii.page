@@ -9,7 +9,7 @@ export default function Footer() {
         <p className="text-secondary small mb-0">© {year} Nguyễn Minh Trí. All rights reserved.</p>
         <div className="icon-row">
           <a className="btn btn-outline-secondary btn-sm icon-btn" href={social.kaggle} target="_blank" rel="noopener" aria-label="Kaggle">
-            <img src={`${import.meta.env.BASE_URL}assets/kaggle.svg`} alt="Kaggle" width="18" height="18" />
+            <img src={`${import.meta.env.BASE_URL}assets/kaggle.svg`} alt="Kaggle" width="18" height="18" loading="lazy" decoding="async" />
           </a>
           <a className="btn btn-outline-secondary btn-sm icon-btn" href={social.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">
             <i className="bi bi-linkedin"></i>

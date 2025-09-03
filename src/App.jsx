@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import Home from './pages/Home.jsx';
-import CV from './pages/CV.jsx';
-import Blog from './pages/Blog.jsx';
-import Repos from './pages/Repos.jsx';
-import BlogPost from './pages/BlogPost.jsx';
+const CV = React.lazy(() => import('./pages/CV.jsx'));
+const Blog = React.lazy(() => import('./pages/Blog.jsx'));
+const Repos = React.lazy(() => import('./pages/Repos.jsx'));
+const BlogPost = React.lazy(() => import('./pages/BlogPost.jsx'));
 import { WithPresence, PageWrapper } from './components/PageTransition.jsx';
 
 export default function App() {
@@ -72,14 +72,16 @@ export default function App() {
       <Header />
       <main className="container py-4">
         <WithPresence location={location}>
-          <Routes location={location}>
-            <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-            <Route path="/blog" element={<PageWrapper><Blog /></PageWrapper>} />
-            <Route path="/blog/:slug" element={<PageWrapper><BlogPost /></PageWrapper>} />
-            <Route path="/cv" element={<PageWrapper><CV /></PageWrapper>} />
-            <Route path="/repos" element={<PageWrapper><Repos /></PageWrapper>} />
-            <Route path="*" element={<PageWrapper><Home /></PageWrapper>} />
-          </Routes>
+          <Suspense fallback={<div className="text-center text-secondary py-5" aria-busy="true">Loading…</div>}>
+            <Routes location={location}>
+              <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+              <Route path="/blog" element={<PageWrapper><Blog /></PageWrapper>} />
+              <Route path="/blog/:slug" element={<PageWrapper><BlogPost /></PageWrapper>} />
+              <Route path="/cv" element={<PageWrapper><CV /></PageWrapper>} />
+              <Route path="/repos" element={<PageWrapper><Repos /></PageWrapper>} />
+              <Route path="*" element={<PageWrapper><Home /></PageWrapper>} />
+            </Routes>
+          </Suspense>
         </WithPresence>
       </main>
       <Footer />

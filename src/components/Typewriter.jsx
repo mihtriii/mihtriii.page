@@ -1,12 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 export default function Typewriter({ words = [], typingSpeed = 60, deletingSpeed = 30, pause = 1200 }) {
   const [index, setIndex] = useState(0);
   const [text, setText] = useState('');
   const [deleting, setDeleting] = useState(false);
+  const reduceMotion = useMemo(() =>
+    typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  []);
 
   useEffect(() => {
     if (words.length === 0) return;
+    if (reduceMotion) {
+      const current = words[index % words.length] || '';
+      setText(current);
+      return;
+    }
     const current = words[index % words.length];
     let timer;
     if (!deleting) {
@@ -24,8 +32,7 @@ export default function Typewriter({ words = [], typingSpeed = 60, deletingSpeed
       }
     }
     return () => clearTimeout(timer);
-  }, [text, deleting, words, index, typingSpeed, deletingSpeed, pause]);
+  }, [text, deleting, words, index, typingSpeed, deletingSpeed, pause, reduceMotion]);
 
   return <span className="typewriter">{text}<span className="caret">|</span></span>;
 }
-

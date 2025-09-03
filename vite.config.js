@@ -14,5 +14,17 @@ export default defineConfig(({ mode }) => {
       mdx(),
       react(),
     ],
+    build: {
+      target: 'es2018',
+      cssCodeSplit: true,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            react: ['react', 'react-dom', 'react-router-dom'],
+            framer: ['framer-motion'],
+          },
+        },
+      },
+    },
   };
 });

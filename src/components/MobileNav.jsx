@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { useI18n } from '../i18n/index.jsx';
 import { NavLink } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -15,7 +16,26 @@ export default function MobileNav({ open, onClose }) {
   useEffect(() => {
     if (open) {
       lastActive.current = document.activeElement;
+
+      // Robust scroll lock (works reliably on iOS Safari)
+      const scrollY = window.scrollY || window.pageYOffset;
+      const prev = {
+        overflow: document.body.style.overflow,
+        position: document.body.style.position,
+        top: document.body.style.top,
+        left: document.body.style.left,
+        right: document.body.style.right,
+        width: document.body.style.width,
+        overscrollBehavior: document.documentElement.style.overscrollBehavior,
+      };
+      document.documentElement.style.overscrollBehavior = 'none';
       document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
+
       const t = setTimeout(() => firstLinkRef.current?.focus(), 0);
       const onKey = (e) => { if (e.key === 'Escape') onClose(); };
       window.addEventListener('keydown', onKey);
@@ -38,9 +58,18 @@ export default function MobileNav({ open, onClose }) {
         clearTimeout(t);
         window.removeEventListener('keydown', onKey);
         drawerRef.current?.removeEventListener('keydown', trap);
+        // Restore scroll position and previous styles
+        const y = -parseInt(document.body.style.top || '0', 10) || 0;
+        document.body.style.overflow = prev.overflow;
+        document.body.style.position = prev.position;
+        document.body.style.top = prev.top;
+        document.body.style.left = prev.left;
+        document.body.style.right = prev.right;
+        document.body.style.width = prev.width;
+        document.documentElement.style.overscrollBehavior = prev.overscrollBehavior;
+        window.scrollTo(0, y);
       };
     } else {
-      document.body.style.overflow = '';
       lastActive.current && lastActive.current.focus?.();
     }
   }, [open, onClose]);
@@ -66,7 +95,7 @@ export default function MobileNav({ open, onClose }) {
 
   const onPointerUp = useCallback(() => { swiping.current = false; }, []);
 
-  return (
+  const content = (
     <AnimatePresence>
       {open && (
         <>
@@ -137,4 +166,10 @@ export default function MobileNav({ open, onClose }) {
       )}
     </AnimatePresence>
   );
+
+  // Render into a portal to avoid conflicts with header stacking/transform
+  if (typeof document !== 'undefined' && document.body) {
+    return createPortal(content, document.body);
+  }
+  return content;
 }

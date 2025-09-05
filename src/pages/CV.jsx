@@ -121,11 +121,12 @@ export default function CV() {
           </ul>
         </Section>
 
-        <Section id="competitions-activities" title="Competitions & Activities">
+        <Section id="competitions-activities" title="Cuộc thi & Hoạt động">
           <ul className="mb-0">
-            <li>AIoT on Edge Hackathon (2025) — explored lightweight CV/VLM on edge.</li>
-            <li>VOI 2024 — Consolation Prize (Khuyến khích).</li>
-            <li>Campus: GDG on Campus, student tech communities, academic seminars.</li>
+            <li>Samsung Solve for Tomorrow Việt Nam 2024 — Giải Ba (Bảng THPT), thành viên đội <strong>T‑Gardens</strong>. <a href="https://solvefortomorrow.vn/doi-thang-giai/t-gardens" target="_blank" rel="noopener">Liên kết</a></li>
+            <li>AIoT on Edge Hackathon (2025) — khám phá giải pháp CV/VLM nhẹ cho thiết bị biên.</li>
+            <li>VOI 2024 — Giải Khuyến khích.</li>
+            <li>Cộng đồng: GDG on Campus, các cộng đồng công nghệ sinh viên, seminar học thuật.</li>
           </ul>
         </Section>
 

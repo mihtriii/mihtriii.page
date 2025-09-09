@@ -9,6 +9,7 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
   const [stats, setStats] = useState({ repos: null, stars: null, followers: null, loading: true });
   const [isSmall, setIsSmall] = useState(false);
   const [sectionsOpen, setSectionsOpen] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
   function AnimatedNumber({ value = 0, duration = 500 }) {
     const [display, setDisplay] = useState(0);
     useEffect(() => {
@@ -183,9 +184,19 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
     };
   }, []);
   return (
-    <div className="sticky-top sidebar">
-      <SectionChips />
-      <div className="card card-hover card-elevate mb-3 profile-card">
+    <div className={`sticky-top sidebar${collapsed ? ' sidebar-collapsed' : ''}`}>  
+      <button
+        className="btn btn-outline-secondary btn-sm d-none d-lg-block mb-2 w-100"
+        style={{ borderRadius: 8, fontWeight: 500 }}
+        aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        onClick={() => setCollapsed((v) => !v)}
+      >
+        <i className={`bi ${collapsed ? 'bi-chevron-double-right' : 'bi-chevron-double-left'}`}></i> {collapsed ? '' : 'Collapse'}
+      </button>
+      {!collapsed && (
+        <>
+          <SectionChips />
+          <div className="card card-hover card-elevate mb-3 profile-card">
         <div className="card-body d-flex align-items-center gap-3 py-3">
           <span className="avatar-frame">
             <img
@@ -220,7 +231,7 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
           </div>
         </div>
       </div>
-      <div className="card card-hover card-elevate mb-3 d-none d-sm-block">
+          <div className="card card-hover card-elevate mb-3 d-none d-sm-block">
         <div className="card-body py-3">
           <div className="d-flex justify-content-between align-items-center mb-2">
             <div className="fw-semibold text-uppercase small letter d-flex align-items-center gap-2">
@@ -240,7 +251,7 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
           )}
         </div>
       </div>
-      {sectionIds.length > 0 && (
+          {sectionIds.length > 0 && (
         <div className="card card-hover card-elevate mb-3" data-animate>
           <div className="card-body py-3">
             <div className="d-flex justify-content-between align-items-center mb-2">
@@ -277,7 +288,7 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
           </div>
         </div>
       )}
-      {recentPosts.length > 0 && (
+          {recentPosts.length > 0 && (
         <div className="card card-hover card-elevate mb-3 d-none d-sm-block" data-animate>
           <div className="card-body py-3">
             <div className="fw-semibold text-uppercase small letter mb-2">Recent Posts</div>
@@ -292,29 +303,31 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
           </div>
         </div>
       )}
-      {showSocial && (
-        <div className="card card-hover card-elevate mb-3 d-none d-sm-block" data-animate>
-          <div className="card-body py-3">
-            <div className="fw-semibold text-uppercase small letter mb-2">Social</div>
-            <div className="social-grid">
-              <a className="btn btn-outline-secondary btn-sm icon-btn" data-brand="kaggle" href={social.kaggle} target="_blank" rel="noopener" aria-label="Kaggle">
-                <img src={`${import.meta.env.BASE_URL}assets/kaggle.svg`} alt="Kaggle" width="18" height="18" loading="lazy" decoding="async" />
-              </a>
-              <a className="btn btn-outline-secondary btn-sm icon-btn" data-brand="linkedin" href={social.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">
-                <i className="bi bi-linkedin"></i>
-              </a>
-              <a className="btn btn-outline-secondary btn-sm icon-btn" data-brand="github" href={social.github} target="_blank" rel="noopener" aria-label="GitHub">
-                <i className="bi bi-github"></i>
-              </a>
-              <a className="btn btn-outline-secondary btn-sm icon-btn" data-brand="email" href={social.email} aria-label="Email">
-                <i className="bi bi-envelope"></i>
-              </a>
-              <a className="btn btn-outline-secondary btn-sm icon-btn" data-brand="scholar" href={social.scholar} target="_blank" rel="noopener" aria-label="Google Scholar">
-                <i className="bi bi-mortarboard"></i>
-              </a>
+          {showSocial && (
+            <div className="card card-hover card-elevate mb-3 d-none d-sm-block" data-animate>
+              <div className="card-body py-3">
+                <div className="fw-semibold text-uppercase small letter mb-2">Social</div>
+                <div className="social-grid">
+                  <a className="btn btn-outline-secondary btn-sm icon-btn" data-brand="kaggle" href={social.kaggle} target="_blank" rel="noopener" aria-label="Kaggle">
+                    <img src={`${import.meta.env.BASE_URL}assets/kaggle.svg`} alt="Kaggle" width="18" height="18" loading="lazy" decoding="async" />
+                  </a>
+                  <a className="btn btn-outline-secondary btn-sm icon-btn" data-brand="linkedin" href={social.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">
+                    <i className="bi bi-linkedin"></i>
+                  </a>
+                  <a className="btn btn-outline-secondary btn-sm icon-btn" data-brand="github" href={social.github} target="_blank" rel="noopener" aria-label="GitHub">
+                    <i className="bi bi-github"></i>
+                  </a>
+                  <a className="btn btn-outline-secondary btn-sm icon-btn" data-brand="email" href={social.email} aria-label="Email">
+                    <i className="bi bi-envelope"></i>
+                  </a>
+                  <a className="btn btn-outline-secondary btn-sm icon-btn" data-brand="scholar" href={social.scholar} target="_blank" rel="noopener" aria-label="Google Scholar">
+                    <i className="bi bi-mortarboard"></i>
+                  </a>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          )}
+        </>
       )}
     </div>
   );

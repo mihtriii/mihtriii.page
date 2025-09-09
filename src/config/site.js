@@ -7,6 +7,6 @@ export const social = {
   linkedin: 'https://www.linkedin.com/in/mihtriii/',
   github: `https://github.com/${github.username}`,
   email: 'mailto:mihtriii295@gmail.com',
-  scholar: 'https://scholar.google.com/', // TODO: replace with your Scholar profile URL
+  scholar: 'https://scholar.google.com/citations?user=YOUR_PROFILE_ID', // Replace with your actual Scholar profile URL
 };
 

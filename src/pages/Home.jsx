@@ -21,7 +21,7 @@ function Section({ id, title, children }) {
 
 export default function Home() {
   const { t } = useI18n();
-  const sectionIds = ['about', 'focus', 'goals', 'tech', 'projects', 'contact'];
+  const sectionIds = ['about', 'focus', 'goals', 'tech', 'featured', 'projects', 'contact'];
 
   const allProjects = useMemo(() => ([
     { title: 'Mini‑VLM Playground', desc: 'Retrieval/grounding demos with small benchmarks', tags: ['VLM', 'Retrieval'], preview: null },
@@ -155,6 +155,31 @@ export default function Home() {
                 </div>
               </div>
               </Tilt>
+            </div>
+          </div>
+        </Section>
+
+        <Section id="featured" title="Featured Projects">
+          <div className="row g-3">
+            <div className="col-12 col-md-6">
+              <div className="card card-hover card-elevate h-100" data-animate>
+                <div className="card-body">
+                  <h3 className="h5 mb-2">Mini‑VLM Playground</h3>
+                  <p className="mb-2 text-secondary small">Retrieval/grounding demos with small benchmarks. <a href="https://github.com/mihtriii/mini-vlm" target="_blank" rel="noopener">GitHub</a></p>
+                  <span className="badge text-bg-primary">VLM</span>
+                  <span className="badge text-bg-secondary ms-2">Retrieval</span>
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-md-6">
+              <div className="card card-hover card-elevate h-100" data-animate>
+                <div className="card-body">
+                  <h3 className="h5 mb-2">QML for Vision</h3>
+                  <p className="mb-2 text-secondary small">Hybrid quantum‑classical baselines on MNIST/CIFAR. <a href="https://github.com/mihtriii/qml-vision" target="_blank" rel="noopener">GitHub</a></p>
+                  <span className="badge text-bg-primary">QML</span>
+                  <span className="badge text-bg-secondary ms-2">Vision</span>
+                </div>
+              </div>
             </div>
           </div>
         </Section>

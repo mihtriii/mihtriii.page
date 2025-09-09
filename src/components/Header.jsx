@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import MobileNav from './MobileNav.jsx';
 import { useI18n } from '../i18n/index.jsx';
+import ThemeToggle from './ThemeToggle.jsx';
 
 function useLocalTime(tz = 'Asia/Ho_Chi_Minh') {
   const [now, setNow] = useState(new Date());
@@ -29,7 +30,9 @@ export default function Header() {
   const [navHidden, setNavHidden] = useState(false);
   const headerRef = useRef(null);
   // Stabilize layout: auto-hide header is opt-in to avoid layout clashes
-  const [autoHide, setAutoHide] = useState(() => (localStorage.getItem('ui:autoHideHeader') || 'false') === 'true');
+  const [autoHide, setAutoHide] = useState(
+    () => (localStorage.getItem('ui:autoHideHeader') || 'false') === 'true'
+  );
 
   useEffect(() => {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -44,7 +47,10 @@ export default function Header() {
 
   // Auto-hide header on mobile when scrolling down (opt-in)
   useEffect(() => {
-    if (!autoHide) { setNavHidden(false); return; }
+    if (!autoHide) {
+      setNavHidden(false);
+      return;
+    }
     const mq = window.matchMedia('(max-width: 767.98px)');
     let lastY = window.scrollY;
     let ticking = false;
@@ -66,9 +72,14 @@ export default function Header() {
       });
     };
     window.addEventListener('scroll', onScroll, { passive: true });
-    const onChange = () => { if (!mq.matches) setNavHidden(false); };
+    const onChange = () => {
+      if (!mq.matches) setNavHidden(false);
+    };
     mq.addEventListener?.('change', onChange);
-    return () => { window.removeEventListener('scroll', onScroll); mq.removeEventListener?.('change', onChange); };
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      mq.removeEventListener?.('change', onChange);
+    };
   }, [autoHide]);
 
   // Keep --header-offset synced with actual header height, and reduce when hidden on mobile
@@ -77,7 +88,7 @@ export default function Header() {
     const isMobile = () => window.matchMedia('(max-width: 767.98px)').matches;
     const compute = () => {
       const h = headerRef.current?.getBoundingClientRect().height || 72;
-      const value = (navHidden && isMobile()) ? '8px' : `${Math.round(h)}px`;
+      const value = navHidden && isMobile() ? '8px' : `${Math.round(h)}px`;
       root.style.setProperty('--header-offset', value);
     };
     compute();
@@ -93,11 +104,17 @@ export default function Header() {
     };
   }, [navHidden]);
 
-  const toggleTheme = () => setTheme(t => (t === 'light' ? 'dark' : t === 'dark' ? 'auto' : 'light'));
-  const toggleTone = () => setTone(t => (t === 'warm' ? 'cool' : 'warm'));
-  const togglePalette = () => setPalette(p => (p === 'earth' ? 'classic' : 'earth'));
-  const toggleAutoHide = () => setAutoHide(v => { const nv = !v; localStorage.setItem('ui:autoHideHeader', String(nv)); return nv; });
-  const toggleLang = () => setLang(l => (l === 'en' ? 'vi' : 'en'));
+  const toggleTheme = () =>
+    setTheme((t) => (t === 'light' ? 'dark' : t === 'dark' ? 'auto' : 'light'));
+  const toggleTone = () => setTone((t) => (t === 'warm' ? 'cool' : 'warm'));
+  const togglePalette = () => setPalette((p) => (p === 'earth' ? 'classic' : 'earth'));
+  const toggleAutoHide = () =>
+    setAutoHide((v) => {
+      const nv = !v;
+      localStorage.setItem('ui:autoHideHeader', String(nv));
+      return nv;
+    });
+  const toggleLang = () => setLang((l) => (l === 'en' ? 'vi' : 'en'));
 
   // Prefetch non-home routes to speed up navigation
   const prefetch = {
@@ -112,11 +129,24 @@ export default function Header() {
   }, [location.pathname]);
 
   return (
-    <header ref={headerRef} className={`sticky-top bg-body border-bottom header-auto${navHidden ? ' header-hidden' : ''}`}>
+    <header
+      ref={headerRef}
+      className={`sticky-top bg-body border-bottom header-auto${navHidden ? ' header-hidden' : ''}`}
+    >
       <nav className="navbar glass navbar-expand-lg py-2" aria-label="Primary">
         <div className="container d-flex align-items-center justify-content-between">
-          <Link to="/" className="navbar-brand fw-bold d-flex align-items-center text-decoration-none me-2">
-            <img src={`${import.meta.env.BASE_URL}assets/logo.svg`} alt="Logo" width="28" height="28" className="me-2" /> NMTrí
+          <Link
+            to="/"
+            className="navbar-brand fw-bold d-flex align-items-center text-decoration-none me-2"
+          >
+            <img
+              src={`${import.meta.env.BASE_URL}assets/logo.svg`}
+              alt="Logo"
+              width="28"
+              height="28"
+              className="me-2"
+            />{' '}
+            NMTrí
           </Link>
           <div className="d-none d-md-flex align-items-center ms-auto">
             <ul className="navbar-nav position-relative flex-row align-items-center">
@@ -124,7 +154,9 @@ export default function Header() {
                 <NavLink end to="/" className="nav-link px-3">
                   {({ isActive }) => (
                     <span className="position-relative d-inline-block">
-                      {isActive && <motion.span layoutId="navHighlight" className="nav-highlight" />}
+                      {isActive && (
+                        <motion.span layoutId="navHighlight" className="nav-highlight" />
+                      )}
                       <span>{t('nav.about')}</span>
                     </span>
                   )}
@@ -134,7 +166,9 @@ export default function Header() {
                 <NavLink to="/blog" className="nav-link px-3" onMouseEnter={prefetch.blog}>
                   {({ isActive }) => (
                     <span className="position-relative d-inline-block">
-                      {isActive && <motion.span layoutId="navHighlight" className="nav-highlight" />}
+                      {isActive && (
+                        <motion.span layoutId="navHighlight" className="nav-highlight" />
+                      )}
                       <span>{t('nav.blog')}</span>
                     </span>
                   )}
@@ -144,7 +178,9 @@ export default function Header() {
                 <NavLink to="/cv" className="nav-link px-3" onMouseEnter={prefetch.cv}>
                   {({ isActive }) => (
                     <span className="position-relative d-inline-block">
-                      {isActive && <motion.span layoutId="navHighlight" className="nav-highlight" />}
+                      {isActive && (
+                        <motion.span layoutId="navHighlight" className="nav-highlight" />
+                      )}
                       <span>{t('nav.cv')}</span>
                     </span>
                   )}
@@ -154,54 +190,115 @@ export default function Header() {
                 <NavLink to="/repos" className="nav-link px-3" onMouseEnter={prefetch.repos}>
                   {({ isActive }) => (
                     <span className="position-relative d-inline-block">
-                      {isActive && <motion.span layoutId="navHighlight" className="nav-highlight" />}
+                      {isActive && (
+                        <motion.span layoutId="navHighlight" className="nav-highlight" />
+                      )}
                       <span>{t('nav.repos')}</span>
                     </span>
                   )}
                 </NavLink>
               </li>
               <li className="nav-item">
-                <a className="nav-link px-3" href="https://github.com/mihtriii" target="_blank" rel="noopener noreferrer">{t('nav.github')}</a>
+                <a
+                  className="nav-link px-3"
+                  href="https://github.com/mihtriii"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t('nav.github')}
+                </a>
               </li>
             </ul>
             <div className="d-flex ms-2 gap-2 align-items-center">
-              <span className="text-secondary small d-none d-md-inline"><i className="bi bi-clock"></i> {time}</span>
-              <button onClick={toggleLang} className="btn btn-outline-secondary btn-sm" type="button" aria-label={`${t('common.language')}: ${lang}`} title={`${t('common.language')}: ${lang.toUpperCase()}`}>
+              <span className="text-secondary small d-none d-md-inline">
+                <i className="bi bi-clock"></i> {time}
+              </span>
+              <button
+                onClick={toggleLang}
+                className="btn btn-outline-secondary btn-sm"
+                type="button"
+                aria-label={`${t('common.language')}: ${lang}`}
+                title={`${t('common.language')}: ${lang.toUpperCase()}`}
+              >
                 <i className="bi bi-translate"></i>
               </button>
-              <button onClick={toggleTheme} className="btn btn-outline-secondary btn-sm" type="button" aria-label={`Theme: ${theme}`}>
-                <i className="bi bi-circle-half"></i>
-              </button>
-              <button onClick={toggleTone} className="btn btn-outline-secondary btn-sm" type="button" aria-label={`Tone: ${tone}`} title={`Tone: ${tone}`}>
+              <ThemeToggle theme={theme} onToggle={toggleTheme} />
+              <button
+                onClick={toggleTone}
+                className="btn btn-outline-secondary btn-sm"
+                type="button"
+                aria-label={`Tone: ${tone}`}
+                title={`Tone: ${tone}`}
+              >
                 <i className="bi bi-palette2"></i>
               </button>
-              <button onClick={togglePalette} className="btn btn-outline-secondary btn-sm" type="button" aria-label={`Palette: ${palette}`} title={`Palette: ${palette}`}>
+              <button
+                onClick={togglePalette}
+                className="btn btn-outline-secondary btn-sm"
+                type="button"
+                aria-label={`Palette: ${palette}`}
+                title={`Palette: ${palette}`}
+              >
                 <i className="bi bi-layers"></i>
               </button>
-              <button onClick={toggleAutoHide} className="btn btn-outline-secondary btn-sm" type="button" aria-label={`Auto hide header: ${autoHide}`} title={`Auto hide header: ${autoHide ? 'on' : 'off'}`}>
+              <button
+                onClick={toggleAutoHide}
+                className="btn btn-outline-secondary btn-sm"
+                type="button"
+                aria-label={`Auto hide header: ${autoHide}`}
+                title={`Auto hide header: ${autoHide ? 'on' : 'off'}`}
+              >
                 <i className="bi bi-chevron-bar-up"></i>
               </button>
             </div>
           </div>
 
           <div className="d-flex align-items-center d-md-none ms-auto">
-            <span className="text-secondary small me-2"><i className="bi bi-clock"></i> {time}</span>
-            <button onClick={toggleLang} className="btn btn-outline-secondary btn-sm me-1" type="button" aria-label={`${t('common.language')}: ${lang}`}>
+            <span className="text-secondary small me-2">
+              <i className="bi bi-clock"></i> {time}
+            </span>
+            <button
+              onClick={toggleLang}
+              className="btn btn-outline-secondary btn-sm me-1"
+              type="button"
+              aria-label={`${t('common.language')}: ${lang}`}
+            >
               <i className="bi bi-translate"></i>
             </button>
-            <button onClick={toggleTheme} className="btn btn-outline-secondary btn-sm me-1" type="button" aria-label={`Theme: ${theme}`}>
-              <i className="bi bi-circle-half"></i>
-            </button>
-            <button onClick={toggleTone} className="btn btn-outline-secondary btn-sm me-1" type="button" aria-label={`Tone: ${tone}`} title={`Tone: ${tone}`}>
+            <ThemeToggle theme={theme} onToggle={toggleTheme} />
+            <button
+              onClick={toggleTone}
+              className="btn btn-outline-secondary btn-sm me-1"
+              type="button"
+              aria-label={`Tone: ${tone}`}
+              title={`Tone: ${tone}`}
+            >
               <i className="bi bi-palette2"></i>
             </button>
-            <button onClick={togglePalette} className="btn btn-outline-secondary btn-sm me-1" type="button" aria-label={`Palette: ${palette}`} title={`Palette: ${palette}`}>
+            <button
+              onClick={togglePalette}
+              className="btn btn-outline-secondary btn-sm me-1"
+              type="button"
+              aria-label={`Palette: ${palette}`}
+              title={`Palette: ${palette}`}
+            >
               <i className="bi bi-layers"></i>
             </button>
-            <button onClick={toggleAutoHide} className="btn btn-outline-secondary btn-sm me-1" type="button" aria-label={`Auto hide header: ${autoHide}`} title={`Auto hide header: ${autoHide ? 'on' : 'off'}`}>
+            <button
+              onClick={toggleAutoHide}
+              className="btn btn-outline-secondary btn-sm me-1"
+              type="button"
+              aria-label={`Auto hide header: ${autoHide}`}
+              title={`Auto hide header: ${autoHide ? 'on' : 'off'}`}
+            >
               <i className="bi bi-chevron-bar-up"></i>
             </button>
-            <button className="btn btn-primary btn-sm" type="button" aria-label={t('common.openMenu')} onClick={() => setMobileOpen(true)}>
+            <button
+              className="btn btn-primary btn-sm"
+              type="button"
+              aria-label={t('common.openMenu')}
+              onClick={() => setMobileOpen(true)}
+            >
               <i className="bi bi-list"></i>
             </button>
           </div>

@@ -1,16 +1,27 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useAnimation } from './ThemeToggle.jsx';
 
-export default function Typewriter({ words = [], typingSpeed = 60, deletingSpeed = 30, pause = 1200 }) {
+export default function Typewriter({
+  words = [],
+  typingSpeed = 60,
+  deletingSpeed = 30,
+  pause = 1200,
+}) {
   const [index, setIndex] = useState(0);
   const [text, setText] = useState('');
   const [deleting, setDeleting] = useState(false);
-  const reduceMotion = useMemo(() =>
-    typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-  []);
+  const { enabled: animationEnabled } = useAnimation ? useAnimation() : { enabled: true };
+  const reduceMotion = useMemo(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    []
+  );
 
   useEffect(() => {
     if (words.length === 0) return;
-    if (reduceMotion) {
+    if (reduceMotion || !animationEnabled) {
       const current = words[index % words.length] || '';
       setText(current);
       return;
@@ -32,7 +43,22 @@ export default function Typewriter({ words = [], typingSpeed = 60, deletingSpeed
       }
     }
     return () => clearTimeout(timer);
-  }, [text, deleting, words, index, typingSpeed, deletingSpeed, pause, reduceMotion]);
+  }, [
+    text,
+    deleting,
+    words,
+    index,
+    typingSpeed,
+    deletingSpeed,
+    pause,
+    reduceMotion,
+    animationEnabled,
+  ]);
 
-  return <span className="typewriter">{text}<span className="caret">|</span></span>;
+  return (
+    <span className="typewriter">
+      {text}
+      <span className="caret">|</span>
+    </span>
+  );
 }

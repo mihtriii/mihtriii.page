@@ -114,8 +114,14 @@
 }
 
 @media (max-width: 380px) {
-  .sidebar .chip { font-size: .78rem; padding: .24rem .45rem; gap: .3rem; }
-  .sidebar .chip .chip-dot { width: 5px; height: 5px; }
+  .sidebar .chip { font-size: .74rem; padding: .18rem .35rem; gap: .22rem; }
+  .sidebar .chip .chip-dot { width: 4px; height: 4px; }
+  .mobile-tabbar { height: 48px !important; min-height: 44px; }
+  .mobile-tabbar .tab-link { padding: 4px 4px; min-width: 44px; }
+  .mobile-tabbar .tab-inner { min-width: 44px; gap: 1px; }
+  .mobile-tabbar .tab-link .label { font-size: .68rem; }
+  .toast-container { right: 0.5rem; left: 0.5rem; width: auto; }
+  .toast-item { font-size: .92rem; padding: .4rem .5rem; }
 }
 
 /* Spy list improvements */

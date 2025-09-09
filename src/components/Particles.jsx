@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useAnimation } from './ThemeToggle.jsx';
 
 // Lightweight animated particle background with theme-aware color
 export default function Particles({ density = 40, speed = 0.25, disableOnMobile = true }) {
@@ -7,12 +8,14 @@ export default function Particles({ density = 40, speed = 0.25, disableOnMobile 
   const particlesRef = useRef([]);
   const activeRef = useRef(true);
   const [enabled, setEnabled] = useState(true);
+  const { enabled: animationEnabled } = useAnimation ? useAnimation() : { enabled: true };
 
   useEffect(() => {
     const mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
     const mqMobile = window.matchMedia('(max-width: 767.98px)');
     const compute = () => {
-      const shouldDisable = (mqReduce.matches) || (disableOnMobile && mqMobile.matches);
+      const shouldDisable =
+        mqReduce.matches || (disableOnMobile && mqMobile.matches) || !animationEnabled;
       setEnabled(!shouldDisable);
     };
     compute();
@@ -25,7 +28,7 @@ export default function Particles({ density = 40, speed = 0.25, disableOnMobile 
       mqMobile.removeEventListener?.('change', onChange);
       window.removeEventListener('orientationchange', compute);
     };
-  }, [disableOnMobile]);
+  }, [disableOnMobile, animationEnabled]);
 
   useEffect(() => {
     if (!enabled) return;
@@ -43,7 +46,9 @@ export default function Particles({ density = 40, speed = 0.25, disableOnMobile 
     };
     let color = computeColor();
 
-    const handleTheme = () => { color = computeColor(); };
+    const handleTheme = () => {
+      color = computeColor();
+    };
     const mo = new MutationObserver(handleTheme);
     mo.observe(document.documentElement, { attributes: true });
 
@@ -88,7 +93,8 @@ export default function Particles({ density = 40, speed = 0.25, disableOnMobile 
         ctx.clearRect(0, 0, w, h);
         ctx.fillStyle = color;
         for (const p of particlesRef.current) {
-          p.x += p.vx; p.y += p.vy;
+          p.x += p.vx;
+          p.y += p.vy;
           if (p.x < 0 || p.x > w) p.vx *= -1;
           if (p.y < 0 || p.y > h) p.vy *= -1;
           ctx.beginPath();

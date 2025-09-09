@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useAnimation } from './ThemeToggle.jsx';
 
 // Fire-and-forget toast with dedupe to avoid spam (same message within 1.2s)
 export function toast(message, timeout = 2000) {
@@ -17,6 +18,7 @@ export default function ToastContainer() {
   const [visible, setVisible] = useState(false);
   const [msg, setMsg] = useState('');
   const hideTimer = useRef(0);
+  const { enabled: animationEnabled } = useAnimation ? useAnimation() : { enabled: true };
 
   useEffect(() => {
     const onToast = (e) => {
@@ -41,11 +43,28 @@ export default function ToastContainer() {
       setVisible(false);
       setQueue((q) => q.slice(1));
     }, 5000);
-    return () => { clearTimeout(hideTimer.current); clearTimeout(safety); };
+    return () => {
+      clearTimeout(hideTimer.current);
+      clearTimeout(safety);
+    };
   }, [queue, visible]);
 
+  // If animation is off, show instantly and hide instantly
+  if (!animationEnabled && queue.length > 0 && !visible) {
+    setMsg(queue[0].message);
+    setVisible(true);
+    setTimeout(() => {
+      setVisible(false);
+      setQueue((q) => q.slice(1));
+    }, 1200);
+  }
+
   return (
-    <div className={`toast-container${visible ? ' show' : ''}`} aria-live="polite" aria-atomic="true">
+    <div
+      className={`toast-container${visible ? ' show' : ''}`}
+      aria-live="polite"
+      aria-atomic="true"
+    >
       <div className="toast-item">{msg}</div>
     </div>
   );

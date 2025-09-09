@@ -1,4 +1,5 @@
 import React, { Suspense, useEffect } from 'react';
+import { AnimationProvider } from './components/ThemeToggle.jsx';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
@@ -25,14 +26,17 @@ export default function App() {
       return;
     }
 
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('is-visible');
-          io.unobserve(e.target);
-        }
-      });
-    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible');
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.15 }
+    );
 
     const observeAll = () => {
       const els = document.querySelectorAll('[data-animate]:not(.is-visible)');
@@ -50,7 +54,8 @@ export default function App() {
         r.addedNodes.forEach((n) => {
           if (n.nodeType === 1) {
             if (n.matches && n.matches('[data-animate]:not(.is-visible)')) io.observe(n);
-            n.querySelectorAll && n.querySelectorAll('[data-animate]:not(.is-visible)').forEach((el) => io.observe(el));
+            n.querySelectorAll &&
+              n.querySelectorAll('[data-animate]:not(.is-visible)').forEach((el) => io.observe(el));
           }
         });
       }
@@ -59,34 +64,89 @@ export default function App() {
 
     // Safety: ensure nothing stays hidden after 2s
     const safety = setTimeout(() => {
-      document.querySelectorAll('[data-animate]:not(.is-visible)').forEach((el) => el.classList.add('is-visible'));
+      document
+        .querySelectorAll('[data-animate]:not(.is-visible)')
+        .forEach((el) => el.classList.add('is-visible'));
     }, 2000);
 
     return () => {
-      clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(safety);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+      clearTimeout(safety);
       mo.disconnect();
       io.disconnect();
     };
   }, [location.pathname]);
 
   return (
-    <div className="app">
-      <Header />
-      <main className="container py-4">
-        <WithPresence location={location}>
-          <Suspense fallback={<div className="text-center text-secondary py-5" aria-busy="true">{t('common.loading')}</div>}>
-            <Routes location={location}>
-              <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-              <Route path="/blog" element={<PageWrapper><Blog /></PageWrapper>} />
-              <Route path="/blog/:slug" element={<PageWrapper><BlogPost /></PageWrapper>} />
-              <Route path="/cv" element={<PageWrapper><CV /></PageWrapper>} />
-              <Route path="/repos" element={<PageWrapper><Repos /></PageWrapper>} />
-              <Route path="*" element={<PageWrapper><Home /></PageWrapper>} />
-            </Routes>
-          </Suspense>
-        </WithPresence>
-      </main>
-      <Footer />
-    </div>
+    <AnimationProvider>
+      <div className="app">
+        <Header />
+        <main className="container py-4">
+          <WithPresence location={location}>
+            <Suspense
+              fallback={
+                <div className="text-center text-secondary py-5" aria-busy="true">
+                  {t('common.loading')}
+                </div>
+              }
+            >
+              <Routes location={location}>
+                <Route
+                  path="/"
+                  element={
+                    <PageWrapper>
+                      <Home />
+                    </PageWrapper>
+                  }
+                />
+                <Route
+                  path="/blog"
+                  element={
+                    <PageWrapper>
+                      <Blog />
+                    </PageWrapper>
+                  }
+                />
+                <Route
+                  path="/blog/:slug"
+                  element={
+                    <PageWrapper>
+                      <BlogPost />
+                    </PageWrapper>
+                  }
+                />
+                <Route
+                  path="/cv"
+                  element={
+                    <PageWrapper>
+                      <CV />
+                    </PageWrapper>
+                  }
+                />
+                <Route
+                  path="/repos"
+                  element={
+                    <PageWrapper>
+                      <Repos />
+                    </PageWrapper>
+                  }
+                />
+                <Route
+                  path="*"
+                  element={
+                    <PageWrapper>
+                      <Home />
+                    </PageWrapper>
+                  }
+                />
+              </Routes>
+            </Suspense>
+          </WithPresence>
+        </main>
+        <Footer />
+      </div>
+    </AnimationProvider>
   );
 }

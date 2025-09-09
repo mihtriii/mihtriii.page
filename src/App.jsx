@@ -3,7 +3,6 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import Home from './pages/Home.jsx';
-import Fab from './components/Fab.jsx';
 const CV = React.lazy(() => import('./pages/CV.jsx'));
 const Blog = React.lazy(() => import('./pages/Blog.jsx'));
 const Repos = React.lazy(() => import('./pages/Repos.jsx'));
@@ -86,7 +85,6 @@ export default function App() {
             </Routes>
           </Suspense>
         </WithPresence>
-        <Fab />
       </main>
       <Footer />
     </div>

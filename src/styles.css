@@ -66,45 +66,13 @@
 }
 
 .card-hover {
-  transition: box-shadow .25s cubic-bezier(.4,0,.2,1), transform .25s cubic-bezier(.4,0,.2,1);
+  transition: box-shadow .25s cubic-bezier(.4,0,.2,1), border-color .2s, transform .25s cubic-bezier(.4,0,.2,1);
+  will-change: box-shadow, transform;
 }
 .card-hover:hover {
-  box-shadow: 0 12px 32px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.13), 0 2px 8px rgba(var(--brand-secondary-rgb),0.10);
   transform: translateY(-4px) scale(1.025);
-  z-index: 2;
-}
-/* Smooth dark/light mode transition */
-html, body, [data-bs-theme] {
-  transition: background-color .4s cubic-bezier(.4,0,.2,1), color .4s cubic-bezier(.4,0,.2,1);
-}
-
-/* Floating Action Button (FAB) */
-.fab {
-  position: fixed;
-  right: 20px;
-  bottom: 80px;
-  z-index: 1300;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: linear-gradient(90deg, var(--brand-primary), var(--brand-secondary));
-  color: #fff;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.7rem;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  transition: background .2s, box-shadow .2s, transform .18s;
-}
-.fab:active {
-  transform: scale(0.96);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-}
-@media (min-width: 768px) {
-  .fab { display: none; }
+  border-color: rgba(var(--brand-secondary-rgb), .32);
 }
 
 .gradient-text {
@@ -420,3 +388,16 @@ html { scroll-behavior: smooth; }
 .card-hover::after { content: ''; position: absolute; inset: -150% -50%; background: linear-gradient(120deg, transparent 40%, rgba(255,255,255,.22) 50%, transparent 60%); transform: translateX(-100%); opacity: 0; }
 .card-hover:hover::after { opacity: 1; animation: card-shine 1s ease; }
 @keyframes card-shine { from { transform: translateX(-100%);} to { transform: translateX(100%);} }
+
+/* Card fade-in-up animation for appearance */
+.card-animate {
+  opacity: 0;
+  transform: translateY(18px) scale(0.98);
+  animation: card-fade-in-up .7s cubic-bezier(.4,0,.2,1) .1s both;
+}
+@keyframes card-fade-in-up {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "budget": {
+    "javascript": {
+      "max": "250KB",
+      "warning": "200KB"
+    },
+    "css": {
+      "max": "50KB", 
+      "warning": "40KB"
+    },
+    "images": {
+      "max": "500KB",
+      "warning": "400KB"
+    },
+    "fonts": {
+      "max": "100KB",
+      "warning": "80KB"
+    }
+  },
+  "metrics": {
+    "FCP": {
+      "max": 2000,
+      "warning": 1500
+    },
+    "LCP": {
+      "max": 2500,
+      "warning": 2000
+    },
+    "CLS": {
+      "max": 0.1,
+      "warning": 0.05
+    },
+    "FID": {
+      "max": 100,
+      "warning": 50
+    }
+  }
+}

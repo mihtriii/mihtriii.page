@@ -1,0 +1,11 @@
+🎯 Performance Optimization Opportunities:
+
+📦 Large JavaScript files (>100KB) - Consider code splitting:
+  - dist/assets/framer-DGOvHckZ.js (120K)
+  - dist/assets/index-BELFTWZQ.js (268K)
+
+🔄 Potential lazy loading improvements:
+  - Implement lazy loading for non-critical components
+  - Use React.lazy() for route-based code splitting
+  - Lazy load third-party libraries
+

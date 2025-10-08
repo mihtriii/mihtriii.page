@@ -1,0 +1,16 @@
+📊 File sizes:
+  dist/assets/Repos-B9mmH_6U.js: 8.0K
+  dist/assets/react-D-idu32x.js:  44K
+  dist/assets/CV-BfSYF9Kh.js:  12K
+  dist/assets/BlogPost-BfJVPlte.js: 4.0K
+  dist/assets/framer-DGOvHckZ.js: 120K
+  dist/assets/index-CzQSZDy7.css:  28K
+  dist/assets/index-BELFTWZQ.js: 268K
+  dist/assets/Blog-BlRkYX9X.js: 8.0K
+  dist/sw.js: 8.0K
+
+📊 Total JavaScript: 0.446129 MB
+📊 Total CSS: 0.0244703 MB
+🗑️  Unused dependencies:
+  - @mdx-js/react
+  - react-icons

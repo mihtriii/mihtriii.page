@@ -3,7 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import MobileNav from './MobileNav.jsx';
 import { useI18n } from '../i18n/index.jsx';
-import ThemeToggle from './ThemeToggle.jsx';
+import { useTheme } from '../contexts/ThemeContext.jsx';
 
 function useLocalTime(tz = 'Asia/Ho_Chi_Minh') {
   const [now, setNow] = useState(new Date());
@@ -21,7 +21,7 @@ function useLocalTime(tz = 'Asia/Ho_Chi_Minh') {
 
 export default function Header() {
   const { t, lang, setLang } = useI18n();
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'auto');
+  const { themeMode, toggleTheme } = useTheme();
   const location = useLocation();
   const time = useLocalTime();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -35,15 +35,11 @@ export default function Header() {
   );
 
   useEffect(() => {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const isDark = theme === 'dark' || (theme === 'auto' && prefersDark);
-    document.documentElement.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
     document.documentElement.setAttribute('data-tone', tone);
     document.documentElement.setAttribute('data-palette', palette);
-    localStorage.setItem('theme', theme);
     localStorage.setItem('tone', tone);
     localStorage.setItem('palette', palette);
-  }, [theme, tone, palette]);
+  }, [tone, palette]);
 
   // Auto-hide header on mobile when scrolling down (opt-in)
   useEffect(() => {
@@ -104,8 +100,6 @@ export default function Header() {
     };
   }, [navHidden]);
 
-  const toggleTheme = () =>
-    setTheme((t) => (t === 'light' ? 'dark' : t === 'dark' ? 'auto' : 'light'));
   const toggleTone = () => setTone((t) => (t === 'warm' ? 'cool' : 'warm'));
   const togglePalette = () => setPalette((p) => (p === 'earth' ? 'classic' : 'earth'));
   const toggleAutoHide = () =>
@@ -115,6 +109,20 @@ export default function Header() {
       return nv;
     });
   const toggleLang = () => setLang((l) => (l === 'en' ? 'vi' : 'en'));
+
+  // Theme icon helper
+  const getThemeIcon = () => {
+    switch (themeMode) {
+      case 'light':
+        return 'bi-sun';
+      case 'dark':
+        return 'bi-moon-stars';
+      case 'auto':
+        return 'bi-circle-half';
+      default:
+        return 'bi-circle-half';
+    }
+  };
 
   // Prefetch non-home routes to speed up navigation
   const prefetch = {
@@ -198,6 +206,18 @@ export default function Header() {
                   )}
                 </NavLink>
               </li>
+              <li className="nav-item position-relative">
+                <NavLink to="/admin" className="nav-link px-3">
+                  {({ isActive }) => (
+                    <span className="position-relative d-inline-block">
+                      {isActive && (
+                        <motion.span layoutId="navHighlight" className="nav-highlight" />
+                      )}
+                      <span>Admin</span>
+                    </span>
+                  )}
+                </NavLink>
+              </li>
               <li className="nav-item">
                 <a
                   className="nav-link px-3"
@@ -222,7 +242,15 @@ export default function Header() {
               >
                 <i className="bi bi-translate"></i>
               </button>
-              <ThemeToggle theme={theme} onToggle={toggleTheme} />
+              <button
+                onClick={toggleTheme}
+                className="btn btn-outline-secondary btn-sm"
+                type="button"
+                aria-label={`Theme: ${themeMode}`}
+                title={`Theme: ${themeMode}`}
+              >
+                <i className={`bi ${getThemeIcon()}`}></i>
+              </button>
               <button
                 onClick={toggleTone}
                 className="btn btn-outline-secondary btn-sm"
@@ -265,7 +293,14 @@ export default function Header() {
             >
               <i className="bi bi-translate"></i>
             </button>
-            <ThemeToggle theme={theme} onToggle={toggleTheme} />
+            <button
+              onClick={toggleTheme}
+              className="btn btn-outline-secondary btn-sm me-1"
+              type="button"
+              aria-label={`Theme: ${themeMode}`}
+            >
+              <i className={`bi ${getThemeIcon()}`}></i>
+            </button>
             <button
               onClick={toggleTone}
               className="btn btn-outline-secondary btn-sm me-1"

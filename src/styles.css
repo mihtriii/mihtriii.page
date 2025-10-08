@@ -384,6 +384,117 @@ html { scroll-behavior: smooth; }
 /* Lift toasts above tabbar on phones */
 @media (max-width: 767.98px) { .toast-container { bottom: calc(1rem + var(--tabbar-h)); } }
 
+/* Mobile optimizations */
+@media (max-width: 767.98px) {
+  /* Better touch targets */
+  .btn { min-height: 44px; }
+  .form-control, .form-select { min-height: 44px; }
+  .tab-link { min-height: 48px; }
+  
+  /* Improved spacing on mobile */
+  .card-body { padding: 1rem; }
+  .page-hero { padding: 1.5rem !important; margin-bottom: 1rem !important; }
+  
+  /* Mobile-first typography */
+  .h1, h1 { font-size: 1.75rem; }
+  .h2, h2 { font-size: 1.5rem; }
+  .h3, h3 { font-size: 1.25rem; }
+  
+  /* Mobile blog improvements */
+  .row.g-3 { --bs-gutter-x: 1rem; }
+  .row.g-4 { --bs-gutter-x: 1rem; }
+  
+  /* Mobile search improvements */
+  .mobile-search-container {
+    position: sticky;
+    top: var(--header-offset);
+    z-index: 1020;
+    background: var(--surface-1);
+    backdrop-filter: blur(10px);
+    padding: 0.75rem;
+    margin: -0.75rem -0.75rem 1rem -0.75rem;
+    border-bottom: 1px solid var(--bs-border-color);
+  }
+  
+  /* Better mobile sidebar */
+  .sidebar { position: relative !important; }
+  .sidebar .sticky-top { position: relative !important; top: auto !important; }
+}
+
+/* Enhanced mobile tabbar */
+.mobile-tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1050;
+  background: var(--surface-1);
+  border-top: 1px solid var(--bs-border-color);
+  backdrop-filter: blur(20px);
+  padding: env(safe-area-inset-bottom) 0 0 0;
+  min-height: calc(60px + env(safe-area-inset-bottom));
+}
+
+.tabbar-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 60px;
+  padding: 0 1rem;
+}
+
+.tab-link {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  margin: 0 0.25rem;
+  min-height: 48px;
+}
+
+.tab-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0.5rem;
+}
+
+.tab-highlight {
+  position: absolute;
+  inset: -8px;
+  background: rgba(var(--brand-secondary-rgb), 0.1);
+  border-radius: 12px;
+  z-index: -1;
+}
+
+.tab-link .bi {
+  font-size: 1.2rem;
+  margin-bottom: 0.25rem;
+}
+
+.tab-link .label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+/* Mobile gesture improvements */
+@media (hover: none) and (pointer: coarse) {
+  .card-hover:hover {
+    transform: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
+  
+  .btn:hover {
+    transform: none;
+  }
+}
+
 /* Bootstrap component overrides for Earth theme */
 .btn-primary {
   --bs-btn-color: #fff;

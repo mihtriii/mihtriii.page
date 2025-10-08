@@ -1,21 +1,87 @@
 {
-  "name": "Nguyễn Minh Trí · CV · VLMs · QML",
+  "name": "Nguyễn Minh Trí · AI Student Portfolio",
   "short_name": "NMTrí",
+  "description": "AI student at FPTU HCM focusing on Computer Vision, Vision-Language Models, and Quantum ML. Personal portfolio and research blog.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#ffffff",
   "theme_color": "#c97a40",
-  "description": "AI student at FPTU HCM focusing on Computer Vision, Vision-Language Models, and Quantum ML.",
+  "categories": ["education", "portfolio", "technology"],
+  "lang": "en",
+  "dir": "ltr",
   "icons": [
     {
       "src": "/assets/avatar.JPG",
       "sizes": "192x192",
-      "type": "image/jpeg"
+      "type": "image/jpeg",
+      "purpose": "any maskable"
     },
     {
       "src": "/assets/avatar.JPG",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
-  ]
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/avatar.JPG",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "platform": "wide",
+      "label": "Portfolio Homepage"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Blog",
+      "short_name": "Blog",
+      "description": "Read latest blog posts and research notes",
+      "url": "/blog",
+      "icons": [
+        {
+          "src": "/assets/favicon.svg",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "CV",
+      "short_name": "CV",
+      "description": "View curriculum vitae and professional experience",
+      "url": "/cv",
+      "icons": [
+        {
+          "src": "/assets/favicon.svg",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Repositories",
+      "short_name": "Repos",
+      "description": "Browse GitHub repositories and projects",
+      "url": "/repos",
+      "icons": [
+        {
+          "src": "/assets/favicon.svg",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "iarc_rating_id": "",
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
 }

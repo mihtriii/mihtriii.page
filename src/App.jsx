@@ -8,6 +8,7 @@ const CV = React.lazy(() => import('./pages/CV.jsx'));
 const Blog = React.lazy(() => import('./pages/Blog.jsx'));
 const Repos = React.lazy(() => import('./pages/Repos.jsx'));
 const BlogPost = React.lazy(() => import('./pages/BlogPost.jsx'));
+const Admin = React.lazy(() => import('./pages/Admin.jsx'));
 import { WithPresence, PageWrapper } from './components/PageTransition.jsx';
 import { useI18n } from './i18n/index.jsx';
 
@@ -82,8 +83,8 @@ export default function App() {
   return (
     <AnimationProvider>
       <div className="app">
-        <Header />
-        <main className="container py-4">
+        {location.pathname !== '/admin' && <Header />}
+        <main className={location.pathname === '/admin' ? '' : 'container py-4'}>
           <WithPresence location={location}>
             <Suspense
               fallback={
@@ -134,6 +135,14 @@ export default function App() {
                   }
                 />
                 <Route
+                  path="/admin"
+                  element={
+                    <PageWrapper>
+                      <Admin />
+                    </PageWrapper>
+                  }
+                />
+                <Route
                   path="*"
                   element={
                     <PageWrapper>
@@ -145,7 +154,7 @@ export default function App() {
             </Suspense>
           </WithPresence>
         </main>
-        <Footer />
+        {location.pathname !== '/admin' && <Footer />}
       </div>
     </AnimationProvider>
   );

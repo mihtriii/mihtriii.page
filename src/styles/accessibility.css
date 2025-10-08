@@ -1,0 +1,357 @@
+/* =================================
+   ACCESSIBILITY STYLES
+   ================================= */
+
+/* Skip link styles */
+.skip-link:focus {
+  top: 10px !important;
+  clip: unset !important;
+  height: auto !important;
+  width: auto !important;
+  overflow: visible !important;
+}
+
+/* High contrast mode */
+.high-contrast {
+  --bs-body-bg: #000000;
+  --bs-body-color: #ffffff;
+  --bs-primary: #00ff00;
+  --bs-secondary: #ffff00;
+  --bs-border-color: #ffffff;
+  --bs-link-color: #00ffff;
+  --bs-link-hover-color: #ffff00;
+}
+
+.high-contrast .card {
+  border: 2px solid var(--bs-border-color);
+  background: var(--bs-body-bg);
+}
+
+.high-contrast .btn {
+  border: 2px solid currentColor;
+  font-weight: bold;
+}
+
+.high-contrast img {
+  filter: contrast(150%) brightness(120%);
+}
+
+/* Large text mode */
+.large-text {
+  font-size: 1.25rem;
+}
+
+.large-text .small,
+.large-text small {
+  font-size: 1rem;
+}
+
+.large-text .btn {
+  font-size: 1.25rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.large-text .card-title {
+  font-size: 1.75rem;
+}
+
+.large-text .display-1 { font-size: 7rem; }
+.large-text .display-2 { font-size: 6rem; }
+.large-text .display-3 { font-size: 5rem; }
+.large-text .display-4 { font-size: 4rem; }
+
+/* Enhanced focus styles */
+.focus-visible-enabled *:focus-visible {
+  outline: 3px solid var(--bs-warning);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(255, 193, 7, 0.25);
+  border-radius: 4px;
+}
+
+.focus-visible-enabled .btn:focus-visible {
+  outline: 3px solid var(--bs-warning);
+  outline-offset: 3px;
+  transform: scale(1.05);
+  transition: transform 0.15s ease;
+}
+
+.focus-visible-enabled .card:focus-visible {
+  outline: 3px solid var(--bs-primary);
+  outline-offset: 3px;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15), 0 0 0 6px rgba(13, 110, 253, 0.25);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom reduced motion override */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+  transform: none !important;
+}
+
+/* Screen reader optimizations */
+.sr-only-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Enhanced button accessibility */
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.btn[aria-pressed="true"] {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+  color: white;
+}
+
+/* Enhanced form accessibility */
+.form-control:invalid {
+  border-color: var(--bs-danger);
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.form-control:invalid:focus {
+  border-color: var(--bs-danger);
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+}
+
+.is-invalid .form-control {
+  border-color: var(--bs-danger);
+}
+
+/* ARIA live region styles */
+[aria-live] {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Keyboard navigation indicators */
+.keyboard-nav-enabled {
+  outline: none;
+}
+
+.keyboard-nav-enabled :focus {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: 2px;
+}
+
+/* Loading states for accessibility */
+[aria-busy="true"] {
+  position: relative;
+}
+
+[aria-busy="true"]::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* Tooltip accessibility */
+.tooltip {
+  pointer-events: none;
+}
+
+/* Modal accessibility enhancements */
+.modal {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.modal:focus {
+  outline: none;
+}
+
+.modal-dialog {
+  margin: 1.75rem auto;
+  max-width: calc(100vw - 2rem);
+}
+
+/* Carousel accessibility */
+.carousel-control-prev,
+.carousel-control-next {
+  width: 15%;
+  color: var(--bs-primary);
+}
+
+.carousel-control-prev:focus,
+.carousel-control-next:focus {
+  outline: 3px solid var(--bs-warning);
+  outline-offset: 3px;
+}
+
+.carousel-indicators [data-bs-target] {
+  text-indent: 0;
+  cursor: pointer;
+}
+
+.carousel-indicators [data-bs-target]:focus {
+  outline: 3px solid var(--bs-warning);
+  outline-offset: 3px;
+}
+
+/* Table accessibility */
+.table th,
+.table td {
+  vertical-align: middle;
+}
+
+.table th {
+  background-color: var(--bs-light);
+  font-weight: 600;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(var(--bs-primary-rgb), 0.075);
+}
+
+/* Navigation accessibility */
+.navbar-nav .nav-link:focus,
+.nav-pills .nav-link:focus {
+  outline: 2px solid var(--bs-warning);
+  outline-offset: 3px;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: "›";
+  color: var(--bs-secondary);
+}
+
+/* Alert accessibility */
+.alert {
+  border-left: 4px solid;
+}
+
+.alert-primary {
+  border-left-color: var(--bs-primary);
+}
+
+.alert-success {
+  border-left-color: var(--bs-success);
+}
+
+.alert-warning {
+  border-left-color: var(--bs-warning);
+}
+
+.alert-danger {
+  border-left-color: var(--bs-danger);
+}
+
+/* Progress bar accessibility */
+.progress {
+  overflow: visible;
+}
+
+.progress-bar {
+  position: relative;
+}
+
+.progress-bar::after {
+  content: attr(aria-valuenow) "%";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: var(--bs-body-color);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Card accessibility */
+.card:focus-within {
+  box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+  transition: box-shadow 0.15s ease-in-out;
+}
+
+.card-link:focus {
+  text-decoration: underline;
+  outline: 2px solid var(--bs-primary);
+  outline-offset: 2px;
+}
+
+/* Animation pause controls */
+.animation-controls {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+/* Color contrast helpers */
+.text-contrast-high {
+  color: var(--bs-body-color);
+  background-color: var(--bs-body-bg);
+  font-weight: 600;
+}
+
+/* Print accessibility */
+@media print {
+  .skip-link,
+  .accessibility-panel,
+  .animation-controls {
+    display: none !important;
+  }
+  
+  .btn {
+    border: 1px solid #000;
+    background: transparent;
+    color: #000;
+  }
+  
+  .card {
+    border: 1px solid #000;
+    break-inside: avoid;
+  }
+}
+
+/* High contrast print */
+@media print and (prefers-contrast: high) {
+  * {
+    background: white !important;
+    color: black !important;
+    border-color: black !important;
+  }
+}

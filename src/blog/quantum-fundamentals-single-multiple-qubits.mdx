@@ -1,0 +1,468 @@
+export const meta = {
+  title: 'Quantum Fundamentals: Single and Multiple Qubit Systems',
+  date: '2025-10-08',
+  tags: ['quantum computing', 'physics', 'qiskit', 'research', 'seminar'],
+  excerpt:
+    'A comprehensive exploration of quantum computing fundamentals, covering complex numbers, Hilbert spaces, superposition, entanglement, and practical implementations with Qiskit.',
+  readingTime: 25,
+  featured: true,
+};
+
+# Quantum Fundamentals: Single and Multiple Qubit Systems
+
+_Quantum Seminar - September 25, 2025_  
+_Presenter: Nguyen Minh Tri_
+
+---
+
+## Introduction
+
+Welcome to this comprehensive exploration of quantum computing fundamentals! In this seminar, we dive deep into the mathematical foundations and practical applications of single and multiple qubit systems. Whether you're new to quantum computing or looking to solidify your understanding, this guide will take you through the essential concepts with clear explanations and interactive examples.
+
+---
+
+## 🔢 Complex Numbers: The Foundation of Quantum Computing
+
+### Why Must It Be Complex Numbers?
+
+One of the first questions in quantum computing is: **Why do we need complex numbers?** The answer lies in the wave-like nature of quantum systems.
+
+#### The Qubit State & The Necessity of Complex Numbers
+
+> **Premise**: Quantum states have wave-like properties. As established, quantum systems behave like waves. A key property of any wave is its **phase**. Therefore, our mathematical description of a quantum state must be able to account for this phase.
+
+The most general way to write the state of a single qubit, |ψ⟩, is:
+
+```
+|ψ⟩ = cos(θ/2)|0⟩ + e^(iφ)sin(θ/2)|1⟩
+```
+
+Where:
+
+- The real parts control the **probability balance** between |0⟩ and |1⟩
+- The term e^(iφ) is the crucial **relative phase factor**
+
+#### Why Complex Numbers are Essential
+
+The phase factor is defined by Euler's formula, which is inherently complex:
+
+```
+e^(iφ) = cos(φ) + i sin(φ)
+```
+
+**Conclusion**: To fully describe a qubit's state, we must include its relative phase (e^(iφ)). Since this phase factor is fundamentally a complex number (containing i), the entire framework for describing quantum states **must use complex numbers**.
+
+---
+
+## 🌌 Hilbert Space of Multi-Qubit Systems
+
+### Combining Hilbert Spaces: The Tensor Product
+
+How do we mathematically describe a two-qubit system? We combine their spaces using the **tensor product** (⊗).
+
+#### Rule: Forming the New Basis
+
+The basis for the combined system is formed by the tensor product of **every** basis vector from each individual space.
+
+- Qubit A basis: {`|0⟩_A`, `|1⟩_A`}
+- Qubit B basis: {`|0⟩_B`, `|1⟩_B`}
+
+The new 4D basis for the combined system is:
+
+```
+{`|00⟩`, `|01⟩`, `|10⟩`, `|11⟩`}
+```
+
+#### Tensor Product: Vector Representation
+
+The tensor product of column vectors is the **Kronecker product**:
+
+```
+|01⟩ = |0⟩ ⊗ |1⟩ = [1] ⊗ [0] = [0]
+                      [0]   [1]   [1]
+                                  [0]
+                                  [0]
+```
+
+This is why the Hilbert space dimensions multiply: 2 × 2 = 4.
+
+---
+
+## ⚡ Core Concepts Revisited
+
+### Superposition: The Fundamental Rule
+
+#### The "Rule of the Game"
+
+The principle of superposition is a direct consequence of the linearity of the Schrödinger equation in Hilbert space.
+
+- **Core Idea**: If a system can be in state |A⟩ and also in state |B⟩, then any linear combination |ψ⟩ = α|A⟩ + β|B⟩ is also a valid state.
+- **Wave Analogy**: Multiple individual waves adding up to form a single composite wave, allowing for interference.
+
+![Superposition visualization](/assets/quantum/Superposition.png)
+_Figure: Combination of 2 wave functions_
+
+**For a Qubit**: This is why a qubit's state can be |ψ⟩ = α|0⟩ + β|1⟩.
+
+### Entanglement: The Essence
+
+#### What is an Entangled State?
+
+An entangled state is a shared state for a multi-part system that **cannot be separated** into individual states for its components.
+
+- **Separable State**: |01⟩ = |0⟩ ⊗ |1⟩ (We can describe each qubit individually)
+- **Entangled State**: (1/√2)(|00⟩ + |11⟩) (The state of one qubit is undefined without the other)
+
+#### Entanglement vs. Our Classical Worldview
+
+For centuries, physics was built on two intuitive assumptions:
+
+1. **Realism**: Objects have definite, pre-existing properties, independent of observation.
+   _(A hidden coin is already heads or tails; we just don't know which.)_
+
+2. **Locality**: An object is only influenced by its immediate surroundings. No influence can travel faster than light.
+   _(Flipping a coin here cannot instantly flip a coin on the Moon.)_
+
+> **The "Spooky" Challenge**: Entanglement seems to violate this. Measuring one particle appears to instantly determine the state of its distant partner.
+
+#### The Verdict: Bell's Theorem
+
+In 1964, John Bell devised a mathematical test. He proved that if local realism were true, the correlations between entangled particles would have a strict limit.
+
+**Experiments have decisively and repeatedly shown that this limit is violated.**
+
+**Conclusion**: The universe does **not** obey Local Realism. We must abandon at least one of our core classical assumptions about reality.
+
+[Learn more about Bell's Inequality](https://www.youtube.com/watch?v=9OM0jSTeeBg)
+
+#### Making Sense of It: The Many-Worlds Interpretation
+
+One possible "story" to explain the strangeness of entanglement:
+
+- **Core Idea**: The wave function is real and never collapses. Instead, the universe **branches** for each possible measurement outcome.
+- **How it explains entanglement**:
+  - When you measure your entangled qubit, the universe splits
+  - In one branch, you get 0 and your distant partner also gets 0
+  - In another branch, another "you" gets 1 and your partner gets 1
+  - The perfect correlation is preserved across corresponding branches
+  - The "spooky action" is the branching of reality itself
+
+---
+
+## 🎛️ Qubit Mathematics & Single-Qubit Gates
+
+### Single-Qubit Gates: Unitary Operations
+
+Gates are 2×2 unitary matrices acting on qubit state: |ψ'⟩ = U|ψ⟩, with U†U = I.
+
+#### Pauli Gates
+
+**Pauli-X (NOT/bit-flip)**:
+
+```
+X = [0 1]
+    [1 0]
+```
+
+Flips |0⟩ to |1⟩ and |1⟩ to |0⟩.
+
+**Pauli-Z (phase flip)**:
+
+```
+Z = [1  0]
+    [0 -1]
+```
+
+Leaves |0⟩ unchanged, flips phase of |1⟩ to -|1⟩.
+
+**Pauli-Y (bit + phase flip)**:
+
+```
+Y = [0 -i]
+    [i  0]
+```
+
+Combines effects of X and Z.
+
+#### Hadamard (H) Gate
+
+**Superposition Creator**:
+
+```
+H = (1/√2) [1  1]
+           [1 -1]
+```
+
+Examples:
+
+- H|0⟩ = (1/√2)(|0⟩ + |1⟩) = |+⟩ (equal probabilities for 0 and 1)
+- H|1⟩ = (1/√2)(|0⟩ - |1⟩) = |-⟩
+
+#### Phase Gates
+
+**General Phase Gate (P_θ)**:
+
+```
+P_θ = [1    0   ]
+      [0  e^(iθ)]
+```
+
+**S Gate**: A specific phase gate where θ = π/2
+
+```
+S = [1  0]
+    [0  i]
+```
+
+**T Gate**: A specific phase gate where θ = π/4
+
+```
+T = [1       0      ]
+    [0  (1+i)/√2]
+```
+
+### Rotation Gates: Why We Need Them
+
+#### Continuous Control
+
+Unlike Pauli gates (fixed 0/1 flips or 90/180-degree phase shifts), rotation gates allow **continuous control** over the qubit's state. They're essential for fine-tuning quantum states and implementing algorithms that require parameter optimization.
+
+> **Visualization**: All single-qubit rotations can be visualized as rotating the state vector on the **Bloch Sphere**.
+>
+> [Interactive Bloch Sphere Visualizer](https://bloch.kherb.io/)
+
+#### Rotation Gates: X, Y, and Z Rotations
+
+**Rotation around X-axis (RX(θ))**:
+
+```
+R_x(θ) = [cos(θ/2)   -i sin(θ/2)]
+         [-i sin(θ/2)  cos(θ/2) ]
+```
+
+**Rotation around Y-axis (RY(θ))**:
+
+```
+R_y(θ) = [cos(θ/2)  -sin(θ/2)]
+         [sin(θ/2)   cos(θ/2)]
+```
+
+**Rotation around Z-axis (RZ(θ))**:
+
+```
+R_z(θ) = [e^(-iθ/2)     0     ]
+         [    0      e^(iθ/2) ]
+```
+
+### Single-Qubit Calculations: Matrix Multiplication
+
+**Goal**: Apply X, then H on |0⟩, compute via matrices.
+
+**Step 1 (X Gate)**:
+
+```
+X|0⟩ = [0 1] [1] = [0] = |1⟩
+       [1 0] [0]   [1]
+```
+
+**Step 2 (H Gate)**:
+
+```
+H|1⟩ = (1/√2) [1  1] [0] = (1/√2) [1 ] = (|0⟩ - |1⟩)/√2 = |-⟩
+              [1 -1] [1]          [-1]
+```
+
+**Combined Operation**:
+
+```
+U = H · X = (1/√2) [1  1] [0 1] = (1/√2) [1  1]
+                   [1 -1] [1 0]          [-1 1]
+```
+
+**Final State**:
+
+```
+U|0⟩ = (1/√2) [1  1] [1] = (1/√2) [1 ] = |-⟩
+              [-1 1] [0]          [-1]
+```
+
+---
+
+## 🔗 Two-Qubit Systems
+
+### Two-Qubit Systems: State Space
+
+#### Why Multi-Qubits?
+
+- **Single qubit**: 2D Hilbert space (|ψ⟩ = α|0⟩ + β|1⟩)
+- **Two qubits**: 4D Hilbert space via tensor product, which enables entanglement
+
+#### Tensor Product (⊗): Combines Individual State Spaces
+
+Example: |0⟩ ⊗ |0⟩ = |00⟩ = [1, 0, 0, 0]ᵀ
+
+#### General State
+
+A superposition of all 4 basis states:
+
+```
+|Ψ⟩ = a|00⟩ + b|01⟩ + c|10⟩ + d|11⟩
+```
+
+With normalization: |a|² + |b|² + |c|² + |d|² = 1
+
+### Multi-Qubit Gates
+
+#### Example: Apply H on the First Qubit
+
+To apply a Hadamard gate to the first qubit while leaving the second unchanged (I), we use the tensor product of the gate matrices: H ⊗ I.
+
+```
+H ⊗ I = (1/√2) [1 0 1 0]
+               [0 1 0 1]
+               [1 0 -1 0]
+               [0 1 0 -1]
+```
+
+Applying this to the state |00⟩:
+
+```
+(H ⊗ I)|00⟩ = (|00⟩ + |10⟩)/√2
+```
+
+This creates a superposition between the two qubits.
+
+### Example Calculation On Circuit
+
+![Sample Circuit](/assets/quantum/Sample_circuit.png)
+_Figure: Two-Qubit Circuit with Multiple Gates_
+
+![Circuit Clarification](/assets/quantum/circuit_clarify.png)
+_Figure: Clarified Circuit with Gate Labels_
+
+#### Circuit Operations
+
+- Qubit 0: H → Z
+- Qubit 1: X → H → R_X(π/2) → Z
+- CNOT between qubits
+
+**Initial**: |ψ₀⟩ = |00⟩
+
+The complete calculation involves:
+
+1. **Step 1**: Apply H ⊗ X
+2. **Step 2**: Apply CNOT gate
+3. **Step 3**: Apply I ⊗ H
+4. **Step 4**: Apply I ⊗ R_X(π/2)
+5. **Step 5**: Apply Z ⊗ Z
+
+**Final State**:
+
+```
+|ψ_final⟩ = (Z ⊗ Z) · (I ⊗ R_X(π/2)) · (I ⊗ H) · CNOT · (H ⊗ X) · |00⟩
+```
+
+The final state is a complex superposition of all four basis states with the form:
+
+```
+|ψ_final⟩ = c₀|00⟩ + c₁|01⟩ + c₂|10⟩ + c₃|11⟩
+```
+
+where |c₀|² + |c₁|² + |c₂|² + |c₃|² = 1.
+
+---
+
+## 💻 Interactive Qiskit Examples
+
+Throughout this seminar, we explored practical implementations using Qiskit. Here are some key code snippets:
+
+### Basic Quantum State Visualization
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from qiskit import QuantumCircuit
+from qiskit.visualization import plot_bloch_multivector
+from qiskit.quantum_info import Statevector
+
+# Create superposition state
+state = np.array([1/np.sqrt(2), 1/np.sqrt(2)])  # (|0⟩ + |1⟩)/√2
+prob = np.abs(state)**2
+
+plt.bar([0, 1], prob)
+plt.xticks([0, 1], ['|0⟩', '|1⟩'])
+plt.ylabel('Probability')
+plt.title('Quantum State Probability Distribution')
+plt.show()
+```
+
+### Single-Qubit Circuit Examples
+
+```python
+# Hadamard followed by X gate
+qc = QuantumCircuit(1)
+qc.h(0)  # Hadamard gate
+qc.x(0)  # Pauli-X gate
+
+# Get the final state
+state = Statevector.from_instruction(qc)
+print(state)  # [0.707+0j, -0.707+0j]
+
+# Visualize on Bloch sphere
+plot_bloch_multivector(state)
+```
+
+### Two-Qubit Entanglement Circuit
+
+```python
+# Create the circuit from our example
+qc = QuantumCircuit(2)
+qc.h(0)     # Hadamard on qubit 0
+qc.x(1)     # X gate on qubit 1
+qc.cx(0, 1) # CNOT gate
+qc.h(1)     # Hadamard on qubit 1
+qc.rx(np.pi/2, 1)  # RX(π/2) rotation on qubit 1
+qc.z(0)     # Z gate on qubit 0
+qc.z(1)     # Z gate on qubit 1
+
+# Get final state and visualize
+state = Statevector.from_instruction(qc)
+plot_bloch_multivector(state)
+qc.draw('mpl')
+```
+
+---
+
+## 🎯 Conclusion
+
+In this comprehensive seminar, we've explored the fundamental concepts that make quantum computing possible:
+
+- **Complex Numbers**: Essential for describing quantum phases and the wave-like nature of quantum states
+- **Hilbert Space**: The mathematical framework that allows us to combine quantum systems using tensor products
+- **Superposition**: The principle that enables quantum systems to exist in multiple states simultaneously
+- **Entanglement**: The "spooky" quantum phenomenon that challenges our classical understanding of reality
+
+These concepts form the foundation for understanding more advanced quantum algorithms and applications. The unique capabilities of quantum computing—from quantum parallelism to quantum interference—all stem from these fundamental principles.
+
+As we continue to develop quantum technologies, these mathematical foundations will remain crucial for designing quantum algorithms, optimizing quantum circuits, and ultimately harnessing the full power of quantum computation.
+
+---
+
+## � Download Resources
+
+Want to dive deeper? Download the original presentation materials:
+
+- **[📄 PDF Presentation](/assets/quantum/Seminar_Quantum_25092025.pdf)** - Complete slide deck
+- **[💻 Jupyter Notebook](/assets/quantum/W2_Basics_with_Qiskit.ipynb)** - Interactive code examples
+- **[🖼️ Figures & Diagrams](/assets/quantum/)** - All presentation figures
+
+## �📚 Additional Resources
+
+- [Qiskit Textbook](https://qiskit.org/textbook/)
+- [Interactive Bloch Sphere](https://bloch.kherb.io/)
+- [Bell's Inequality Explained](https://www.youtube.com/watch?v=9OM0jSTeeBg)
+- [Quantum Computing: An Applied Approach](https://www.springer.com/gp/book/9783030239213)
+
+---
+
+_This seminar material is part of the ongoing quantum computing education series. For more advanced topics and hands-on exercises, please refer to the accompanying Jupyter notebook and additional resources._

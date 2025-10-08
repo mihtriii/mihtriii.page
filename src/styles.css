@@ -22,6 +22,20 @@
   --surface-3: #f1f3f5;
 }
 
+/* Ensure Bootstrap Icons display properly */
+.bi::before {
+  display: inline-block;
+  font-family: bootstrap-icons !important;
+  font-style: normal;
+  font-weight: normal !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: -.125em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 [data-bs-theme="dark"] {
   --glass-bg: rgba(0,0,0,0.3);
   --glass-border: rgba(255,255,255,0.08);

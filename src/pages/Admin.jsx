@@ -1,13 +1,31 @@
 import React, { useState } from 'react';
-import { Upload, BarChart3, Settings, FileText, Users, TrendingUp, Menu, X } from 'lucide-react';
+import {
+  Upload,
+  BarChart3,
+  Settings,
+  FileText,
+  Users,
+  TrendingUp,
+  Menu,
+  X,
+  LogOut,
+} from 'lucide-react';
 
 import AdminDashboard from '../components/admin/AdminDashboard';
 import FileUploader from '../components/admin/FileUploader';
 import PresentationManager from '../components/admin/PresentationManager';
+import { useAuth } from '../contexts/AuthContext';
 
 const Admin = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    if (confirm('Are you sure you want to logout?')) {
+      logout();
+    }
+  };
 
   const tabs = [
     {
@@ -106,16 +124,25 @@ const Admin = () => {
           </div>
         </nav>
 
-        {/* User info */}
+        {/* User info & Logout */}
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
-          <div className="flex items-center">
-            <div className="flex-shrink-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-              <Users className="h-4 w-4 text-white" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="flex-shrink-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                <Users className="h-4 w-4 text-white" />
+              </div>
+              <div className="ml-3">
+                <p className="text-sm font-medium text-gray-900">Admin User</p>
+                <p className="text-xs text-gray-500">Administrator</p>
+              </div>
             </div>
-            <div className="ml-3">
-              <p className="text-sm font-medium text-gray-900">Admin User</p>
-              <p className="text-xs text-gray-500">Administrator</p>
-            </div>
+            <button
+              onClick={handleLogout}
+              className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+              title="Logout"
+            >
+              <LogOut className="h-4 w-4" />
+            </button>
           </div>
         </div>
       </div>

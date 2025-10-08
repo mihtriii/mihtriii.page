@@ -11,6 +11,8 @@ const BlogPost = React.lazy(() => import('./pages/BlogPost.jsx'));
 const Admin = React.lazy(() => import('./pages/Admin.jsx'));
 import { WithPresence, PageWrapper } from './components/PageTransition.jsx';
 import { useI18n } from './i18n/index.jsx';
+import { AuthProvider } from './contexts/AuthContext.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 export default function App() {
   const { t } = useI18n();
@@ -81,81 +83,85 @@ export default function App() {
   }, [location.pathname]);
 
   return (
-    <AnimationProvider>
-      <div className="app">
-        {location.pathname !== '/admin' && <Header />}
-        <main className={location.pathname === '/admin' ? '' : 'container py-4'}>
-          <WithPresence location={location}>
-            <Suspense
-              fallback={
-                <div className="text-center text-secondary py-5" aria-busy="true">
-                  {t('common.loading')}
-                </div>
-              }
-            >
-              <Routes location={location}>
-                <Route
-                  path="/"
-                  element={
-                    <PageWrapper>
-                      <Home />
-                    </PageWrapper>
-                  }
-                />
-                <Route
-                  path="/blog"
-                  element={
-                    <PageWrapper>
-                      <Blog />
-                    </PageWrapper>
-                  }
-                />
-                <Route
-                  path="/blog/:slug"
-                  element={
-                    <PageWrapper>
-                      <BlogPost />
-                    </PageWrapper>
-                  }
-                />
-                <Route
-                  path="/cv"
-                  element={
-                    <PageWrapper>
-                      <CV />
-                    </PageWrapper>
-                  }
-                />
-                <Route
-                  path="/repos"
-                  element={
-                    <PageWrapper>
-                      <Repos />
-                    </PageWrapper>
-                  }
-                />
-                <Route
-                  path="/admin"
-                  element={
-                    <PageWrapper>
-                      <Admin />
-                    </PageWrapper>
-                  }
-                />
-                <Route
-                  path="*"
-                  element={
-                    <PageWrapper>
-                      <Home />
-                    </PageWrapper>
-                  }
-                />
-              </Routes>
-            </Suspense>
-          </WithPresence>
-        </main>
-        {location.pathname !== '/admin' && <Footer />}
-      </div>
-    </AnimationProvider>
+    <AuthProvider>
+      <AnimationProvider>
+        <div className="app">
+          {location.pathname !== '/admin' && <Header />}
+          <main className={location.pathname === '/admin' ? '' : 'container py-4'}>
+            <WithPresence location={location}>
+              <Suspense
+                fallback={
+                  <div className="text-center text-secondary py-5" aria-busy="true">
+                    {t('common.loading')}
+                  </div>
+                }
+              >
+                <Routes location={location}>
+                  <Route
+                    path="/"
+                    element={
+                      <PageWrapper>
+                        <Home />
+                      </PageWrapper>
+                    }
+                  />
+                  <Route
+                    path="/blog"
+                    element={
+                      <PageWrapper>
+                        <Blog />
+                      </PageWrapper>
+                    }
+                  />
+                  <Route
+                    path="/blog/:slug"
+                    element={
+                      <PageWrapper>
+                        <BlogPost />
+                      </PageWrapper>
+                    }
+                  />
+                  <Route
+                    path="/cv"
+                    element={
+                      <PageWrapper>
+                        <CV />
+                      </PageWrapper>
+                    }
+                  />
+                  <Route
+                    path="/repos"
+                    element={
+                      <PageWrapper>
+                        <Repos />
+                      </PageWrapper>
+                    }
+                  />
+                  <Route
+                    path="/admin"
+                    element={
+                      <PageWrapper>
+                        <ProtectedRoute>
+                          <Admin />
+                        </ProtectedRoute>
+                      </PageWrapper>
+                    }
+                  />
+                  <Route
+                    path="*"
+                    element={
+                      <PageWrapper>
+                        <Home />
+                      </PageWrapper>
+                    }
+                  />
+                </Routes>
+              </Suspense>
+            </WithPresence>
+          </main>
+          {location.pathname !== '/admin' && <Footer />}
+        </div>
+      </AnimationProvider>
+    </AuthProvider>
   );
 }

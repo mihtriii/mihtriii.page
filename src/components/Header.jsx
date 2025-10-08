@@ -206,18 +206,6 @@ export default function Header() {
                   )}
                 </NavLink>
               </li>
-              <li className="nav-item position-relative">
-                <NavLink to="/admin" className="nav-link px-3">
-                  {({ isActive }) => (
-                    <span className="position-relative d-inline-block">
-                      {isActive && (
-                        <motion.span layoutId="navHighlight" className="nav-highlight" />
-                      )}
-                      <span>Admin</span>
-                    </span>
-                  )}
-                </NavLink>
-              </li>
               <li className="nav-item">
                 <a
                   className="nav-link px-3"

@@ -1,10 +1,12 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar.jsx';
+import { useI18n } from '../i18n/index.jsx';
 
 const modules = import.meta.glob('../blog/*.mdx', { eager: true });
 
 export default function BlogPost() {
+  const { t } = useI18n();
   const { slug } = useParams();
   const entry = Object.entries(modules).find(([path, mod]) => {
     const s = path.split('/').pop().replace(/\.mdx$/, '');
@@ -17,7 +19,7 @@ export default function BlogPost() {
         <aside className="col-12 col-lg-4"><Sidebar /></aside>
         <div className="col-12 col-lg-8">
           <div className="alert alert-warning">Post not found.</div>
-          <Link className="btn btn-outline-secondary" to="/blog">Back to Blog</Link>
+          <Link className="btn btn-outline-secondary" to="/blog">{t('blog.backToBlog')}</Link>
         </div>
       </div>
     );
@@ -37,7 +39,7 @@ export default function BlogPost() {
         <article className="prose" data-animate>
           <Mod />
         </article>
-        <div className="mt-4"><Link className="btn btn-outline-secondary btn-sm" to="/blog">← Back</Link></div>
+        <div className="mt-4"><Link className="btn btn-outline-secondary btn-sm" to="/blog">← {t('blog.backToBlog')}</Link></div>
       </div>
     </div>
   );

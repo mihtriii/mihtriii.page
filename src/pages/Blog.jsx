@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react';
 import Sidebar from '../components/Sidebar.jsx';
 import { Link } from 'react-router-dom';
+import { useI18n } from '../i18n/index.jsx';
 const modules = import.meta.glob('../blog/*.mdx', { eager: true });
 
 export default function Blog() {
+  const { t } = useI18n();
   const posts = useMemo(() => {
     return Object.entries(modules).map(([path, mod]) => {
       const slug = path.split('/').pop().replace(/\.mdx$/, '');
@@ -16,8 +18,8 @@ export default function Blog() {
       <aside className="col-12 col-lg-3"><Sidebar /></aside>
       <div className="col-12 col-lg-9">
         <section className="page-hero hero-with-bg p-4 mb-3" data-animate>
-          <h1 className="h3 mb-1"><span className="gradient-text">Blog / Notes</span></h1>
-          <p className="text-secondary mb-0">Bài viết, ghi chú, demo nhỏ.</p>
+          <h1 className="h3 mb-1"><span className="gradient-text">{t('blog.title')}</span></h1>
+          <p className="text-secondary mb-0">{t('blog.subtitle')}</p>
         </section>
 
         <div className="row g-3 row-cols-1 row-cols-md-2">

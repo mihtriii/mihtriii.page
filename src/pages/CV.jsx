@@ -1,6 +1,7 @@
 import React from 'react';
 import Sidebar from '../components/Sidebar.jsx';
 import { toast } from '../components/Toast.jsx';
+import { useI18n } from '../i18n/index.jsx';
 
 function Section({ id, title, children }) {
   return (
@@ -27,6 +28,7 @@ function SkillMeter({ label, level = 0 }) {
 }
 
 export default function CV() {
+  const { t } = useI18n();
   const sectionIds = [
     'summary',
     'education',
@@ -48,29 +50,29 @@ export default function CV() {
         >
           <div className="d-flex flex-column gap-2">
             <h1 className="h3 mb-0">
-              <span className="gradient-text">Curriculum Vitae</span>
+              <span className="gradient-text">{t('cv.title')}</span>
             </h1>
-            <p className="text-secondary mb-2">Nguyễn Minh Trí · AI Student · FPTU HCM</p>
+            <p className="text-secondary mb-2">{t('cv.subtitle')}</p>
             <div className="d-flex flex-wrap gap-2">
-              <span className="badge badge-glow">Computer Vision</span>
-              <span className="badge badge-glow">VLMs</span>
-              <span className="badge badge-glow">Quantum ML</span>
+              <span className="badge badge-glow">{t('cv.research.computerVision')}</span>
+              <span className="badge badge-glow">{t('cv.research.vlm')}</span>
+              <span className="badge badge-glow">{t('cv.research.quantumML')}</span>
             </div>
             <div className="d-flex flex-wrap gap-2 mt-1">
               <button className="btn btn-primary btn-sm" onClick={() => window.print()}>
-                <i className="bi bi-download"></i> Download / Print
+                <i className="bi bi-download"></i> {t('cv.downloadPrint')}
               </button>
               <a className="btn btn-outline-secondary btn-sm" href="mailto:mihtriii295@gmail.com">
-                <i className="bi bi-envelope"></i> Contact
+                <i className="bi bi-envelope"></i> {t('common.contact')}
               </a>
               <button
                 className="btn btn-outline-secondary btn-sm"
                 onClick={() => {
                   navigator.clipboard.writeText('mihtriii295@gmail.com');
-                  toast('Copied email');
+                  toast(t('common.copied'));
                 }}
               >
-                <i className="bi bi-clipboard"></i> Copy email
+                <i className="bi bi-clipboard"></i> {t('common.copyEmail')}
               </button>
               <a
                 className="btn btn-outline-secondary btn-sm"
@@ -84,7 +86,7 @@ export default function CV() {
           </div>
         </section>
 
-        <Section id="summary" title="Summary">
+        <Section id="summary" title={t('cv.sections.summary')}>
           <div className="row g-3 row-cols-1 row-cols-md-2">
             <div className="col">
               <div className="card card-hover card-elevate h-100" data-animate>
@@ -122,24 +124,24 @@ export default function CV() {
           </div>
         </Section>
 
-        <Section id="education" title="Education">
+        <Section id="education" title={t('cv.sections.education')}>
           <div className="timeline" data-animate>
             <div className="timeline-item">
               <div className="timeline-dot"></div>
               <div className="timeline-content">
                 <div className="d-flex justify-content-between gap-3 align-items-baseline">
                   <div>
-                    <strong>FPT University Ho Chi Minh City (FPTU HCM)</strong> — BSc in Artificial
-                    Intelligence (K20)
+                    <strong>{t('cv.education.university')}</strong> — {t('cv.education.degree')}{' '}
+                    (K20)
                   </div>
-                  <div className="text-secondary small">2024 – present</div>
+                  <div className="text-secondary small">{t('cv.education.timeline')}</div>
                 </div>
               </div>
             </div>
           </div>
         </Section>
 
-        <Section id="experience" title="Experience">
+        <Section id="experience" title={t('cv.sections.experience')}>
           <div className="timeline" data-animate>
             <div className="timeline-item">
               <div className="timeline-dot"></div>
@@ -159,7 +161,7 @@ export default function CV() {
           </div>
         </Section>
 
-        <Section id="research-interests" title="Research Interests">
+        <Section id="research-interests" title={t('cv.sections.researchInterests')}>
           <ul className="mb-0">
             <li>Vision‑Language Models: retrieval, grounding, instruction tuning, evaluation.</li>
             <li>Applied VLMs: deployment on edge/cloud with performance trade‑offs.</li>
@@ -167,7 +169,7 @@ export default function CV() {
           </ul>
         </Section>
 
-        <Section id="competitions-activities" title="Cuộc thi & Hoạt động">
+        <Section id="competitions-activities" title={t('cv.sections.competitionsActivities')}>
           <ul className="mb-0">
             <li>
               Samsung Solve for Tomorrow Việt Nam 2024 — Giải Ba (Bảng THPT), thành viên đội{' '}
@@ -181,17 +183,17 @@ export default function CV() {
               </a>
             </li>
             <li>AIoT on Edge Hackathon (2025) — Giải Triển Vọng.</li>
-            <li>VOI 2024 — Giải Khuyến khích.</li>
-            <li>Cộng đồng: GDG on Campus, các cộng đồng công nghệ sinh viên, seminar học thuật.</li>
+            <li>Kỳ thi Học sinh giỏi Quốc gia (VOI) 2024 — Giải Khuyến khích.</li>
+            <li>Cộng đồng: Phó chủ nhiệm CLB FARPC.</li>
           </ul>
         </Section>
 
-        <Section id="skills" title="Skills">
+        <Section id="skills" title={t('cv.sections.skills')}>
           <div className="row g-3">
             <div className="col-12 col-md-6">
               <div className="card card-hover card-elevate h-100">
                 <div className="card-body">
-                  <h3 className="h6">Programming</h3>
+                  <h3 className="h6">{t('cv.skills.programming')}</h3>
                   <SkillMeter label="Python" level={80} />
                   <SkillMeter label="C++" level={65} />
                 </div>
@@ -237,7 +239,7 @@ export default function CV() {
           </div>
         </Section>
 
-        <Section id="projects-planned" title="Projects (Planned)">
+        <Section id="projects-planned" title={t('cv.sections.projectsPlanned')}>
           <ul className="mb-0">
             <li>Mini‑VLM Playground — small‑scale retrieval/grounding demos with benchmarks.</li>
             <li>QML for Vision — hybrid quantum‑classical baselines on MNIST/CIFAR.</li>

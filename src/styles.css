@@ -143,10 +143,36 @@
 [data-bs-theme="dark"] .icon-btn[data-brand="github"]:hover i { color: #f0f6fc; }
 .icon-btn[data-brand="email"]:hover i { color: var(--brand-primary); }
 .icon-btn[data-brand="scholar"]:hover i { color: #4285f4; }
+.icon-btn[data-brand="orcid"]:hover i { color: #a6ce39; }
 
 /* Mini GitHub stats */
 .mini-stats { display: flex; gap: .5rem; }
 .stat-chip { display: inline-flex; align-items: center; gap: .25rem; font-size: .8125rem; padding: .2rem .5rem; border-radius: .5rem; border: 1px solid var(--glass-border); background: var(--glass-bg); }
+
+/* GitHub Commit Chart */
+.commit-chart {
+  font-size: 0; /* Remove spacing between inline elements */
+}
+
+.commit-square {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.commit-square:hover {
+  transform: scale(1.2);
+  z-index: 10;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+[data-bs-theme="dark"] .commit-square {
+  border-color: rgba(255,255,255,0.1) !important;
+}
+
+[data-bs-theme="dark"] .commit-square:hover {
+  box-shadow: 0 2px 8px rgba(255,255,255,0.2);
+}
 
 /* Smooth scroll and selection */
 html { scroll-behavior: smooth; }

@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import Sidebar from '../components/Sidebar.jsx';
+import GitHubCommitChart from '../components/GitHubCommitChart.jsx';
 import { github } from '../config/site.js';
 import { useI18n } from '../i18n/index.jsx';
 
@@ -75,6 +76,11 @@ export default function Repos() {
           </h1>
           <p className="text-secondary mb-0">{t('repos.subtitle')}</p>
         </section>
+
+        {/* GitHub Commit Activity Chart */}
+        <div className="mb-4" data-animate>
+          <GitHubCommitChart />
+        </div>
 
         <div className="d-flex flex-wrap gap-2 mb-3">
           {languages.map((l) => (

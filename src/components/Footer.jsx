@@ -30,6 +30,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener"
             aria-label="LinkedIn"
+            data-brand="linkedin"
           >
             <i className="bi bi-linkedin"></i>
           </a>
@@ -39,6 +40,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener"
             aria-label="GitHub"
+            data-brand="github"
           >
             <i className="bi bi-github"></i>
           </a>
@@ -46,6 +48,7 @@ export default function Footer() {
             className="btn btn-outline-secondary btn-sm icon-btn"
             href={social.email}
             aria-label="Email"
+            data-brand="email"
           >
             <i className="bi bi-envelope"></i>
           </a>
@@ -55,6 +58,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener"
             aria-label="Google Scholar"
+            data-brand="scholar"
           >
             <i className="bi bi-mortarboard"></i>
           </a>
@@ -64,6 +68,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener"
             aria-label="ORCID"
+            data-brand="orcid"
           >
             <i className="bi bi-person-badge"></i>
           </a>

@@ -1,3 +1,5 @@
+import OptimizedImage from '../components/OptimizedImage';
+
 export const meta = {
   title: 'Quantum Fundamentals: Single and Multiple Qubit Systems',
   date: '2025-10-08',
@@ -31,26 +33,22 @@ One of the first questions in quantum computing is: **Why do we need complex num
 
 > **Premise**: Quantum states have wave-like properties. As established, quantum systems behave like waves. A key property of any wave is its **phase**. Therefore, our mathematical description of a quantum state must be able to account for this phase.
 
-The most general way to write the state of a single qubit, |ψ⟩, is:
+The most general way to write the state of a single qubit, $|\psi\rangle$, is:
 
-```
-|ψ⟩ = cos(θ/2)|0⟩ + e^(iφ)sin(θ/2)|1⟩
-```
+$$|\psi\rangle = \cos\left(\frac{\theta}{2}\right)|0\rangle + e^{i\phi}\sin\left(\frac{\theta}{2}\right)|1\rangle$$
 
 Where:
 
-- The real parts control the **probability balance** between |0⟩ and |1⟩
-- The term e^(iφ) is the crucial **relative phase factor**
+- The real parts control the **probability balance** between $|0\rangle$ and $|1\rangle$
+- The term $e^{i\phi}$ is the crucial **relative phase factor**
 
 #### Why Complex Numbers are Essential
 
 The phase factor is defined by Euler's formula, which is inherently complex:
 
-```
-e^(iφ) = cos(φ) + i sin(φ)
-```
+$$e^{i\phi} = \cos(\phi) + i \sin(\phi)$$
 
-**Conclusion**: To fully describe a qubit's state, we must include its relative phase (e^(iφ)). Since this phase factor is fundamentally a complex number (containing i), the entire framework for describing quantum states **must use complex numbers**.
+**Conclusion**: To fully describe a qubit's state, we must include its relative phase ($e^{i\phi}$). Since this phase factor is fundamentally a complex number (containing $i$), the entire framework for describing quantum states **must use complex numbers**.
 
 ---
 
@@ -64,27 +62,20 @@ How do we mathematically describe a two-qubit system? We combine their spaces us
 
 The basis for the combined system is formed by the tensor product of **every** basis vector from each individual space.
 
-- Qubit A basis: {`|0⟩_A`, `|1⟩_A`}
-- Qubit B basis: {`|0⟩_B`, `|1⟩_B`}
+- Qubit A basis: $\{|0\rangle_A, |1\rangle_A\}$
+- Qubit B basis: $\{|0\rangle_B, |1\rangle_B\}$
 
 The new 4D basis for the combined system is:
 
-```
-{`|00⟩`, `|01⟩`, `|10⟩`, `|11⟩`}
-```
+$$\{|00\rangle, |01\rangle, |10\rangle, |11\rangle\}$$
 
 #### Tensor Product: Vector Representation
 
 The tensor product of column vectors is the **Kronecker product**:
 
-```
-|01⟩ = |0⟩ ⊗ |1⟩ = [1] ⊗ [0] = [0]
-                      [0]   [1]   [1]
-                                  [0]
-                                  [0]
-```
+$$|01\rangle = |0\rangle \otimes |1\rangle = \begin{bmatrix} 1 \\ 0 \end{bmatrix} \otimes \begin{bmatrix} 0 \\ 1 \end{bmatrix} = \begin{bmatrix} 0 \\ 1 \\ 0 \\ 0 \end{bmatrix}$$
 
-This is why the Hilbert space dimensions multiply: 2 × 2 = 4.
+This is why the Hilbert space dimensions multiply: $2 \times 2 = 4$.
 
 ---
 
@@ -96,13 +87,19 @@ This is why the Hilbert space dimensions multiply: 2 × 2 = 4.
 
 The principle of superposition is a direct consequence of the linearity of the Schrödinger equation in Hilbert space.
 
-- **Core Idea**: If a system can be in state |A⟩ and also in state |B⟩, then any linear combination |ψ⟩ = α|A⟩ + β|B⟩ is also a valid state.
+- **Core Idea**: If a system can be in state $|A\rangle$ and also in state $|B\rangle$, then any linear combination $|\psi\rangle = \alpha|A\rangle + \beta|B\rangle$ is also a valid state.
 - **Wave Analogy**: Multiple individual waves adding up to form a single composite wave, allowing for interference.
 
-![Superposition visualization](/assets/quantum/Superposition.png)
+<OptimizedImage
+  src="/assets/quantum/Superposition.png"
+  alt="Superposition visualization - Combination of 2 wave functions"
+  className="w-full max-w-2xl mx-auto rounded-lg shadow-lg"
+  width={800}
+  height={600}
+/>
 _Figure: Combination of 2 wave functions_
 
-**For a Qubit**: This is why a qubit's state can be |ψ⟩ = α|0⟩ + β|1⟩.
+**For a Qubit**: This is why a qubit's state can be $|\psi\rangle = \alpha|0\rangle + \beta|1\rangle$.
 
 ### Entanglement: The Essence
 
@@ -110,8 +107,8 @@ _Figure: Combination of 2 wave functions_
 
 An entangled state is a shared state for a multi-part system that **cannot be separated** into individual states for its components.
 
-- **Separable State**: |01⟩ = |0⟩ ⊗ |1⟩ (We can describe each qubit individually)
-- **Entangled State**: (1/√2)(|00⟩ + |11⟩) (The state of one qubit is undefined without the other)
+- **Separable State**: $|01\rangle = |0\rangle \otimes |1\rangle$ (We can describe each qubit individually)
+- **Entangled State**: $\frac{1}{\sqrt{2}}(|00\rangle + |11\rangle)$ (The state of one qubit is undefined without the other)
 
 #### Entanglement vs. Our Classical Worldview
 
@@ -153,34 +150,25 @@ One possible "story" to explain the strangeness of entanglement:
 
 ### Single-Qubit Gates: Unitary Operations
 
-Gates are 2×2 unitary matrices acting on qubit state: |ψ'⟩ = U|ψ⟩, with U†U = I.
+Gates are $2 \times 2$ unitary matrices acting on qubit state: $|\psi'\rangle = U|\psi\rangle$, with $U^\dagger U = I$.
 
 #### Pauli Gates
 
 **Pauli-X (NOT/bit-flip)**:
 
-```
-X = [0 1]
-    [1 0]
-```
+$$X = \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}$$
 
-Flips |0⟩ to |1⟩ and |1⟩ to |0⟩.
+Flips $|0\rangle$ to $|1\rangle$ and $|1\rangle$ to $|0\rangle$.
 
 **Pauli-Z (phase flip)**:
 
-```
-Z = [1  0]
-    [0 -1]
-```
+$$Z = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}$$
 
-Leaves |0⟩ unchanged, flips phase of |1⟩ to -|1⟩.
+Leaves $|0\rangle$ unchanged, flips phase of $|1\rangle$ to $-|1\rangle$.
 
 **Pauli-Y (bit + phase flip)**:
 
-```
-Y = [0 -i]
-    [i  0]
-```
+$$Y = \begin{bmatrix} 0 & -i \\ i & 0 \end{bmatrix}$$
 
 Combines effects of X and Z.
 
@@ -188,38 +176,26 @@ Combines effects of X and Z.
 
 **Superposition Creator**:
 
-```
-H = (1/√2) [1  1]
-           [1 -1]
-```
+$$H = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 1 \\ 1 & -1 \end{bmatrix}$$
 
 Examples:
 
-- H|0⟩ = (1/√2)(|0⟩ + |1⟩) = |+⟩ (equal probabilities for 0 and 1)
-- H|1⟩ = (1/√2)(|0⟩ - |1⟩) = |-⟩
+- $H|0\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle) = |+\rangle$ (equal probabilities for 0 and 1)
+- $H|1\rangle = \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle) = |-\rangle$
 
 #### Phase Gates
 
-**General Phase Gate (P_θ)**:
+**General Phase Gate ($P_\theta$)**:
 
-```
-P_θ = [1    0   ]
-      [0  e^(iθ)]
-```
+$$P_\theta = \begin{bmatrix} 1 & 0 \\ 0 & e^{i\theta} \end{bmatrix}$$
 
-**S Gate**: A specific phase gate where θ = π/2
+**S Gate**: A specific phase gate where $\theta = \pi/2$
 
-```
-S = [1  0]
-    [0  i]
-```
+$$S = \begin{bmatrix} 1 & 0 \\ 0 & i \end{bmatrix}$$
 
-**T Gate**: A specific phase gate where θ = π/4
+**T Gate**: A specific phase gate where $\theta = \pi/4$
 
-```
-T = [1       0      ]
-    [0  (1+i)/√2]
-```
+$$T = \begin{bmatrix} 1 & 0 \\ 0 & \frac{1+i}{\sqrt{2}} \end{bmatrix}$$
 
 ### Rotation Gates: Why We Need Them
 
@@ -233,58 +209,37 @@ Unlike Pauli gates (fixed 0/1 flips or 90/180-degree phase shifts), rotation gat
 
 #### Rotation Gates: X, Y, and Z Rotations
 
-**Rotation around X-axis (RX(θ))**:
+**Rotation around X-axis ($R_x(\theta)$)**:
 
-```
-R_x(θ) = [cos(θ/2)   -i sin(θ/2)]
-         [-i sin(θ/2)  cos(θ/2) ]
-```
+$$R_x(\theta) = \begin{bmatrix} \cos(\theta/2) & -i \sin(\theta/2) \\ -i \sin(\theta/2) & \cos(\theta/2) \end{bmatrix}$$
 
-**Rotation around Y-axis (RY(θ))**:
+**Rotation around Y-axis ($R_y(\theta)$)**:
 
-```
-R_y(θ) = [cos(θ/2)  -sin(θ/2)]
-         [sin(θ/2)   cos(θ/2)]
-```
+$$R_y(\theta) = \begin{bmatrix} \cos(\theta/2) & -\sin(\theta/2) \\ \sin(\theta/2) & \cos(\theta/2) \end{bmatrix}$$
 
-**Rotation around Z-axis (RZ(θ))**:
+**Rotation around Z-axis ($R_z(\theta)$)**:
 
-```
-R_z(θ) = [e^(-iθ/2)     0     ]
-         [    0      e^(iθ/2) ]
-```
+$$R_z(\theta) = \begin{bmatrix} e^{-i\theta/2} & 0 \\ 0 & e^{i\theta/2} \end{bmatrix}$$
 
 ### Single-Qubit Calculations: Matrix Multiplication
 
-**Goal**: Apply X, then H on |0⟩, compute via matrices.
+**Goal**: Apply X, then H on $|0\rangle$, compute via matrices.
 
 **Step 1 (X Gate)**:
 
-```
-X|0⟩ = [0 1] [1] = [0] = |1⟩
-       [1 0] [0]   [1]
-```
+$$X|0\rangle = \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix} \begin{bmatrix} 1 \\ 0 \end{bmatrix} = \begin{bmatrix} 0 \\ 1 \end{bmatrix} = |1\rangle$$
 
 **Step 2 (H Gate)**:
 
-```
-H|1⟩ = (1/√2) [1  1] [0] = (1/√2) [1 ] = (|0⟩ - |1⟩)/√2 = |-⟩
-              [1 -1] [1]          [-1]
-```
+$$H|1\rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 1 \\ 1 & -1 \end{bmatrix} \begin{bmatrix} 0 \\ 1 \end{bmatrix} = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ -1 \end{bmatrix} = \frac{|0\rangle - |1\rangle}{\sqrt{2}} = |-\rangle$$
 
 **Combined Operation**:
 
-```
-U = H · X = (1/√2) [1  1] [0 1] = (1/√2) [1  1]
-                   [1 -1] [1 0]          [-1 1]
-```
+$$U = H \cdot X = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 1 \\ 1 & -1 \end{bmatrix} \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix} = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 1 \\ -1 & 1 \end{bmatrix}$$
 
 **Final State**:
 
-```
-U|0⟩ = (1/√2) [1  1] [1] = (1/√2) [1 ] = |-⟩
-              [-1 1] [0]          [-1]
-```
+$$U|0\rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 1 \\ -1 & 1 \end{bmatrix} \begin{bmatrix} 1 \\ 0 \end{bmatrix} = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ -1 \end{bmatrix} = |-\rangle$$
 
 ---
 
@@ -294,50 +249,53 @@ U|0⟩ = (1/√2) [1  1] [1] = (1/√2) [1 ] = |-⟩
 
 #### Why Multi-Qubits?
 
-- **Single qubit**: 2D Hilbert space (|ψ⟩ = α|0⟩ + β|1⟩)
+- **Single qubit**: 2D Hilbert space ($|\psi\rangle = \alpha|0\rangle + \beta|1\rangle$)
 - **Two qubits**: 4D Hilbert space via tensor product, which enables entanglement
 
-#### Tensor Product (⊗): Combines Individual State Spaces
+#### Tensor Product ($\otimes$): Combines Individual State Spaces
 
-Example: |0⟩ ⊗ |0⟩ = |00⟩ = [1, 0, 0, 0]ᵀ
+Example: $|0\rangle \otimes |0\rangle = |00\rangle = [1, 0, 0, 0]^T$
 
 #### General State
 
 A superposition of all 4 basis states:
 
-```
-|Ψ⟩ = a|00⟩ + b|01⟩ + c|10⟩ + d|11⟩
-```
+$$|\Psi\rangle = a|00\rangle + b|01\rangle + c|10\rangle + d|11\rangle$$
 
-With normalization: |a|² + |b|² + |c|² + |d|² = 1
+With normalization: $|a|^2 + |b|^2 + |c|^2 + |d|^2 = 1$
 
 ### Multi-Qubit Gates
 
 #### Example: Apply H on the First Qubit
 
-To apply a Hadamard gate to the first qubit while leaving the second unchanged (I), we use the tensor product of the gate matrices: H ⊗ I.
+To apply a Hadamard gate to the first qubit while leaving the second unchanged (I), we use the tensor product of the gate matrices: $H \otimes I$.
 
-```
-H ⊗ I = (1/√2) [1 0 1 0]
-               [0 1 0 1]
-               [1 0 -1 0]
-               [0 1 0 -1]
-```
+$$H \otimes I = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 0 & 1 & 0 \\ 0 & 1 & 0 & 1 \\ 1 & 0 & -1 & 0 \\ 0 & 1 & 0 & -1 \end{bmatrix}$$
 
-Applying this to the state |00⟩:
+Applying this to the state $|00\rangle$:
 
-```
-(H ⊗ I)|00⟩ = (|00⟩ + |10⟩)/√2
-```
+$$(H \otimes I)|00\rangle = \frac{|00\rangle + |10\rangle}{\sqrt{2}}$$
 
 This creates a superposition between the two qubits.
 
 ### Example Calculation On Circuit
 
-![Sample Circuit](/assets/quantum/Sample_circuit.png)
+<OptimizedImage
+  src="/assets/quantum/Sample_circuit.png"
+  alt="Two-Qubit Circuit with Multiple Gates"
+  className="w-full max-w-xl mx-auto rounded-lg shadow-lg mb-4"
+  width={600}
+  height={400}
+/>
 _Figure: Two-Qubit Circuit with Multiple Gates_
 
-![Circuit Clarification](/assets/quantum/circuit_clarify.png)
+<OptimizedImage
+  src="/assets/quantum/circuit_clarify.png"
+  alt="Clarified Circuit with Gate Labels"
+  className="w-full max-w-xl mx-auto rounded-lg shadow-lg"
+  width={600}
+  height={300}
+/>
 _Figure: Clarified Circuit with Gate Labels_
 
 #### Circuit Operations
@@ -346,29 +304,25 @@ _Figure: Clarified Circuit with Gate Labels_
 - Qubit 1: X → H → R_X(π/2) → Z
 - CNOT between qubits
 
-**Initial**: |ψ₀⟩ = |00⟩
+**Initial**: $|\psi_0\rangle = |00\rangle$
 
 The complete calculation involves:
 
-1. **Step 1**: Apply H ⊗ X
+1. **Step 1**: Apply $H \otimes X$
 2. **Step 2**: Apply CNOT gate
-3. **Step 3**: Apply I ⊗ H
-4. **Step 4**: Apply I ⊗ R_X(π/2)
-5. **Step 5**: Apply Z ⊗ Z
+3. **Step 3**: Apply $I \otimes H$
+4. **Step 4**: Apply $I \otimes R_X(\pi/2)$
+5. **Step 5**: Apply $Z \otimes Z$
 
 **Final State**:
 
-```
-|ψ_final⟩ = (Z ⊗ Z) · (I ⊗ R_X(π/2)) · (I ⊗ H) · CNOT · (H ⊗ X) · |00⟩
-```
+$$|\psi_{\text{final}}\rangle = (Z \otimes Z) \cdot (I \otimes R_X(\pi/2)) \cdot (I \otimes H) \cdot \text{CNOT} \cdot (H \otimes X) \cdot |00\rangle$$
 
 The final state is a complex superposition of all four basis states with the form:
 
-```
-|ψ_final⟩ = c₀|00⟩ + c₁|01⟩ + c₂|10⟩ + c₃|11⟩
-```
+$$|\psi_{\text{final}}\rangle = c_0|00\rangle + c_1|01\rangle + c_2|10\rangle + c_3|11\rangle$$
 
-where |c₀|² + |c₁|² + |c₂|² + |c₃|² = 1.
+where $|c_0|^2 + |c_1|^2 + |c_2|^2 + |c_3|^2 = 1$.
 
 ---
 

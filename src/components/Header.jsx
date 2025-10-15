@@ -20,7 +20,7 @@ function useLocalTime(tz = 'Asia/Ho_Chi_Minh') {
 }
 
 export default function Header() {
-  const { t, lang, setLang } = useI18n();
+  const { t } = useI18n();
   const { themeMode, toggleTheme } = useTheme();
   const location = useLocation();
   const time = useLocalTime();
@@ -108,7 +108,6 @@ export default function Header() {
       localStorage.setItem('ui:autoHideHeader', String(nv));
       return nv;
     });
-  const toggleLang = () => setLang((l) => (l === 'en' ? 'vi' : 'en'));
 
   // Theme icon helper
   const getThemeIcon = () => {
@@ -222,15 +221,6 @@ export default function Header() {
                 <i className="bi bi-clock"></i> {time}
               </span>
               <button
-                onClick={toggleLang}
-                className="btn btn-outline-secondary btn-sm"
-                type="button"
-                aria-label={`${t('common.language')}: ${lang}`}
-                title={`${t('common.language')}: ${lang.toUpperCase()}`}
-              >
-                <i className="bi bi-translate"></i>
-              </button>
-              <button
                 onClick={toggleTheme}
                 className="btn btn-outline-secondary btn-sm"
                 type="button"
@@ -273,14 +263,6 @@ export default function Header() {
             <span className="text-secondary small me-2">
               <i className="bi bi-clock"></i> {time}
             </span>
-            <button
-              onClick={toggleLang}
-              className="btn btn-outline-secondary btn-sm me-1"
-              type="button"
-              aria-label={`${t('common.language')}: ${lang}`}
-            >
-              <i className="bi bi-translate"></i>
-            </button>
             <button
               onClick={toggleTheme}
               className="btn btn-outline-secondary btn-sm me-1"

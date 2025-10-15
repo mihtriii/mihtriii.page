@@ -47,7 +47,7 @@ export default {
       university: 'FPT University Ho Chi Minh City',
       degree: 'Bachelor of Artificial Intelligence',
       gpa: 'GPA',
-      timeline: 'Sep 2023 - Present'
+      timeline: 'Sep 2024 - Present'
     },
     experience: {
       title: 'Experience',

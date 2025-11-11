@@ -31,12 +31,12 @@ export default function CV() {
   const { t } = useI18n();
   const sectionIds = [
     'summary',
+    'career-objectives',
     'education',
     'experience',
     'research-interests',
     'competitions-activities',
     'skills',
-    'projects-planned',
   ];
   return (
     <div className="row g-4">
@@ -63,16 +63,19 @@ export default function CV() {
                 <i className="bi bi-download"></i> {t('cv.downloadPrint')}
               </button>
               <a className="btn btn-outline-secondary btn-sm" href="mailto:mihtriii295@gmail.com">
-                <i className="bi bi-envelope"></i> {t('common.contact')}
+                <i className="bi bi-envelope"></i> Email
+              </a>
+              <a className="btn btn-outline-secondary btn-sm" href="tel:+84858276537">
+                <i className="bi bi-telephone"></i> Phone
               </a>
               <button
                 className="btn btn-outline-secondary btn-sm"
                 onClick={() => {
-                  navigator.clipboard.writeText('mihtriii295@gmail.com');
-                  toast(t('common.copied'));
+                  navigator.clipboard.writeText('mihtriii295@gmail.com | +84 858 276 537');
+                  toast('Copied contact info');
                 }}
               >
-                <i className="bi bi-clipboard"></i> {t('common.copyEmail')}
+                <i className="bi bi-clipboard"></i> Copy Contact
               </button>
               <a
                 className="btn btn-outline-secondary btn-sm"
@@ -87,37 +90,83 @@ export default function CV() {
         </section>
 
         <Section id="summary" title={t('cv.sections.summary')}>
-          <div className="row g-3 row-cols-1 row-cols-md-2">
-            <div className="col">
-              <div className="card card-hover card-elevate h-100" data-animate>
-                <div className="card-body">
-                  <div className="d-flex align-items-start gap-2 mb-2">
-                    <i className="bi bi-bullseye"></i>
-                    <h3 className="h6 mb-0">Focus</h3>
+          <div className="card card-hover card-elevate" data-animate>
+            <div className="card-body p-4">
+              <p className="lead mb-4">
+                Undergraduate Research Assistant at AiTA Lab with strong foundation in{' '}
+                <strong>Computer Vision</strong> and <strong>Quantum Machine Learning</strong>.
+                Passionate about advancing AI through research in Vision-Language Models and Quantum
+                Machine Learning.
+              </p>
+              <div className="row g-4">
+                <div className="col-md-6">
+                  <div className="d-flex align-items-start gap-3">
+                    <div className="p-2 bg-primary bg-opacity-10 rounded">
+                      <i className="bi bi-bullseye text-primary fs-5"></i>
+                    </div>
+                    <div className="flex-grow-1">
+                      <h3 className="h6 mb-2 fw-bold">Research Focus</h3>
+                      <p className="small text-secondary mb-0">
+                        Vision-Language Models, Multimodal AI, Quantum Computing for CV
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-secondary small mb-2">
-                    Practical VLM applications and strong research habits: simple baselines,
-                    reproducible demos, and clear writing.
-                  </p>
-                  <div className="d-flex flex-wrap gap-2">
-                    <span className="badge text-bg-secondary">Retrieval</span>
-                    <span className="badge text-bg-secondary">Grounding</span>
-                    <span className="badge text-bg-secondary">Instruction Tuning</span>
+                </div>
+                <div className="col-md-6">
+                  <div className="d-flex align-items-start gap-3">
+                    <div className="p-2 bg-warning bg-opacity-10 rounded">
+                      <i className="bi bi-trophy text-warning fs-5"></i>
+                    </div>
+                    <div className="flex-grow-1">
+                      <h3 className="h6 mb-2 fw-bold">Key Achievements</h3>
+                      <p className="small text-secondary mb-0">
+                        Samsung SFT 3rd Prize, VOI Honorable Mention, AIoT Hackathon Award
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="col">
-              <div className="card card-hover card-elevate h-100" data-animate>
-                <div className="card-body">
-                  <div className="d-flex align-items-start gap-2 mb-2">
-                    <i className="bi bi-lightning-charge"></i>
-                    <h3 className="h6 mb-0">Highlights</h3>
+          </div>
+        </Section>
+
+        <Section id="career-objectives" title={t('cv.sections.careerObjectives')}>
+          <div className="row g-3" data-animate>
+            <div className="col-md-6">
+              <div className="card card-hover card-elevate h-100">
+                <div className="card-body p-4">
+                  <div className="d-flex align-items-start gap-3">
+                    <div className="p-2 bg-primary bg-opacity-10 rounded">
+                      <i className="bi bi-mortarboard-fill fs-4 text-primary"></i>
+                    </div>
+                    <div className="flex-grow-1">
+                      <h3 className="h6 mb-2 fw-bold">PhD in Artificial Intelligence</h3>
+                      <p className="text-secondary small mb-0">{t('cv.careerObjectives.phd')}</p>
+                    </div>
                   </div>
-                  <ul className="small mb-0">
-                    <li>Edge‑friendly CV and lightweight VLM experiments</li>
-                    <li>Hands‑on mindset: build first, iterate quickly</li>
-                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="card card-hover card-elevate h-100">
+                <div className="card-body p-4">
+                  <div className="d-flex align-items-start gap-3">
+                    <div className="p-2 bg-success bg-opacity-10 rounded">
+                      <i className="bi bi-briefcase-fill fs-4 text-success"></i>
+                    </div>
+                    <div className="flex-grow-1">
+                      <h3 className="h6 mb-2 fw-bold">AI Engineer</h3>
+                      <p className="text-secondary small mb-3">
+                        {t('cv.careerObjectives.engineer')}
+                      </p>
+                      <div className="d-flex flex-wrap gap-1">
+                        <span className="badge text-bg-secondary">Computer Vision</span>
+                        <span className="badge text-bg-secondary">Time Series</span>
+                        <span className="badge text-bg-secondary">Deep Learning</span>
+                        <span className="badge text-bg-secondary">MLOps</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -125,16 +174,54 @@ export default function CV() {
         </Section>
 
         <Section id="education" title={t('cv.sections.education')}>
-          <div className="timeline" data-animate>
-            <div className="timeline-item">
-              <div className="timeline-dot"></div>
-              <div className="timeline-content">
-                <div className="d-flex justify-content-between gap-3 align-items-baseline">
-                  <div>
-                    <strong>{t('cv.education.university')}</strong> — {t('cv.education.degree')}{' '}
-                    (K20)
+          <div className="card card-hover card-elevate" data-animate>
+            <div className="card-body p-4">
+              <div className="row align-items-start mb-4">
+                <div className="col-md-8">
+                  <h3 className="h5 mb-2 fw-bold">{t('cv.education.university')}</h3>
+                  <p className="mb-2 text-primary fw-semibold">{t('cv.education.degree')}</p>
+                  <p className="text-secondary small mb-0">
+                    <i className="bi bi-calendar3 me-1"></i> {t('cv.education.timeline')} ·{' '}
+                    {t('cv.education.year')}
+                  </p>
+                </div>
+              </div>
+              <div className="border-top pt-4">
+                <h4 className="h6 fw-bold mb-3">
+                  <i className="bi bi-journal-code me-2"></i>
+                  {t('cv.education.courseworkTitle')}
+                </h4>
+                <div className="row g-2">
+                  <div className="col-md-6">
+                    <div className="d-flex align-items-center gap-2">
+                      <i className="bi bi-check-circle-fill text-success"></i>
+                      <span className="small">{t('cv.education.coursework1')}</span>
+                    </div>
                   </div>
-                  <div className="text-secondary small">{t('cv.education.timeline')}</div>
+                  <div className="col-md-6">
+                    <div className="d-flex align-items-center gap-2">
+                      <i className="bi bi-check-circle-fill text-success"></i>
+                      <span className="small">{t('cv.education.coursework2')}</span>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="d-flex align-items-center gap-2">
+                      <i className="bi bi-check-circle-fill text-success"></i>
+                      <span className="small">{t('cv.education.coursework3')}</span>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="d-flex align-items-center gap-2">
+                      <i className="bi bi-check-circle-fill text-success"></i>
+                      <span className="small">{t('cv.education.coursework4')}</span>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="d-flex align-items-center gap-2">
+                      <i className="bi bi-check-circle-fill text-success"></i>
+                      <span className="small">{t('cv.education.coursework5')}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -142,50 +229,149 @@ export default function CV() {
         </Section>
 
         <Section id="experience" title={t('cv.sections.experience')}>
-          <div className="timeline" data-animate>
-            <div className="timeline-item">
-              <div className="timeline-dot"></div>
-              <div className="timeline-content">
-                <div className="d-flex justify-content-between gap-3 align-items-baseline">
-                  <div>
-                    <strong>AI Research Intern</strong> — AITA LAB, FPTU HCM
-                  </div>
-                  <div className="text-secondary small">2025 – present</div>
+          <div className="card card-hover card-elevate" data-animate>
+            <div className="card-body p-4">
+              <div className="d-flex align-items-start gap-3">
+                <div className="p-2 bg-info bg-opacity-10 rounded">
+                  <i className="bi bi-briefcase text-info fs-5"></i>
                 </div>
-                <ul className="mb-0">
-                  <li>Early‑stage research exposure in Computer Vision and QML.</li>
-                  <li>Literature review, prototyping, and small‑scale experiments.</li>
-                </ul>
+                <div className="flex-grow-1">
+                  <div className="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                      <h3 className="h6 fw-bold mb-1">{t('cv.experience.currentRole')}</h3>
+                      <p className="text-primary small mb-0">{t('cv.experience.currentOrg')}</p>
+                    </div>
+                    <span className="badge text-bg-secondary">
+                      {t('cv.experience.currentTimeline')}
+                    </span>
+                  </div>
+                  <ul className="mt-3 mb-0 small">
+                    <li className="mb-2">{t('cv.experience.currentDesc1')}</li>
+                    <li className="mb-2">{t('cv.experience.currentDesc2')}</li>
+                    <li>{t('cv.experience.currentDesc3')}</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
         </Section>
 
         <Section id="research-interests" title={t('cv.sections.researchInterests')}>
-          <ul className="mb-0">
-            <li>Vision‑Language Models: retrieval, grounding, instruction tuning, evaluation.</li>
-            <li>Applied VLMs: deployment on edge/cloud with performance trade‑offs.</li>
-            <li>Quantum ML: hybrid classical‑quantum methods for vision tasks.</li>
-          </ul>
+          <div className="card card-hover card-elevate" data-animate>
+            <div className="card-body p-4">
+              <div className="row g-3">
+                <div className="col-md-4">
+                  <div className="d-flex align-items-start gap-2">
+                    <i className="bi bi-eye text-primary"></i>
+                    <div>
+                      <h3 className="h6 fw-bold mb-1">Vision-Language Models</h3>
+                      <p className="small text-secondary mb-0">
+                        Multimodal retrieval, visual grounding, instruction tuning
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="d-flex align-items-start gap-2">
+                    <i className="bi bi-cpu text-success"></i>
+                    <div>
+                      <h3 className="h6 fw-bold mb-1">Applied VLMs</h3>
+                      <p className="small text-secondary mb-0">
+                        Edge/cloud deployment with performance optimizations
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="d-flex align-items-start gap-2">
+                    <i className="bi bi-lightning text-warning"></i>
+                    <div>
+                      <h3 className="h6 fw-bold mb-1">Quantum ML</h3>
+                      <p className="small text-secondary mb-0">
+                        Hybrid classical-quantum architectures for vision
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </Section>
 
         <Section id="competitions-activities" title={t('cv.sections.competitionsActivities')}>
-          <ul className="mb-0">
-            <li>
-              Samsung Solve for Tomorrow Việt Nam 2024 — Giải Ba (Bảng THPT), thành viên đội{' '}
-              <strong>T‑Gardens</strong>.{' '}
-              <a
-                href="https://solvefortomorrow.vn/doi-thang-giai/t-gardens"
-                target="_blank"
-                rel="noopener"
-              >
-                Liên kết
-              </a>
-            </li>
-            <li>AIoT on Edge Hackathon (2025) — Giải Triển Vọng.</li>
-            <li>Kỳ thi Học sinh giỏi Quốc gia (VOI) 2024 — Giải Khuyến khích.</li>
-            <li>Cộng đồng: Phó chủ nhiệm CLB FARPC.</li>
-          </ul>
+          <div className="row g-3" data-animate>
+            <div className="col-md-6">
+              <div className="card card-hover card-elevate h-100">
+                <div className="card-body">
+                  <div className="d-flex align-items-start gap-2 mb-2">
+                    <i className="bi bi-trophy-fill text-warning fs-5"></i>
+                    <div className="flex-grow-1">
+                      <h3 className="h6 mb-1">{t('cv.competitions.samsung')}</h3>
+                      <p className="small text-secondary mb-2">
+                        <strong>{t('cv.competitions.samsungAward')}</strong>
+                      </p>
+                      <p className="small mb-0">
+                        {t('cv.competitions.samsungTeam')}: T-Gardens{' '}
+                        <a
+                          href="https://solvefortomorrow.vn/doi-thang-giai/t-gardens"
+                          target="_blank"
+                          rel="noopener"
+                          className="text-decoration-none"
+                        >
+                          <i className="bi bi-box-arrow-up-right"></i>
+                        </a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="card card-hover card-elevate h-100">
+                <div className="card-body">
+                  <div className="d-flex align-items-start gap-2 mb-2">
+                    <i className="bi bi-award-fill text-primary fs-5"></i>
+                    <div>
+                      <h3 className="h6 mb-1">{t('cv.competitions.aiot')}</h3>
+                      <p className="small text-secondary mb-0">
+                        <strong>{t('cv.competitions.aiotAward')}</strong>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="card card-hover card-elevate h-100">
+                <div className="card-body">
+                  <div className="d-flex align-items-start gap-2 mb-2">
+                    <i className="bi bi-mortarboard-fill text-success fs-5"></i>
+                    <div>
+                      <h3 className="h6 mb-1">{t('cv.competitions.voi')}</h3>
+                      <p className="small text-secondary mb-0">
+                        <strong>{t('cv.competitions.voiAward')}</strong>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="card card-hover card-elevate h-100">
+                <div className="card-body">
+                  <div className="d-flex align-items-start gap-2 mb-2">
+                    <i className="bi bi-people-fill text-info fs-5"></i>
+                    <div>
+                      <h3 className="h6 mb-1">Leadership</h3>
+                      <p className="small text-secondary mb-0">
+                        <strong>{t('cv.competitions.community')}</strong>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </Section>
 
         <Section id="skills" title={t('cv.sections.skills')}>
@@ -193,21 +379,14 @@ export default function CV() {
             <div className="col-12 col-md-6">
               <div className="card card-hover card-elevate h-100">
                 <div className="card-body">
-                  <h3 className="h6">{t('cv.skills.programming')}</h3>
-                  <SkillMeter label="Python" level={80} />
-                  <SkillMeter label="C++" level={65} />
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-md-6">
-              <div className="card card-hover card-elevate h-100">
-                <div className="card-body">
-                  <h3 className="h6">ML/CV</h3>
-                  <SkillMeter label="PyTorch" level={70} />
-                  <SkillMeter label="OpenCV" level={65} />
-                  <div className="d-flex gap-2 flex-wrap mt-2">
-                    <span className="badge text-bg-secondary">Transformers (learning)</span>
-                    <span className="badge text-bg-secondary">timm (learning)</span>
+                  <h3 className="h6 mb-3">
+                    <i className="bi bi-code-slash"></i> {t('cv.skills.programming')}
+                  </h3>
+                  <div className="d-flex flex-wrap gap-2">
+                    <span className="badge text-bg-primary">Python</span>
+                    <span className="badge text-bg-primary">C++</span>
+                    <span className="badge text-bg-secondary">JavaScript</span>
+                    <span className="badge text-bg-secondary">SQL</span>
                   </div>
                 </div>
               </div>
@@ -215,11 +394,19 @@ export default function CV() {
             <div className="col-12 col-md-6">
               <div className="card card-hover card-elevate h-100">
                 <div className="card-body">
-                  <h3 className="h6">Quantum</h3>
-                  <SkillMeter label="Qiskit" level={55} />
-                  <SkillMeter label="PennyLane" level={50} />
-                  <div className="d-flex gap-2 flex-wrap mt-2">
-                    <span className="badge text-bg-secondary">Hybrid training</span>
+                  <h3 className="h6 mb-3">
+                    <i className="bi bi-robot"></i> {t('cv.skills.frameworks')}
+                  </h3>
+                  <div className="d-flex flex-wrap gap-2 mb-2">
+                    <span className="badge text-bg-primary">{t('cv.skills.pytorch')}</span>
+                    <span className="badge text-bg-primary">{t('cv.skills.cv')}</span>
+                    <span className="badge text-bg-primary">{t('cv.skills.nlp')}</span>
+                    <span className="badge text-bg-secondary">{t('cv.skills.quantum')}</span>
+                  </div>
+                  <div className="d-flex flex-wrap gap-2">
+                    <span className="badge text-bg-secondary">NumPy</span>
+                    <span className="badge text-bg-secondary">Pandas</span>
+                    <span className="badge text-bg-secondary">scikit-learn</span>
                   </div>
                 </div>
               </div>
@@ -227,11 +414,30 @@ export default function CV() {
             <div className="col-12 col-md-6">
               <div className="card card-hover card-elevate h-100">
                 <div className="card-body">
-                  <h3 className="h6">Tooling</h3>
-                  <SkillMeter label="Git/GitHub" level={70} />
-                  <SkillMeter label="Linux CLI" level={65} />
-                  <div className="d-flex gap-2 flex-wrap mt-2">
-                    <span className="badge text-bg-secondary">LaTeX/Overleaf</span>
+                  <h3 className="h6 mb-3">
+                    <i className="bi bi-tools"></i> {t('cv.skills.tools')}
+                  </h3>
+                  <div className="d-flex flex-wrap gap-2">
+                    <span className="badge text-bg-info">{t('cv.skills.git')}</span>
+                    <span className="badge text-bg-info">{t('cv.skills.cloud')}</span>
+                    <span className="badge text-bg-info">{t('cv.skills.latex')}</span>
+                    <span className="badge text-bg-secondary">Linux/Unix</span>
+                    <span className="badge text-bg-secondary">Jupyter</span>
+                    <span className="badge text-bg-secondary">VS Code</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-md-6">
+              <div className="card card-hover card-elevate h-100">
+                <div className="card-body">
+                  <h3 className="h6 mb-3">
+                    <i className="bi bi-graph-up"></i> Data Visualization
+                  </h3>
+                  <div className="d-flex flex-wrap gap-2">
+                    <span className="badge text-bg-success">{t('cv.skills.dataViz')}</span>
+                    <span className="badge text-bg-secondary">TensorBoard</span>
+                    <span className="badge text-bg-secondary">Weights & Biases</span>
                   </div>
                 </div>
               </div>
@@ -239,12 +445,25 @@ export default function CV() {
           </div>
         </Section>
 
-        <Section id="projects-planned" title={t('cv.sections.projectsPlanned')}>
-          <ul className="mb-0">
-            <li>Mini‑VLM Playground — small‑scale retrieval/grounding demos with benchmarks.</li>
-            <li>QML for Vision — hybrid quantum‑classical baselines on MNIST/CIFAR.</li>
-            <li>Edge‑friendly CV — distilled/quantized models for edge inference.</li>
-          </ul>
+        <Section id="research-interests" title={t('cv.sections.researchInterests')}>
+          <div className="card card-hover card-elevate" data-animate>
+            <div className="card-body">
+              <ul className="mb-0">
+                <li>
+                  <strong>Vision-Language Models</strong>: Multimodal retrieval, visual grounding,
+                  instruction tuning, and evaluation methodologies
+                </li>
+                <li>
+                  <strong>Applied VLMs</strong>: Deployment strategies for edge/cloud environments
+                  with latency and throughput optimizations
+                </li>
+                <li>
+                  <strong>Quantum Machine Learning</strong>: Hybrid classical-quantum architectures
+                  for computer vision tasks
+                </li>
+              </ul>
+            </div>
+          </div>
         </Section>
       </div>
     </div>

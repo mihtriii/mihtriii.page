@@ -102,8 +102,12 @@ export default function Home() {
               <h1 className="h3 mb-2">
                 <span className="gradient-text">{t('home.heroHi')}</span>
               </h1>
+              <p className="text-secondary mb-2">
+                <strong>Undergraduate Research Assistant</strong>
+                <br />
+                AiTA Lab, FPT University
+              </p>
               <p className="text-secondary mb-3">
-                AI @ FPTU HCM —
                 <Typewriter words={['Computer Vision', 'Vision‑Language Models', 'Quantum ML']} />
               </p>
               <div className="d-flex flex-wrap gap-2 mb-3">
@@ -143,10 +147,12 @@ export default function Home() {
 
         <Section id="about" title={t('home.sections.about')}>
           <p>
-            I’m an AI student who learns by building. I enjoy working at the intersection of{' '}
-            <strong>Computer Vision</strong> and <strong>Vision‑Language Models</strong>, and I’m
-            exploring <strong>Quantum ML</strong> for vision as a long‑term research direction. I
-            value clarity, simple baselines, and reproducible demos that make ideas tangible.
+            I'm an <strong>Undergraduate Research Assistant at AiTA Lab, FPT University</strong>,
+            where I work on Computer Vision and Quantum Machine Learning research. I learn by
+            building and enjoy working at the intersection of <strong>Computer Vision</strong> and{' '}
+            <strong>Vision‑Language Models</strong>, exploring <strong>Quantum ML</strong> for
+            vision as a long‑term research direction. I value clarity, simple baselines, and
+            reproducible demos that make ideas tangible.
           </p>
           <p>
             Right now, I’m focused on practical VLM applications (retrieval, grounding,
@@ -225,6 +231,10 @@ export default function Home() {
 
         <Section id="goals" title="Near‑term Goals (2024–2026)">
           <ul className="mb-0">
+            <li>
+              <strong>Q1 2025</strong>: Complete foundational Quantum Machine Learning course and
+              implement basic QML circuits for vision tasks.
+            </li>
             <li>
               Target one <strong>A*</strong> conference‑level paper by end of sophomore year.
             </li>
@@ -352,17 +362,33 @@ export default function Home() {
         </Section>
 
         <Section id="contact" title={t('home.sections.contact')}>
-          <div className="d-flex align-items-center gap-2">
-            <a href="mailto:mihtriii295@gmail.com">mihtriii295@gmail.com</a>
-            <button
-              className="btn btn-outline-secondary btn-sm"
-              onClick={() => {
-                navigator.clipboard.writeText('mihtriii295@gmail.com');
-                toast(t('common.copied'));
-              }}
-            >
-              {t('common.copy')}
-            </button>
+          <div className="d-flex flex-column gap-3">
+            <div className="d-flex align-items-center gap-2">
+              <i className="bi bi-envelope"></i>
+              <a href="mailto:mihtriii295@gmail.com">mihtriii295@gmail.com</a>
+              <button
+                className="btn btn-outline-secondary btn-sm"
+                onClick={() => {
+                  navigator.clipboard.writeText('mihtriii295@gmail.com');
+                  toast(t('common.copied'));
+                }}
+              >
+                {t('common.copy')}
+              </button>
+            </div>
+            <div className="d-flex align-items-center gap-2">
+              <i className="bi bi-telephone"></i>
+              <a href="tel:+84858276537">+84 858 276 537</a>
+              <button
+                className="btn btn-outline-secondary btn-sm"
+                onClick={() => {
+                  navigator.clipboard.writeText('0858276537');
+                  toast('Copied phone number to clipboard');
+                }}
+              >
+                {t('common.copy')}
+              </button>
+            </div>
           </div>
         </Section>
       </div>

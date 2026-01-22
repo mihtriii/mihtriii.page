@@ -1,5 +1,6 @@
 import React from 'react';
 import Sidebar from '../components/Sidebar.jsx';
+import SectionDivider from '../components/SectionDivider.jsx';
 import { toast } from '../components/Toast.jsx';
 import { useI18n } from '../i18n/index.jsx';
 
@@ -59,7 +60,7 @@ export default function CV() {
               <span className="badge badge-glow">{t('cv.research.quantumML')}</span>
             </div>
             <div className="d-flex flex-wrap gap-2 mt-1">
-              <button className="btn btn-primary btn-sm" onClick={() => window.print()}>
+              <button className="btn btn-gradient-border btn-sm px-4" onClick={() => window.print()}>
                 <i className="bi bi-download"></i> {t('cv.downloadPrint')}
               </button>
               <a className="btn btn-outline-secondary btn-sm" href="mailto:mihtriii295@gmail.com">
@@ -90,7 +91,7 @@ export default function CV() {
         </section>
 
         <Section id="summary" title={t('cv.sections.summary')}>
-          <div className="card card-hover card-elevate" data-animate>
+          <div className="card card-hover card-elevate card-gradient-border" data-animate>
             <div className="card-body p-4">
               <p className="lead mb-4">
                 Undergraduate Research Assistant at AiTA Lab with strong foundation in{' '}
@@ -173,8 +174,10 @@ export default function CV() {
           </div>
         </Section>
 
+        <SectionDivider variant="dots" />
+
         <Section id="education" title={t('cv.sections.education')}>
-          <div className="card card-hover card-elevate" data-animate>
+          <div className="card card-hover card-elevate card-gradient-border" data-animate>
             <div className="card-body p-4">
               <div className="row align-items-start mb-4">
                 <div className="col-md-8">
@@ -228,28 +231,35 @@ export default function CV() {
           </div>
         </Section>
 
+        <SectionDivider variant="wave" />
+
         <Section id="experience" title={t('cv.sections.experience')}>
-          <div className="card card-hover card-elevate" data-animate>
+          <div className="card card-hover card-elevate card-gradient-border" data-animate>
             <div className="card-body p-4">
-              <div className="d-flex align-items-start gap-3">
-                <div className="p-2 bg-info bg-opacity-10 rounded">
-                  <i className="bi bi-briefcase text-info fs-5"></i>
-                </div>
-                <div className="flex-grow-1">
-                  <div className="d-flex justify-content-between align-items-start mb-2">
-                    <div>
-                      <h3 className="h6 fw-bold mb-1">{t('cv.experience.currentRole')}</h3>
-                      <p className="text-primary small mb-0">{t('cv.experience.currentOrg')}</p>
-                    </div>
-                    <span className="badge text-bg-secondary">
-                      {t('cv.experience.currentTimeline')}
-                    </span>
+              {/* Visual Timeline */}
+              <div className="experience-timeline">
+                <div className="timeline-item">
+                  <div className="timeline-marker">
+                    <div className="timeline-dot"></div>
+                    <div className="timeline-pulse"></div>
                   </div>
-                  <ul className="mt-3 mb-0 small">
-                    <li className="mb-2">{t('cv.experience.currentDesc1')}</li>
-                    <li className="mb-2">{t('cv.experience.currentDesc2')}</li>
-                    <li>{t('cv.experience.currentDesc3')}</li>
-                  </ul>
+                  <div className="timeline-content">
+                    <div className="d-flex justify-content-between align-items-start mb-2 flex-wrap gap-2">
+                      <div>
+                        <h3 className="h6 fw-bold mb-1">{t('cv.experience.currentRole')}</h3>
+                        <p className="text-primary small mb-0">{t('cv.experience.currentOrg')}</p>
+                      </div>
+                      <span className="badge text-bg-success">
+                        <i className="bi bi-calendar3 me-1"></i>
+                        {t('cv.experience.currentTimeline')}
+                      </span>
+                    </div>
+                    <ul className="mt-3 mb-0 small">
+                      <li className="mb-2">{t('cv.experience.currentDesc1')}</li>
+                      <li className="mb-2">{t('cv.experience.currentDesc2')}</li>
+                      <li>{t('cv.experience.currentDesc3')}</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
@@ -361,10 +371,21 @@ export default function CV() {
                 <div className="card-body">
                   <div className="d-flex align-items-start gap-2 mb-2">
                     <i className="bi bi-people-fill text-info fs-5"></i>
-                    <div>
+                    <div className="flex-grow-1">
                       <h3 className="h6 mb-1">Leadership</h3>
+                      <p className="small text-secondary mb-1">
+                        <strong>Vice President, FARPC Programming Club</strong>
+                      </p>
                       <p className="small text-secondary mb-0">
-                        <strong>{t('cv.competitions.community')}</strong>
+                        Academic club focusing on <strong>AI and IoT</strong> research.{' '}
+                        <a
+                          href="https://www.facebook.com/FARPC.HCM/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-decoration-none"
+                        >
+                          <i className="bi bi-facebook"></i> Page
+                        </a>
                       </p>
                     </div>
                   </div>
@@ -375,6 +396,37 @@ export default function CV() {
         </Section>
 
         <Section id="skills" title={t('cv.sections.skills')}>
+          {/* Skills with Progress Visualization */}
+          <div className="card card-hover card-elevate card-gradient-border mb-3" data-animate>
+            <div className="card-body p-4">
+              <h3 className="h6 mb-3">
+                <i className="bi bi-star-fill text-warning me-2"></i>
+                Core Proficiencies
+              </h3>
+              <div className="row g-4">
+                <div className="col-md-6">
+                  <SkillMeter label="Python" level={90} />
+                </div>
+                <div className="col-md-6">
+                  <SkillMeter label="PyTorch" level={85} />
+                </div>
+                <div className="col-md-6">
+                  <SkillMeter label="Computer Vision" level={80} />
+                </div>
+                <div className="col-md-6">
+                  <SkillMeter label="C++" level={75} />
+                </div>
+                <div className="col-md-6">
+                  <SkillMeter label="Machine Learning" level={85} />
+                </div>
+                <div className="col-md-6">
+                  <SkillMeter label="Git/GitHub" level={88} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Existing skills cards */}
           <div className="row g-3">
             <div className="col-12 col-md-6">
               <div className="card card-hover card-elevate h-100">

@@ -6,10 +6,12 @@ import Tilt from '../components/Tilt.jsx';
 import { Link } from 'react-router-dom';
 import BlurImage from '../components/BlurImage.jsx';
 import Sidebar from '../components/Sidebar.jsx';
+import SectionDivider from '../components/SectionDivider.jsx';
 import { toast } from '../components/Toast.jsx';
 import { social } from '../config/site.js';
 import { useI18n } from '../i18n/index.jsx';
 import SEOHead, { useSEO } from '../components/SEOHead.jsx';
+import { useMagnetic } from '../hooks/useMagnetic.js';
 import {
   useScrollAnimation,
   scrollAnimationVariants,
@@ -35,6 +37,48 @@ function Section({ id, title, children }) {
       </motion.h2>
       <motion.div variants={fadeInUpVariants}>{children}</motion.div>
     </motion.section>
+  );
+}
+
+function ProjectCard({ project, index }) {
+  const magneticRef = useMagnetic(0.1);
+  
+  return (
+    <motion.div
+      className="col"
+      key={index}
+      variants={staggerItemVariants}
+      whileHover={{ y: -5 }}
+      transition={{ duration: 0.2 }}
+    >
+      <div
+        ref={magneticRef}
+        className="card h-100 card-hover card-elevate card-gradient-border project-card magnetic"
+      >
+        {project.preview && (
+          <div className="project-preview">
+            <img src={project.preview} alt="preview" />
+          </div>
+        )}
+        <div className="card-body">
+          <div className="d-flex justify-content-between align-items-start mb-2">
+            <h3 className="h6 mb-0 fw-semibold">{project.title}</h3>
+            <span className="badge text-bg-primary">
+              <i className="bi bi-rocket-takeoff me-1"></i>
+              Soon
+            </span>
+          </div>
+          <p className="mb-2 text-secondary small">{project.desc}</p>
+          <div className="d-flex gap-2 flex-wrap">
+            {project.tags.map((t) => (
+              <span key={t} className="badge text-bg-secondary">
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
@@ -116,10 +160,10 @@ export default function Home() {
                 <span className="badge badge-glow">Quantum ML</span>
               </div>
               <div className="d-flex flex-wrap gap-2">
-                <a href="#contact" className="btn btn-primary btn-sm">
+                <a href="#contact" className="btn btn-gradient-border btn-sm px-4">
                   {t('home.buttons.contact')}
                 </a>
-                <Link to="/cv" className="btn btn-outline-secondary btn-sm">
+                <Link to="/cv" className="btn btn-outline-gradient btn-sm px-4">
                   {t('home.buttons.viewCV')}
                 </Link>
                 <a
@@ -326,37 +370,7 @@ export default function Home() {
             variants={staggerContainerVariants}
           >
             {filtered.map((p, i) => (
-              <motion.div
-                className="col"
-                key={i}
-                variants={staggerItemVariants}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Tilt>
-                  <div className="card h-100 card-hover card-elevate project-card">
-                    {p.preview && (
-                      <div className="project-preview">
-                        <img src={p.preview} alt="preview" />
-                      </div>
-                    )}
-                    <div className="card-body">
-                      <div className="d-flex justify-content-between align-items-start mb-2">
-                        <h3 className="h6 mb-0">{p.title}</h3>
-                        <span className="badge text-bg-primary">{t('home.projects.soon')}</span>
-                      </div>
-                      <p className="mb-2 text-secondary small">{p.desc}</p>
-                      <div className="d-flex gap-2 flex-wrap">
-                        {p.tags.map((t) => (
-                          <span key={t} className="badge text-bg-secondary">
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </Tilt>
-              </motion.div>
+              <ProjectCard key={i} project={p} index={i} />
             ))}
           </motion.div>
         </Section>

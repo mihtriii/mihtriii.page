@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Sidebar from '../components/Sidebar.jsx';
 import { Link } from 'react-router-dom';
 import { useI18n } from '../i18n/index.jsx';
+import { useMagnetic } from '../hooks/useMagnetic.js';
+
 const modules = import.meta.glob('../blog/*.mdx', { eager: true });
 
 // Helper function to calculate reading time
@@ -10,6 +12,57 @@ function calculateReadingTime(content) {
   const wordsPerMinute = 200;
   const words = content.split(/\s+/).length;
   return Math.ceil(words / wordsPerMinute);
+}
+
+function BlogPostCard({ post }) {
+  const magneticRef = useMagnetic(0.08); // Subtle magnetic effect for blog grid
+
+  return (
+    <div
+      ref={magneticRef}
+      className="card card-hover card-elevate h-100 text-decoration-none magnetic"
+    >
+      <Link className="text-decoration-none h-100 d-flex flex-column" to={`/blog/${post.slug}`}>
+        <div className="card-body d-flex flex-column h-100">
+          <div className="d-flex justify-content-between align-items-baseline mb-2">
+            <h2 className="h6 mb-0 fw-semibold group-hover:text-primary transition-colors">
+              {post.title}
+            </h2>
+            {post.date && <span className="text-secondary small">{post.date}</span>}
+          </div>
+
+          {post.summary && <p className="mb-3 text-secondary small flex-grow-1">{post.summary}</p>}
+
+          {/* Tags and Reading Time */}
+          <div className="d-flex justify-content-between align-items-center mt-auto pt-3 border-top border-light-subtle">
+            <div className="d-flex flex-wrap gap-1">
+              {post.tags.slice(0, 2).map((tag) => (
+                <span
+                  key={tag}
+                  className="badge text-bg-secondary bg-opacity-10 text-body"
+                  style={{ fontSize: '0.7rem' }}
+                >
+                  {tag}
+                </span>
+              ))}
+              {post.tags.length > 2 && (
+                <span
+                  className="badge text-bg-light text-secondary"
+                  style={{ fontSize: '0.7rem' }}
+                >
+                  +{post.tags.length - 2}
+                </span>
+              )}
+            </div>
+            <span className="text-secondary small d-flex align-items-center gap-1">
+              <i className="bi bi-clock"></i>
+              {post.readingTime} min
+            </span>
+          </div>
+        </div>
+      </Link>
+    </div>
+  );
 }
 
 export default function Blog() {
@@ -92,13 +145,13 @@ export default function Blog() {
         <div className="card card-elevate mb-4" data-animate>
           <div className="card-body">
             <div className="row g-3">
-              {/* Search Input */}
+            {/* Search Input */}
               <div className="col-12 col-md-6">
                 <div className="position-relative">
-                  <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary"></i>
+                  <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary z-1"></i>
                   <input
                     type="text"
-                    className="form-control ps-5"
+                    className="form-control ps-5 search-input-glow"
                     placeholder={t('common.search') + ' posts...'}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -109,7 +162,7 @@ export default function Blog() {
               {/* Sort Options */}
               <div className="col-12 col-md-3">
                 <select
-                  className="form-select"
+                  className="form-select border-light-subtle"
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                 >
@@ -121,29 +174,46 @@ export default function Blog() {
 
               {/* Results Count */}
               <div className="col-12 col-md-3">
-                <div className="d-flex align-items-center h-100">
-                  <span className="text-secondary small">
+                <div className="d-flex align-items-center h-100 justify-content-end">
+                  <span className="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3">
                     {filteredPosts.length} {filteredPosts.length === 1 ? 'post' : 'posts'}
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* Tag Filter */}
-            <div className="mt-3">
-              <div className="d-flex flex-wrap gap-2">
+            {/* Tag Filter - Staggered Animation */}
+            <div className="mt-4 pt-3 border-top border-light-subtle">
+              <span className="small text-secondary me-2 text-uppercase fw-semibold" style={{ fontSize: '0.7rem', letterSpacing: '0.5px' }}>Filter by Tag:</span>
+              <motion.div 
+                className="d-flex flex-wrap gap-2 mt-2"
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  visible: { transition: { staggerChildren: 0.03 } }
+                }}
+              >
                 {allTags.map((tag) => (
-                  <button
+                  <motion.button
                     key={tag}
+                    variants={{
+                      hidden: { opacity: 0, scale: 0.8 },
+                      visible: { opacity: 1, scale: 1 }
+                    }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                     className={`btn btn-sm ${
-                      selectedTag === tag ? 'btn-primary' : 'btn-outline-secondary'
+                      selectedTag === tag 
+                        ? 'btn-primary shadow-sm' 
+                        : 'btn-outline-secondary border-0 bg-secondary-subtle'
                     }`}
                     onClick={() => setSelectedTag(tag)}
+                    style={{ fontSize: '0.85rem' }}
                   >
                     {tag}
-                  </button>
+                  </motion.button>
                 ))}
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -174,50 +244,9 @@ export default function Blog() {
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
                     className="col"
+                    whileHover={{ y: -5 }}
                   >
-                    <Link
-                      className="card card-hover card-elevate h-100 text-decoration-none"
-                      to={`/blog/${post.slug}`}
-                      data-animate
-                    >
-                      <div className="card-body">
-                        <div className="d-flex justify-content-between align-items-baseline mb-2">
-                          <h2 className="h6 mb-0">{post.title}</h2>
-                          {post.date && <span className="text-secondary small">{post.date}</span>}
-                        </div>
-
-                        {post.summary && (
-                          <p className="mb-2 text-secondary small">{post.summary}</p>
-                        )}
-
-                        {/* Tags and Reading Time */}
-                        <div className="d-flex justify-content-between align-items-center mt-auto">
-                          <div className="d-flex flex-wrap gap-1">
-                            {post.tags.slice(0, 2).map((tag) => (
-                              <span
-                                key={tag}
-                                className="badge text-bg-secondary"
-                                style={{ fontSize: '0.7rem' }}
-                              >
-                                {tag}
-                              </span>
-                            ))}
-                            {post.tags.length > 2 && (
-                              <span
-                                className="badge text-bg-light text-secondary"
-                                style={{ fontSize: '0.7rem' }}
-                              >
-                                +{post.tags.length - 2}
-                              </span>
-                            )}
-                          </div>
-                          <span className="text-secondary small">
-                            <i className="bi bi-clock me-1"></i>
-                            {post.readingTime} min read
-                          </span>
-                        </div>
-                      </div>
-                    </Link>
+                    <BlogPostCard post={post} />
                   </motion.div>
                 ))}
               </AnimatePresence>

@@ -4,9 +4,68 @@ import Sidebar from '../components/Sidebar.jsx';
 import GitHubCommitChart from '../components/GitHubCommitChart.jsx';
 import { github } from '../config/site.js';
 import { useI18n } from '../i18n/index.jsx';
+import { useMagnetic } from '../hooks/useMagnetic.js';
+
+const RepoCard = ({ repo }) => {
+  const magneticRef = useMagnetic(0.05);
+
+  return (
+    <motion.div
+      variants={{ hidden: { opacity: 0, y: 6 }, show: { opacity: 1, y: 0 } }}
+    >
+      <div 
+        ref={magneticRef}
+        className="card card-hover card-elevate card-gradient-border h-100 magnetic"
+      >
+        <div className="card-body d-flex flex-column">
+          <div className="d-flex justify-content-between align-items-start mb-2">
+            <h3 className="h6 mb-0">
+              <a
+                href={repo.html_url}
+                target="_blank"
+                rel="noopener"
+                className="text-decoration-none fw-semibold stretched-link"
+              >
+                {repo.name}
+              </a>
+            </h3>
+            <div className="d-flex gap-2 align-items-center text-secondary small">
+              {repo.stargazers_count > 0 && (
+                <span className="badge bg-warning bg-opacity-10 text-warning d-flex align-items-center gap-1">
+                  <i className="bi bi-star-fill" style={{ fontSize: '0.7rem' }}></i> 
+                  {repo.stargazers_count}
+                </span>
+              )}
+              {repo.forks_count > 0 && (
+                 <span className="text-secondary d-flex align-items-center gap-1" style={{ fontSize: '0.8rem' }}>
+                  <i className="bi bi-diagram-3"></i> {repo.forks_count}
+                 </span>
+              )}
+            </div>
+          </div>
+          {repo.description && (
+            <p className="text-secondary small mb-3 flex-grow-1 line-clamp-2">{repo.description}</p>
+          )}
+          <div className="d-flex justify-content-between align-items-center mt-auto pt-2 border-top border-light-subtle">
+            {repo.language ? (
+              <span className="badge text-bg-secondary bg-opacity-10 text-body d-flex align-items-center gap-1">
+                <span className="d-inline-block rounded-circle bg-primary" style={{ width: 6, height: 6 }}></span>
+                {repo.language}
+              </span>
+            ) : <span></span>}
+            <span className="text-secondary small" style={{ fontSize: '0.75rem' }}>
+              updated {new Date(repo.updated_at).toLocaleDateString()}
+            </span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 export default function Repos() {
   const { t } = useI18n();
+  // ... rest of the component state ...
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -14,6 +73,7 @@ export default function Repos() {
   const [langFilter, setLangFilter] = useState('All');
 
   useEffect(() => {
+    // ... useEffect code same as before ...
     const cached = sessionStorage.getItem('gh:repos');
     if (cached) {
       try {
@@ -94,7 +154,7 @@ export default function Repos() {
           ))}
           <div className="ms-auto"></div>
           <input
-            className="form-control form-control-sm"
+            className="form-control form-control-sm search-input-glow"
             style={{ maxWidth: 260 }}
             placeholder={t('repos.searchPlaceholder')}
             value={query}
@@ -144,46 +204,7 @@ export default function Repos() {
             </div>
           ) : (
             filtered.map((repo) => (
-              <motion.div
-                className="col"
-                key={repo.id}
-                variants={{ hidden: { opacity: 0, y: 6 }, show: { opacity: 1, y: 0 } }}
-              >
-                <div className="card card-hover card-elevate h-100">
-                  <div className="card-body">
-                    <div className="d-flex justify-content-between align-items-start mb-2">
-                      <h3 className="h6 mb-0">
-                        <a
-                          href={repo.html_url}
-                          target="_blank"
-                          rel="noopener"
-                          className="text-decoration-none"
-                        >
-                          {repo.name}
-                        </a>
-                      </h3>
-                      <div className="d-flex gap-1 align-items-center text-secondary small">
-                        {repo.stargazers_count > 0 && (
-                          <span>
-                            <i className="bi bi-star"></i> {repo.stargazers_count}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    {repo.description && (
-                      <p className="text-secondary small mb-2">{repo.description}</p>
-                    )}
-                    <div className="d-flex justify-content-between align-items-center">
-                      {repo.language && (
-                        <span className="badge text-bg-secondary">{repo.language}</span>
-                      )}
-                      <span className="text-secondary small">
-                        {t('repos.stats.updated')} {new Date(repo.updated_at).toLocaleDateString()}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+              <RepoCard key={repo.id} repo={repo} />
             ))
           )}
         </motion.div>

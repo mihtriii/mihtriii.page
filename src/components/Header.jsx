@@ -272,33 +272,6 @@ export default function Header() {
               <i className={`bi ${getThemeIcon()}`}></i>
             </button>
             <button
-              onClick={toggleTone}
-              className="btn btn-outline-secondary btn-sm me-1"
-              type="button"
-              aria-label={`Tone: ${tone}`}
-              title={`Tone: ${tone}`}
-            >
-              <i className="bi bi-palette2"></i>
-            </button>
-            <button
-              onClick={togglePalette}
-              className="btn btn-outline-secondary btn-sm me-1"
-              type="button"
-              aria-label={`Palette: ${palette}`}
-              title={`Palette: ${palette}`}
-            >
-              <i className="bi bi-layers"></i>
-            </button>
-            <button
-              onClick={toggleAutoHide}
-              className="btn btn-outline-secondary btn-sm me-1"
-              type="button"
-              aria-label={`Auto hide header: ${autoHide}`}
-              title={`Auto hide header: ${autoHide ? 'on' : 'off'}`}
-            >
-              <i className="bi bi-chevron-bar-up"></i>
-            </button>
-            <button
               className="btn btn-primary btn-sm"
               type="button"
               aria-label={t('common.openMenu')}
@@ -309,7 +282,16 @@ export default function Header() {
           </div>
         </div>
       </nav>
-      <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} />
+      <MobileNav
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        tone={tone}
+        onToggleTone={toggleTone}
+        palette={palette}
+        onTogglePalette={togglePalette}
+        autoHide={autoHide}
+        onToggleAutoHide={toggleAutoHide}
+      />
     </header>
   );
 }

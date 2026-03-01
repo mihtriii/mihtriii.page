@@ -44,7 +44,7 @@ const icons = [
 export default function SidebarIcons() {
   return (
     <div
-      className="position-fixed"
+      className="position-fixed d-none d-md-block"
       style={{ top: '50%', right: '20px', transform: 'translateY(-50%)', zIndex: 1000 }}
     >
       <motion.div

@@ -4,7 +4,7 @@ import { useI18n } from '../i18n/index.jsx';
 import { NavLink } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 
-export default function MobileNav({ open, onClose }) {
+export default function MobileNav({ open, onClose, tone, onToggleTone, palette, onTogglePalette, autoHide, onToggleAutoHide }) {
   const { t } = useI18n();
   const firstLinkRef = useRef(null);
   const drawerRef = useRef(null);
@@ -161,6 +161,36 @@ export default function MobileNav({ open, onClose }) {
                 </a>
               </li>
             </ul>
+
+            {/* Settings section - theme controls moved from header */}
+            <div className="mobile-drawer-settings">
+              <div className="fw-semibold text-uppercase small letter mb-2 text-secondary">
+                <i className="bi bi-gear me-1"></i> Settings
+              </div>
+              <div className="d-flex flex-column gap-2">
+                {onToggleTone && (
+                  <button className="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2 text-start" onClick={onToggleTone}>
+                    <i className="bi bi-palette2"></i>
+                    <span className="flex-grow-1">Tone</span>
+                    <span className="badge bg-body-secondary text-body-secondary">{tone}</span>
+                  </button>
+                )}
+                {onTogglePalette && (
+                  <button className="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2 text-start" onClick={onTogglePalette}>
+                    <i className="bi bi-layers"></i>
+                    <span className="flex-grow-1">Palette</span>
+                    <span className="badge bg-body-secondary text-body-secondary">{palette}</span>
+                  </button>
+                )}
+                {onToggleAutoHide && (
+                  <button className="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2 text-start" onClick={onToggleAutoHide}>
+                    <i className="bi bi-chevron-bar-up"></i>
+                    <span className="flex-grow-1">Auto-hide header</span>
+                    <span className="badge bg-body-secondary text-body-secondary">{autoHide ? 'on' : 'off'}</span>
+                  </button>
+                )}
+              </div>
+            </div>
           </motion.nav>
         </>
       )}
@@ -173,3 +203,4 @@ export default function MobileNav({ open, onClose }) {
   }
   return content;
 }
+

@@ -8,7 +8,7 @@ import BlurImage from '../components/BlurImage.jsx';
 import Sidebar from '../components/Sidebar.jsx';
 import SectionDivider from '../components/SectionDivider.jsx';
 import { toast } from '../components/Toast.jsx';
-import { social } from '../config/site.js';
+import { social, hasRealScholar } from '../config/site.js';
 import { useI18n } from '../i18n/index.jsx';
 import SEOHead, { useSEO } from '../components/SEOHead.jsx';
 import { useMagnetic } from '../hooks/useMagnetic.js';
@@ -41,6 +41,7 @@ function Section({ id, title, children }) {
 }
 
 function ProjectCard({ project, index }) {
+  const { t } = useI18n();
   const magneticRef = useMagnetic(0.1);
   
   return (
@@ -65,7 +66,7 @@ function ProjectCard({ project, index }) {
             <h3 className="h6 mb-0 fw-semibold">{project.title}</h3>
             <span className="badge text-bg-primary">
               <i className="bi bi-rocket-takeoff me-1"></i>
-              Soon
+              {t('home.projects.soon')}
             </span>
           </div>
           <p className="mb-2 text-secondary small">{project.desc}</p>
@@ -159,7 +160,7 @@ export default function Home() {
                 <span className="badge badge-glow">VLMs</span>
                 <span className="badge badge-glow">Quantum ML</span>
               </div>
-              <div className="d-flex flex-wrap gap-2">
+              <div className="d-flex flex-wrap gap-2 hero-cta">
                 <a href="#contact" className="btn btn-gradient-border btn-sm px-4">
                   {t('home.buttons.contact')}
                 </a>
@@ -244,15 +245,17 @@ export default function Home() {
             >
               <i className="bi bi-envelope"></i>
             </a>
-            <a
-              className="btn btn-outline-secondary btn-sm icon-btn"
-              href={social.scholar}
-              target="_blank"
-              rel="noopener"
-              aria-label="Google Scholar"
-            >
-              <i className="bi bi-mortarboard"></i>
-            </a>
+            {hasRealScholar && (
+              <a
+                className="btn btn-outline-secondary btn-sm icon-btn"
+                href={social.scholar}
+                target="_blank"
+                rel="noopener"
+                aria-label="Google Scholar"
+              >
+                <i className="bi bi-mortarboard"></i>
+              </a>
+            )}
           </div>
         </Section>
 
@@ -335,7 +338,7 @@ export default function Home() {
 
         <Section id="projects" title={t('home.sections.projects')}>
           <motion.div
-            className="d-flex flex-wrap gap-2 mb-3"
+            className="d-flex flex-wrap align-items-center gap-2 mb-3 project-toolbar"
             initial="hidden"
             animate="visible"
             variants={staggerContainerVariants}
@@ -352,16 +355,16 @@ export default function Home() {
                 {t}
               </motion.button>
             ))}
-            <div className="ms-auto"></div>
-            <motion.input
-              className="form-control form-control-sm"
-              style={{ maxWidth: 220 }}
-              placeholder={t('home.projects.searchPlaceholder')}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              variants={staggerItemVariants}
-              whileFocus={{ scale: 1.02 }}
-            />
+            <div className="project-search-wrap ms-auto">
+              <motion.input
+                className="form-control form-control-sm project-search-input"
+                placeholder={t('home.projects.searchPlaceholder')}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                variants={staggerItemVariants}
+                whileFocus={{ scale: 1.02 }}
+              />
+            </div>
           </motion.div>
           <motion.div
             className="row g-3 row-cols-1 row-cols-md-2"
@@ -377,11 +380,13 @@ export default function Home() {
 
         <Section id="contact" title={t('home.sections.contact')}>
           <div className="d-flex flex-column gap-3">
-            <div className="d-flex align-items-center gap-2">
-              <i className="bi bi-envelope"></i>
-              <a href="mailto:mihtriii295@gmail.com">mihtriii295@gmail.com</a>
+            <div className="d-flex flex-wrap align-items-center gap-2 contact-row">
+              <i className="bi bi-envelope contact-icon"></i>
+              <a href={social.email} className="contact-link">
+                mihtriii295@gmail.com
+              </a>
               <button
-                className="btn btn-outline-secondary btn-sm"
+                className="btn btn-outline-secondary btn-sm ms-auto"
                 onClick={() => {
                   navigator.clipboard.writeText('mihtriii295@gmail.com');
                   toast(t('common.copied'));
@@ -390,13 +395,15 @@ export default function Home() {
                 {t('common.copy')}
               </button>
             </div>
-            <div className="d-flex align-items-center gap-2">
-              <i className="bi bi-telephone"></i>
-              <a href="tel:+84858276537">+84 858 276 537</a>
+            <div className="d-flex flex-wrap align-items-center gap-2 contact-row">
+              <i className="bi bi-telephone contact-icon"></i>
+              <a href={social.phone} className="contact-link">
+                {social.phoneDisplay}
+              </a>
               <button
-                className="btn btn-outline-secondary btn-sm"
+                className="btn btn-outline-secondary btn-sm ms-auto"
                 onClick={() => {
-                  navigator.clipboard.writeText('0858276537');
+                  navigator.clipboard.writeText(social.phoneRaw);
                   toast('Copied phone number to clipboard');
                 }}
               >

@@ -1,5 +1,5 @@
 import React from 'react';
-import { social } from '../config/site.js';
+import { social, hasRealScholar } from '../config/site.js';
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -52,16 +52,18 @@ export default function Footer() {
           >
             <i className="bi bi-envelope"></i>
           </a>
-          <a
-            className="btn btn-outline-secondary btn-sm icon-btn"
-            href={social.scholar}
-            target="_blank"
-            rel="noopener"
-            aria-label="Google Scholar"
-            data-brand="scholar"
-          >
-            <i className="bi bi-mortarboard"></i>
-          </a>
+          {hasRealScholar && (
+            <a
+              className="btn btn-outline-secondary btn-sm icon-btn"
+              href={social.scholar}
+              target="_blank"
+              rel="noopener"
+              aria-label="Google Scholar"
+              data-brand="scholar"
+            >
+              <i className="bi bi-mortarboard"></i>
+            </a>
+          )}
           <a
             className="btn btn-outline-secondary btn-sm icon-btn"
             href={social.orcid}

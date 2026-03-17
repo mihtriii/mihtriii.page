@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollSpy } from './ScrollSpy.jsx';
-import { github, social } from '../config/site.js';
+import { github, social, hasRealScholar } from '../config/site.js';
 import SidebarIcons from './SidebarIcons.jsx';
 
 export default function Sidebar({ sectionIds = [], showSocial = true }) {
@@ -103,7 +103,8 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
           const arr = JSON.parse(cached);
           const s = fromRepos(arr);
           setStats((prev) => ({ ...prev, ...s, loading: false }));
-          sessionStorage.setItem('gh:stats', JSON.stringify({ ...s, followers: (prev?.followers ?? null), ts: Date.now() }));
+          const oldStats = JSON.parse(sessionStorage.getItem('gh:stats') || '{}');
+          sessionStorage.setItem('gh:stats', JSON.stringify({ ...oldStats, ...s, ts: Date.now() }));
           return;
         }
       } catch {}
@@ -135,8 +136,9 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
         const arr = JSON.parse(sessionStorage.getItem('gh:repos') || '[]');
         const repos = arr.length;
         const stars = arr.reduce((a, r) => a + (r.stargazers_count || 0), 0);
-        setStats({ repos, stars, loading: false });
-        sessionStorage.setItem('gh:stats', JSON.stringify({ repos, stars, ts: Date.now() }));
+        setStats((st) => ({ ...st, repos, stars, loading: false }));
+        const oldStats = JSON.parse(sessionStorage.getItem('gh:stats') || '{}');
+        sessionStorage.setItem('gh:stats', JSON.stringify({ ...oldStats, repos, stars, ts: Date.now() }));
       } catch {}
     };
     window.addEventListener('gh:repos-updated', onUpdated);
@@ -312,9 +314,11 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
               <a className="btn btn-outline-secondary btn-sm icon-btn" style={{width:32,height:32,margin:'0.15rem 0',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} data-brand="email" href={social.email} aria-label="Email">
                 <i className="bi bi-envelope"></i>
               </a>
-              <a className="btn btn-outline-secondary btn-sm icon-btn" style={{width:32,height:32,margin:'0.15rem 0',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} data-brand="scholar" href={social.scholar} target="_blank" rel="noopener" aria-label="Google Scholar">
-                <i className="bi bi-mortarboard"></i>
-              </a>
+              {hasRealScholar && (
+                <a className="btn btn-outline-secondary btn-sm icon-btn" style={{width:32,height:32,margin:'0.15rem 0',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} data-brand="scholar" href={social.scholar} target="_blank" rel="noopener" aria-label="Google Scholar">
+                  <i className="bi bi-mortarboard"></i>
+                </a>
+              )}
             </div>
           </div>
         </div>

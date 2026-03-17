@@ -63,7 +63,6 @@ const Item = ({ to, exact, icon, label, prefetch }) => (
 export default function MobileTabBar() {
   const { t } = useI18n();
   const [hidden, setHidden] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
   const lastY = useRef(0);
   const ticking = useRef(false);
 
@@ -141,17 +140,12 @@ export default function MobileTabBar() {
       role="navigation"
       aria-label="Primary bottom navigation"
     >
-      <motion.div
-        className="tabbar-content"
-        initial={{ opacity: 1 }}
-        animate={{ opacity: isVisible ? 1 : 0 }}
-        transition={{ duration: 0.2 }}
-      >
+      <div className="tabbar-content">
         <Item to="/" exact icon="bi-house" label={t('nav.about')} />
         <Item to="/blog" icon="bi-journal-text" label={t('nav.blog')} prefetch={prefetch.blog} />
         <Item to="/cv" icon="bi-badge-ad" label={t('nav.cv')} prefetch={prefetch.cv} />
         <Item to="/repos" icon="bi-git" label={t('nav.repos')} prefetch={prefetch.repos} />
-      </motion.div>
+      </div>
     </motion.div>
   );
 }

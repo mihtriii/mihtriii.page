@@ -260,7 +260,7 @@ export default function Header() {
           </div>
 
           <div className="d-flex align-items-center d-md-none ms-auto">
-            <span className="text-secondary small me-2">
+            <span className="text-secondary small me-2 d-none d-sm-inline">
               <i className="bi bi-clock"></i> {time}
             </span>
             <button

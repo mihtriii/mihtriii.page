@@ -14,3 +14,5 @@ export const social = {
   orcid: 'https://orcid.org/0009-0005-0386-2751',
 };
 
+export const hasRealScholar =
+  typeof social.scholar === 'string' && !social.scholar.includes('YOUR_PROFILE_ID');

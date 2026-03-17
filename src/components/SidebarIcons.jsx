@@ -1,47 +1,52 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-
-const icons = [
-  {
-    name: 'GitHub',
-    icon: <i className="bi bi-github"></i>,
-    url: 'https://github.com/mihtriii',
-    color: '#181717',
-  },
-  {
-    name: 'LinkedIn',
-    icon: <i className="bi bi-linkedin"></i>,
-    url: 'https://www.linkedin.com/in/mihtriii/',
-    color: '#0a66c2',
-  },
-  {
-    name: 'Kaggle',
-    icon: (
-      <img
-        src={import.meta.env.BASE_URL + 'assets/kaggle.svg'}
-        alt="Kaggle"
-        width={18}
-        height={18}
-      />
-    ),
-    url: 'https://www.kaggle.com/mihtriii',
-    color: '#20beff',
-  },
-  {
-    name: 'Email',
-    icon: <i className="bi bi-envelope"></i>,
-    url: 'mailto:mihtriii295@gmail.com',
-    color: '#c97a40',
-  },
-  {
-    name: 'Scholar',
-    icon: <i className="bi bi-mortarboard"></i>,
-    url: 'https://scholar.google.com/citations?user=YOUR_PROFILE_ID',
-    color: '#4285f4',
-  },
-];
+import { social, hasRealScholar } from '../config/site.js';
 
 export default function SidebarIcons() {
+  const icons = [
+    {
+      name: 'GitHub',
+      icon: <i className="bi bi-github"></i>,
+      url: social.github,
+      color: '#181717',
+    },
+    {
+      name: 'LinkedIn',
+      icon: <i className="bi bi-linkedin"></i>,
+      url: social.linkedin,
+      color: '#0a66c2',
+    },
+    {
+      name: 'Kaggle',
+      icon: (
+        <img
+          src={import.meta.env.BASE_URL + 'assets/kaggle.svg'}
+          alt="Kaggle"
+          width={18}
+          height={18}
+        />
+      ),
+      url: social.kaggle,
+      color: '#20beff',
+    },
+    {
+      name: 'Email',
+      icon: <i className="bi bi-envelope"></i>,
+      url: social.email,
+      color: '#c97a40',
+    },
+    ...(hasRealScholar
+      ? [
+          {
+            name: 'Scholar',
+            icon: <i className="bi bi-mortarboard"></i>,
+            url: social.scholar,
+            color: '#4285f4',
+          },
+        ]
+      : []),
+  ];
+
   return (
     <div
       className="position-fixed d-none d-md-block"

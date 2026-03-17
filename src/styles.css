@@ -10,6 +10,7 @@
   --brand-accent: #6b8f71; /* sage */
   --brand-primary-rgb: 138, 122, 92;
   --brand-secondary-rgb: 201, 122, 64;
+  --brand-accent-rgb: 107, 143, 113;
   --particles-color: rgba(201, 122, 64, 0.55);
   --text-secondary: #6c757d;
   --header-offset: 72px;
@@ -48,6 +49,7 @@
   --brand-accent: #8fbf9e; /* soft sage */
   --brand-primary-rgb: 214, 185, 143;
   --brand-secondary-rgb: 169, 107, 60;
+  --brand-accent-rgb: 143, 191, 158;
   --particles-color: rgba(214, 185, 143, 0.55);
   --text-secondary: #adb5bd;
   --bs-primary: var(--brand-secondary);
@@ -250,17 +252,18 @@
     width: 4px;
     height: 4px;
   }
-  .mobile-tabbar {
-    height: 48px !important;
-    min-height: 44px;
+  .mobile-tabbar .tabbar-content {
+    height: 54px !important;
+    padding: 0 0.35rem !important;
+    gap: 4px !important;
   }
   .mobile-tabbar .tab-link {
-    padding: 4px 4px;
     min-width: 44px;
+    min-height: 44px;
   }
   .mobile-tabbar .tab-inner {
-    min-width: 44px;
     gap: 1px;
+    padding: 0.25rem 0.15rem;
   }
   .mobile-tabbar .tab-link .label {
     font-size: 0.68rem;
@@ -445,7 +448,7 @@ html {
   background:
     radial-gradient(circle at 20% 50%, rgba(var(--brand-primary-rgb), 0.12), transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(var(--brand-secondary-rgb), 0.12), transparent 50%),
-    radial-gradient(circle at 40% 20%, rgba(var(--brand-accent), 0.08), transparent 40%);
+    radial-gradient(circle at 40% 20%, rgba(var(--brand-accent-rgb), 0.08), transparent 40%);
   opacity: 0.8;
   animation: gradient-shift 15s ease-in-out infinite;
   z-index: 0;
@@ -454,7 +457,7 @@ html {
   background:
     radial-gradient(circle at 20% 50%, rgba(var(--brand-primary-rgb), 0.06), transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(var(--brand-secondary-rgb), 0.06), transparent 50%),
-    radial-gradient(circle at 40% 20%, rgba(var(--brand-accent), 0.04), transparent 40%);
+    radial-gradient(circle at 40% 20%, rgba(var(--brand-accent-rgb), 0.04), transparent 40%);
 }
 @keyframes gradient-shift {
   0%,
@@ -609,6 +612,16 @@ html {
   .tilt {
     transition: none !important;
     transform: none !important;
+  }
+  .hero-with-bg::before,
+  .avatar-frame,
+  .card-animate {
+    animation: none !important;
+  }
+  .card-animate {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
   }
 }
 
@@ -866,6 +879,35 @@ html {
   height: 100%;
   object-fit: cover;
   opacity: 0.85;
+}
+
+.hero-cta .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-search-wrap {
+  width: min(100%, 220px);
+}
+.project-search-input {
+  width: 100%;
+}
+
+.contact-row {
+  padding: 0.35rem 0;
+  border-bottom: 1px dashed var(--glass-border);
+}
+.contact-row:last-child {
+  border-bottom: 0;
+}
+.contact-icon {
+  width: 1rem;
+  text-align: center;
+  flex: 0 0 auto;
+}
+.contact-link {
+  overflow-wrap: anywhere;
 }
 
 /* Portrait in hero */
@@ -1233,14 +1275,14 @@ html {
 
 /* Mobile bottom tabbar */
 @media (max-width: 767.98px) {
-  :root {
-    --header-offset: 60px;
-  }
-  :root {
-    --tabbar-h: calc(56px + env(safe-area-inset-bottom));
-  }
+  :root { --header-offset: 60px; }
+  :root { --tabbar-h: calc(64px + env(safe-area-inset-bottom)); }
+
   main.container {
-    padding-bottom: var(--tabbar-h);
+    padding-bottom: calc(var(--tabbar-h) + 0.25rem);
+  }
+  .site-footer {
+    padding-bottom: calc(1rem + var(--tabbar-h));
   }
   .mobile-tabbar {
     position: fixed;
@@ -1249,50 +1291,60 @@ html {
     bottom: 0;
     z-index: 1202;
     height: var(--tabbar-h);
-    padding: 8px max(env(safe-area-inset-left), 12px) max(env(safe-area-inset-bottom), 8px);
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
+    padding: 0 max(env(safe-area-inset-left), 10px) env(safe-area-inset-bottom);
+    display: block;
     background: var(--bs-body-bg);
     border-top: 1px solid var(--glass-border);
-    backdrop-filter: saturate(180%) blur(10px);
+    backdrop-filter: saturate(180%) blur(18px);
     transition:
       transform 0.25s ease,
       opacity 0.2s ease;
   }
-  .mobile-tabbar.hidden {
-    transform: translateY(100%);
-    opacity: 0.95;
+  .mobile-tabbar .tabbar-content {
+    height: 64px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 6px;
+    padding: 0;
   }
   .mobile-tabbar .tab-link {
     position: relative;
     text-decoration: none;
     color: inherit;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 12px;
-    padding: 6px 8px;
+    min-height: 52px;
+    margin: 0;
+    padding: 0;
     overflow: hidden;
   }
   .mobile-tabbar .tab-inner {
     position: relative;
-    display: inline-flex;
+    display: flex;
+    width: 100%;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 2px;
-    min-width: 56px;
+    min-width: 0;
+    padding: 0.35rem 0.2rem;
   }
-  .mobile-tabbar .tab-link i {
+  .mobile-tabbar .tab-link .bi {
     font-size: 1.1rem;
+    margin-bottom: 0.1rem;
   }
   .mobile-tabbar .tab-link .label {
     font-size: 0.75rem;
     opacity: 0.9;
+    line-height: 1;
+    white-space: nowrap;
   }
   .mobile-tabbar .tab-highlight {
     position: absolute;
-    inset: -2px -6px;
+    inset: 2px;
     border-radius: 10px;
     background: rgba(var(--brand-primary-rgb), 0.14);
     z-index: -1;
@@ -1300,20 +1352,16 @@ html {
   [data-bs-theme='dark'] .mobile-tabbar .tab-highlight {
     background: rgba(var(--brand-secondary-rgb), 0.18);
   }
-}
-
-/* Lift back-to-top above tabbar */
-@media (max-width: 767.98px) {
+  .mobile-tabbar.hidden {
+    transform: translateY(100%);
+    opacity: 0.95;
+  }
   .back-to-top {
-    bottom: calc(16px + var(--tabbar-h));
+    bottom: calc(14px + var(--tabbar-h));
     z-index: 1203;
   }
-}
-
-/* Lift toasts above tabbar on phones */
-@media (max-width: 767.98px) {
   .toast-container {
-    bottom: calc(1rem + var(--tabbar-h));
+    bottom: calc(0.75rem + var(--tabbar-h));
   }
 }
 
@@ -1338,6 +1386,23 @@ html {
   .page-hero {
     padding: 1.5rem !important;
     margin-bottom: 1rem !important;
+  }
+  .hero-cta .btn {
+    flex: 1 1 calc(50% - 0.5rem);
+  }
+  .project-toolbar .btn {
+    min-height: 38px;
+  }
+  .project-search-wrap {
+    width: 100%;
+    margin-left: 0 !important;
+  }
+  .contact-link {
+    flex: 1 1 calc(100% - 2rem);
+  }
+  .contact-row .btn {
+    width: 100%;
+    margin-left: 0 !important;
   }
 
   /* Mobile-first typography */
@@ -1431,68 +1496,6 @@ html {
   background: color-mix(in srgb, var(--bs-body-bg) 92%, transparent) !important;
 }
 
-/* Enhanced mobile tabbar */
-.mobile-tabbar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1050;
-  background: var(--surface-1);
-  border-top: 1px solid var(--bs-border-color);
-  backdrop-filter: blur(20px);
-  padding: env(safe-area-inset-bottom) 0 0 0;
-  min-height: calc(60px + env(safe-area-inset-bottom));
-}
-
-.tabbar-content {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 60px;
-  padding: 0 1rem;
-}
-
-.tab-link {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  border-radius: 12px;
-  transition: all 0.2s ease;
-  margin: 0 0.25rem;
-  min-height: 48px;
-}
-
-.tab-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  padding: 0.5rem;
-}
-
-.tab-highlight {
-  position: absolute;
-  inset: -8px;
-  background: rgba(var(--brand-secondary-rgb), 0.1);
-  border-radius: 12px;
-  z-index: -1;
-}
-
-.tab-link .bi {
-  font-size: 1.2rem;
-  margin-bottom: 0.25rem;
-}
-
-.tab-link .label {
-  font-size: 0.7rem;
-  font-weight: 500;
-  line-height: 1;
-}
-
 /* Mobile gesture improvements */
 @media (hover: none) and (pointer: coarse) {
   .card-hover:hover {
@@ -1542,6 +1545,7 @@ html {
   --brand-accent: #20c997;
   --brand-primary-rgb: 13, 110, 253;
   --brand-secondary-rgb: 111, 66, 193;
+  --brand-accent-rgb: 32, 201, 151;
   --particles-color: rgba(13, 110, 253, 0.55);
 }
 [data-bs-theme='dark'][data-palette='classic'] {
@@ -1550,6 +1554,7 @@ html {
   --brand-accent: #7dd6b8;
   --brand-primary-rgb: 127, 178, 255;
   --brand-secondary-rgb: 154, 123, 214;
+  --brand-accent-rgb: 125, 214, 184;
   --particles-color: rgba(127, 178, 255, 0.55);
 }
 

@@ -4,8 +4,9 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "npm run sitemap && vite build",
+    "blog:manifest": "node scripts/generate-blog-manifest.js",
+    "dev": "npm run blog:manifest && vite",
+    "build": "npm run blog:manifest && npm run sitemap && vite build",
     "preview": "vite preview --port 5174",
     "deploy": "npm run build && gh-pages -d dist",
     "sitemap": "node scripts/generate-sitemap.js",

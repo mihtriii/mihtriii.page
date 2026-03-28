@@ -4,15 +4,7 @@ import Sidebar from '../components/Sidebar.jsx';
 import { Link } from 'react-router-dom';
 import { useI18n } from '../i18n/index.jsx';
 import { useMagnetic } from '../hooks/useMagnetic.js';
-
-const modules = import.meta.glob('../blog/*.mdx', { eager: true });
-
-// Helper function to calculate reading time
-function calculateReadingTime(content) {
-  const wordsPerMinute = 200;
-  const words = content.split(/\s+/).length;
-  return Math.ceil(words / wordsPerMinute);
-}
+import { blogPosts } from '../blog/manifest.js';
 
 function BlogPostCard({ post }) {
   const magneticRef = useMagnetic(0.08); // Subtle magnetic effect for blog grid
@@ -56,7 +48,7 @@ function BlogPostCard({ post }) {
             </div>
             <span className="text-secondary small d-flex align-items-center gap-1">
               <i className="bi bi-clock"></i>
-              {post.readingTime} min
+              {post.readingTime ? `${post.readingTime} min` : 'Read'}
             </span>
           </div>
         </div>
@@ -72,25 +64,7 @@ export default function Blog() {
   const [sortBy, setSortBy] = useState('date'); // date, title, readingTime
 
   const posts = useMemo(() => {
-    return Object.entries(modules)
-      .map(([path, mod]) => {
-        const slug = path
-          .split('/')
-          .pop()
-          .replace(/\.mdx$/, '');
-        const meta = mod.meta || {};
-        const content = mod.default?.toString() || '';
-        const readingTime = meta.readingTime || calculateReadingTime(content);
-
-        return {
-          slug,
-          title: meta.title || slug,
-          date: meta.date || '',
-          summary: meta.summary || '',
-          tags: meta.tags || [],
-          readingTime,
-        };
-      })
+    return [...blogPosts]
       .sort((a, b) => {
         switch (sortBy) {
           case 'title':

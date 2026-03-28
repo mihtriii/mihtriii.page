@@ -20,9 +20,22 @@ export default defineConfig({
     sourcemap: true, // helpful for Vercel analytics and debugging
     rollupOptions: {
       output: {
-        manualChunks: {
-          react: ['react', 'react-dom', 'react-router-dom'],
-          framer: ['framer-motion'],
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return undefined;
+
+          if (id.includes('framer-motion')) return 'framer';
+          if (id.includes('lucide-react')) return 'admin-vendor';
+          if (id.includes('@mdx-js') || id.includes('/katex/')) return 'blog-vendor';
+          if (
+            id.includes('react-router-dom') ||
+            id.includes('react-router') ||
+            id.includes('/react-dom/') ||
+            id.includes('/react/')
+          ) {
+            return 'react';
+          }
+
+          return undefined;
         },
       },
     },

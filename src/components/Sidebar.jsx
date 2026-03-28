@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollSpy } from './ScrollSpy.jsx';
 import { github, social, hasRealScholar } from '../config/site.js';
+import { getRecentBlogPosts } from '../blog/manifest.js';
 import SidebarIcons from './SidebarIcons.jsx';
 
 export default function Sidebar({ sectionIds = [], showSocial = true }) {
@@ -31,16 +32,12 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
   }
 
   // Recent posts from MDX (top 3)
-  const modules = import.meta.glob('../blog/*.mdx', { eager: true });
   const recentPosts = useMemo(() => {
     try {
-      const arr = Object.entries(modules).map(([path, mod]) => {
-        const slug = path.split('/').pop().replace(/\.mdx$/, '');
-        const meta = mod.meta || {};
-        return { slug, title: meta.title || slug, date: meta.date || '' };
-      }).sort((a, b) => (b.date || '').localeCompare(a.date || '')).slice(0, 3);
-      return arr;
-    } catch { return []; }
+      return getRecentBlogPosts(3);
+    } catch {
+      return [];
+    }
   }, []);
 
   // Track small screens to collapse Sections

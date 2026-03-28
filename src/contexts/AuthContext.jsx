@@ -18,6 +18,28 @@ const ADMIN_CREDENTIALS = {
 
 const SESSION_DURATION = (import.meta.env.VITE_SESSION_DURATION || 24) * 60 * 60 * 1000; // Convert hours to milliseconds
 
+function getSessionExpiry(authData = {}) {
+  if (typeof authData.expiry === 'number' && Number.isFinite(authData.expiry)) {
+    return authData.expiry;
+  }
+
+  if (typeof authData.expiry === 'string' && authData.expiry !== '') {
+    const parsedExpiry = Number(authData.expiry);
+    if (Number.isFinite(parsedExpiry)) {
+      return parsedExpiry;
+    }
+  }
+
+  if (typeof authData.loginTime === 'string') {
+    const parsedLoginTime = new Date(authData.loginTime).getTime();
+    if (Number.isFinite(parsedLoginTime)) {
+      return parsedLoginTime + SESSION_DURATION;
+    }
+  }
+
+  return null;
+}
+
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,18 +50,15 @@ export const AuthProvider = ({ children }) => {
       const authData = localStorage.getItem('adminAuth');
       if (authData) {
         try {
-          const { token, expiry } = JSON.parse(authData);
-          const now = new Date().getTime();
+          const parsedAuth = JSON.parse(authData);
+          const expiryTime = getSessionExpiry(parsedAuth);
 
-          // Check if token hasn't expired (24 hours)
-          if (loginTime && Date.now() - loginTime < SESSION_DURATION) {
+          if (parsedAuth?.token === 'authenticated' && expiryTime && Date.now() < expiryTime) {
             setIsAuthenticated(true);
           } else {
-            // Token expired, remove it
             localStorage.removeItem('adminAuth');
           }
-        } catch (error) {
-          // Invalid auth data, remove it
+        } catch {
           localStorage.removeItem('adminAuth');
         }
       }

@@ -1,0 +1,52 @@
+---
+description: Shared coding-agent baseline for this user's repos. Combines Karpathy-style behavioral guardrails with repo workflow rules for ML/research/code projects.
+alwaysApply: true
+---
+
+# Unified agent guidelines
+
+**Priority order:** explicit user request > repo-specific docs in this repo > this shared rule.
+
+## 1. Read local context first
+- Before changing code, read repo-local guidance if present: `AGENTS.md`, `CLAUDE.md`, `context.md`, `README.md`, architecture notes, or benchmark notes.
+- If repo-specific docs conflict with this shared rule, follow the repo-specific docs and say so.
+
+## 2. Think before coding
+- Do not guess silently.
+- State assumptions explicitly.
+- If multiple interpretations exist, present them briefly rather than choosing invisibly.
+- If a simpler or safer path exists, say so.
+
+## 3. Simplicity first
+- Write the minimum code that solves the requested problem.
+- Avoid speculative abstractions, generic frameworks, and future-proofing that was not requested.
+- If the solution feels bloated, simplify before finalizing.
+
+## 4. Surgical changes
+- Touch only the code required for the task.
+- Do not opportunistically reformat, rename, or refactor unrelated areas.
+- Remove only the dead code created by your own changes.
+- Mention unrelated debt separately instead of fixing it automatically.
+
+## 5. Goal-driven execution
+- Define explicit success criteria and verify them.
+- Bug fix: reproduce, then fix, then verify.
+- Refactor: preserve behavior and validate before/after.
+- Feature: run the smallest useful validation that proves it works.
+
+## 6. This user's repo workflow
+- Prefer reproducible scripts and commands over manual one-off steps.
+- For ML/research repos, do not silently change label conventions, metric semantics, benchmark protocol, or dataset inclusion rules.
+- Separate code changes from experiment/protocol changes when possible.
+- Start expensive jobs with a small validating run before large sweeps.
+- Store generated outputs in established locations such as `analysis_outputs/`, `runs/`, or repo-defined artifact directories.
+
+## 7. Reporting discipline
+- Report what changed, how it was validated, and where outputs were written.
+- Include exact commands for non-trivial runs when useful.
+- If verification is partial, say what remains unverified.
+
+## 8. Project assets and comments
+- Do not move or delete datasets, checkpoints, notebooks, or generated results unless asked.
+- Preserve comments and docs you do not fully understand.
+

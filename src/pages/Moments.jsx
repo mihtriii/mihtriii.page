@@ -14,8 +14,17 @@ function MomentCard({ moment }) {
     >
       <div
         ref={magneticRef}
-        className="card card-hover card-elevate card-gradient-border h-100 magnetic"
+        className="card card-hover card-elevate card-gradient-border h-100 magnetic overflow-hidden"
       >
+        {moment.images && moment.images.length > 0 && (
+          <img
+            src={moment.images[0]}
+            alt={moment.title}
+            className="card-img-top"
+            style={{ height: '280px', objectFit: 'cover' }}
+            loading="lazy"
+          />
+        )}
         <div className="card-body d-flex flex-column">
           <div className="d-flex justify-content-between align-items-start mb-2">
             <h3 className="h6 mb-0 fw-semibold">{moment.title}</h3>
@@ -107,26 +116,6 @@ function MomentCard({ moment }) {
                   ))}
                 </div>
               )}
-              {moment.images && moment.images.length > 0 && (
-                <div className="mt-3">
-                  <div className="fw-semibold small mb-2">
-                    <i className="bi bi-images me-1"></i>
-                    {moment.t('moments.images') || 'Images'}
-                  </div>
-                  <div className="d-flex flex-wrap gap-2">
-                    {moment.images.map((img, i) => (
-                      <img
-                        key={i}
-                        src={img}
-                        alt={`${moment.title} - ${i + 1}`}
-                        className="img-thumbnail"
-                        style={{ maxHeight: '120px', objectFit: 'cover' }}
-                        loading="lazy"
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
             </motion.div>
           )}
         </div>
@@ -165,8 +154,7 @@ export default function Moments() {
         { label: t('moments.samsungSft.link2Label'), url: 'https://github.com/mihtriii/t-gardens', icon: 'bi-github' },
       ],
       images: [
-        `${import.meta.env.BASE_URL}assets/moments/samsung-sft-1.jpg`,
-        `${import.meta.env.BASE_URL}assets/moments/samsung-sft-2.jpg`,
+        `${import.meta.env.BASE_URL}assets/moments/solve-for-tomorrow.jpg`,
       ],
     },
     {
@@ -186,88 +174,14 @@ export default function Moments() {
       links: [
         { label: t('moments.voi.linkLabel'), url: 'https://voi.olp.vn/', icon: 'bi-box-arrow-up-right' },
       ],
-      images: [
-        `${import.meta.env.BASE_URL}assets/moments/voi-1.jpg`,
-      ],
-    },
-
-    // Hackathons
-    {
-      id: 'aiot-hackathon-2025',
-      title: t('moments.aiotHackathon.title'),
-      year: '2025',
-      date: t('moments.aiotHackathon.date'),
-      location: t('moments.aiotHackathon.location'),
-      category: t('moments.category.hackathon'),
-      categoryIcon: 'bi-lightning-charge',
-      description: t('moments.aiotHackathon.description'),
-      achievements: [
-        t('moments.aiotHackathon.achievement1'),
-        t('moments.aiotHackathon.achievement2'),
-      ],
-      technologies: ['Python', 'TensorFlow Lite', 'Raspberry Pi', 'Computer Vision', 'Edge AI'],
-      details: t('moments.aiotHackathon.details'),
-      links: [
-        { label: t('moments.aiotHackathon.linkLabel'), url: 'https://github.com/mihtriii/aiot-hackathon', icon: 'bi-github' },
-      ],
-      images: [
-        `${import.meta.env.BASE_URL}assets/moments/aiot-1.jpg`,
-        `${import.meta.env.BASE_URL}assets/moments/aiot-2.jpg`,
-      ],
-    },
-
-    // Projects
-    {
-      id: 't-gardens-project',
-      title: t('moments.tGardens.title'),
-      year: '2024',
-      date: t('moments.tGardens.date'),
-      location: t('moments.tGardens.location'),
-      category: t('moments.category.project'),
-      categoryIcon: 'bi-folder',
-      description: t('moments.tGardens.description'),
-      achievements: [
-        t('moments.tGardens.achievement1'),
-        t('moments.tGardens.achievement2'),
-      ],
-      technologies: ['Python', 'OpenCV', 'YOLOv8', 'Arduino', 'IoT', 'Flask'],
-      details: t('moments.tGardens.details'),
-      links: [
-        { label: t('moments.tGardens.link1Label'), url: 'https://github.com/mihtriii/t-gardens', icon: 'bi-github' },
-        { label: t('moments.tGardens.link2Label'), url: 'https://solvefortomorrow.vn/doi-thang-giai/t-gardens', icon: 'bi-box-arrow-up-right' },
-      ],
-      images: [
-        `${import.meta.env.BASE_URL}assets/moments/t-gardens-1.jpg`,
-        `${import.meta.env.BASE_URL}assets/moments/t-gardens-2.jpg`,
-      ],
-    },
-    {
-      id: 'quantum-ml-project',
-      title: t('moments.quantumMl.title'),
-      year: '2025',
-      date: t('moments.quantumMl.date'),
-      location: t('moments.quantumMl.location'),
-      category: t('moments.category.project'),
-      categoryIcon: 'bi-folder',
-      description: t('moments.quantumMl.description'),
-      achievements: [
-        t('moments.quantumMl.achievement1'),
-      ],
-      technologies: ['Qiskit', 'PennyLane', 'PyTorch', 'Quantum Computing', 'Computer Vision'],
-      details: t('moments.quantumMl.details'),
-      links: [
-        { label: t('moments.quantumMl.linkLabel'), url: 'https://github.com/mihtriii/quantum-ml-vision', icon: 'bi-github' },
-      ],
-      images: [
-        `${import.meta.env.BASE_URL}assets/moments/quantum-ml-1.jpg`,
-      ],
+      images: [],
     },
 
     // Activities
     {
       id: 'farpc-vice-president',
       title: t('moments.farpc.title'),
-      year: '2024-2025',
+      year: '2025-2026',
       date: t('moments.farpc.date'),
       location: t('moments.farpc.location'),
       category: t('moments.category.activity'),
@@ -283,10 +197,7 @@ export default function Moments() {
       links: [
         { label: t('moments.farpc.linkLabel'), url: 'https://www.facebook.com/FARPC.HCM/', icon: 'bi-facebook' },
       ],
-      images: [
-        `${import.meta.env.BASE_URL}assets/moments/farpc-1.jpg`,
-        `${import.meta.env.BASE_URL}assets/moments/farpc-2.jpg`,
-      ],
+      images: [],
     },
     {
       id: 'aita-lab-research',
@@ -306,8 +217,89 @@ export default function Moments() {
       links: [
         { label: t('moments.aitaLab.linkLabel'), url: 'https://github.com/mihtriii', icon: 'bi-github' },
       ],
+      images: [],
+    },
+    {
+      id: 'fpt-hackathon-2024',
+      title: t('moments.fptHackathon.title'),
+      year: '2024',
+      date: t('moments.fptHackathon.date'),
+      location: t('moments.fptHackathon.location'),
+      category: t('moments.category.hackathon'),
+      categoryIcon: 'bi-lightning-charge',
+      description: t('moments.fptHackathon.description'),
+      achievements: [
+        t('moments.fptHackathon.achievement1'),
+        t('moments.fptHackathon.achievement2'),
+      ],
+      technologies: ['Unity', 'ARCore', 'Rapid Prototyping', 'Teamwork', 'Pitching'],
+      details: t('moments.fptHackathon.details'),
+      links: [],
       images: [
-        `${import.meta.env.BASE_URL}assets/moments/aita-lab-1.jpg`,
+        `${import.meta.env.BASE_URL}assets/moments/fpt-hackathon.jpg`,
+      ],
+    },
+    {
+      id: 'seal-hackathon-2024',
+      title: t('moments.sealHackathon.title'),
+      year: '2024',
+      date: t('moments.sealHackathon.date'),
+      location: t('moments.sealHackathon.location'),
+      category: t('moments.category.hackathon'),
+      categoryIcon: 'bi-globe-asia-australia',
+      description: t('moments.sealHackathon.description'),
+      achievements: [
+        t('moments.sealHackathon.achievement1'),
+        t('moments.sealHackathon.achievement2'),
+      ],
+      technologies: ['Python', 'Time Series', 'Geospatial Data', 'Anomaly Detection', 'Remote Sensing'],
+      details: t('moments.sealHackathon.details'),
+      links: [],
+      images: [
+        `${import.meta.env.BASE_URL}assets/moments/seal-hackathon.jpg`,
+      ],
+    },
+    // Duplicate entry removed to avoid redundancy
+    {
+      id: 'fpt-coc-vuong-2024',
+      title: t('moments.fptCocVuong.title'),
+      year: '2024',
+      date: t('moments.fptCocVuong.date'),
+      location: t('moments.fptCocVuong.location'),
+      category: t('moments.category.competition'),
+      categoryIcon: 'bi-trophy',
+      description: t('moments.fptCocVuong.description'),
+      achievements: [
+        t('moments.fptCocVuong.achievement1'),
+        t('moments.fptCocVuong.achievement2'),
+      ],
+      technologies: ['Algorithm Design', 'Competitive Programming', 'C++', 'Problem Solving'],
+      details: t('moments.fptCocVuong.details'),
+      links: [
+        { label: t('moments.fptCocVuong.linkLabel'), url: 'https://cocvuong.fpt.edu.vn/', icon: 'bi-box-arrow-up-right' },
+      ],
+      images: [
+        `${import.meta.env.BASE_URL}assets/moments/coc-vuong.jpg`,
+      ],
+    },
+    {
+      id: 'fpt-fa25-commendation-2025',
+      title: t('moments.fptFa25.title'),
+      year: '2025',
+      date: t('moments.fptFa25.date'),
+      location: t('moments.fptFa25.location'),
+      category: t('moments.category.activity'),
+      categoryIcon: 'bi-award',
+      description: t('moments.fptFa25.description'),
+      achievements: [
+        t('moments.fptFa25.achievement1'),
+        t('moments.fptFa25.achievement2'),
+      ],
+      technologies: ['Leadership', 'Academic Excellence', 'Research', 'Community Impact'],
+      details: t('moments.fptFa25.details'),
+      links: [],
+      images: [
+        `${import.meta.env.BASE_URL}assets/moments/le-ton-vinh.jpg`,
       ],
     },
   ], [t]);

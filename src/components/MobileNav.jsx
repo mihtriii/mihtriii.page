@@ -156,6 +156,21 @@ export default function MobileNav({ open, onClose, tone, onToggleTone, palette, 
                 </NavLink>
               </li>
               <li>
+                <NavLink to="/moments" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} onMouseEnter={() => import('../pages/Moments.jsx')} onTouchStart={() => import('../pages/Moments.jsx')} aria-label={t('nav.moments')}>
+                  <i className="bi bi-camera-reels"></i> {t('nav.moments')}
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/news" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} onMouseEnter={() => import('../pages/News.jsx')} onTouchStart={() => import('../pages/News.jsx')} aria-label={t('nav.news')}>
+                  <i className="bi bi-newspaper"></i> {t('nav.news')}
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/publications" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} onMouseEnter={() => import('../pages/Publications.jsx')} onTouchStart={() => import('../pages/Publications.jsx')} aria-label={t('nav.publications')}>
+                  <i className="bi bi-journal-richtext"></i> {t('nav.publications')}
+                </NavLink>
+              </li>
+              <li>
                 <a href="https://github.com/mihtriii" target="_blank" rel="noopener" className="mobile-link" onClick={onClose} aria-label="GitHub profile">
                   <i className="bi bi-github"></i> {t('nav.github')}
                 </a>

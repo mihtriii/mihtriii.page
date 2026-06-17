@@ -5,6 +5,9 @@ export default {
     blog: 'Blog',
     cv: 'CV',
     repos: 'Repos',
+    moments: 'Moments',
+    news: 'News',
+    publications: 'Publications',
     github: 'GitHub'
   },
   common: {
@@ -128,6 +131,95 @@ export default {
       updated: 'Updated'
     }
   },
+  moments: {
+    title: 'Moments & Proof',
+    subtitle: 'Activities, competitions, projects, and milestones collected as supporting evidence.',
+    searchPlaceholder: 'Search moments, skills, or technologies...',
+    noResults: 'No matching moments found.',
+    achievements: 'Achievements',
+    technologies: 'Technologies',
+    images: 'Images',
+    showMore: 'Show more',
+    showLess: 'Show less',
+    category: {
+      competition: 'Competition',
+      hackathon: 'Hackathon',
+      project: 'Project',
+      activity: 'Activity',
+      research: 'Research'
+    },
+    samsungSft: {
+      title: 'Samsung Solve for Tomorrow Vietnam 2024',
+      date: '2024',
+      location: 'Vietnam',
+      description: 'Participated with team T-Gardens in a national innovation competition focused on solving real-world problems with technology.',
+      achievement1: 'Third Prize in the high school category',
+      achievement2: 'Built T-Gardens as an AIoT smart agriculture solution',
+      details: 'This competition was an important milestone that validated our ability to turn technical ideas into a practical product with social impact. I contributed to ideation, technical development, and presentation preparation.',
+      link1Label: 'Competition page',
+      link2Label: 'Project repository'
+    },
+    voi: {
+      title: 'Vietnam Olympiad in Informatics (VOI) 2024',
+      date: '2024',
+      location: 'Vietnam',
+      description: 'Competed in one of Vietnam’s most recognized algorithmic programming contests.',
+      achievement1: 'Received Honorable Mention',
+      details: 'VOI helped strengthen my algorithmic thinking, problem-solving discipline, and competitive programming foundation, especially in C++ and data structures.',
+      linkLabel: 'Official website'
+    },
+    aiotHackathon: {
+      title: 'AIoT on Edge Hackathon 2025',
+      date: '2025',
+      location: 'Vietnam',
+      description: 'Developed an edge AI solution integrating embedded systems and machine learning for real-time intelligent applications.',
+      achievement1: 'Won a promising team award',
+      achievement2: 'Built and presented a working prototype under time pressure',
+      details: 'This hackathon sharpened my ability to rapidly prototype AI systems on constrained devices and collaborate effectively in a short, high-pressure development cycle.',
+      linkLabel: 'Project repository'
+    },
+    tGardens: {
+      title: 'T-Gardens Project',
+      date: '2024',
+      location: 'Vietnam',
+      description: 'An AIoT agriculture project designed to support smarter plant monitoring and care.',
+      achievement1: 'Integrated sensing, automation, and computer vision',
+      achievement2: 'Used as a key project in competition submissions',
+      details: 'T-Gardens combined software and hardware components into a practical smart farming prototype. I focused on system logic, computer vision integration, and technical iteration.',
+      link1Label: 'GitHub repository',
+      link2Label: 'Competition page'
+    },
+    quantumMl: {
+      title: 'Quantum Machine Learning Vision Project',
+      date: '2025',
+      location: 'AiTA Lab / Personal Research',
+      description: 'Explored the intersection of quantum computing and computer vision through experimental model development.',
+      achievement1: 'Built an early research-oriented prototype',
+      details: 'This project reflects my long-term research interest in quantum machine learning, especially its potential applications in representation learning and visual understanding.',
+      linkLabel: 'GitHub repository'
+    },
+    farpc: {
+      title: 'Vice President, FARPC Programming Club',
+      date: '2024 - 2025',
+      location: 'FPT University HCMC',
+      description: 'Supported club operations, learning activities, and community events related to programming and AI.',
+      achievement1: 'Co-organized technical sharing sessions and club activities',
+      achievement2: 'Helped build a stronger student learning community',
+      achievement3: 'Supported communication and event coordination',
+      details: 'This role developed my leadership, communication, and teamwork skills while allowing me to contribute to a student technical community.',
+      linkLabel: 'Club page'
+    },
+    aitaLab: {
+      title: 'Undergraduate Research at AiTA Lab',
+      date: '2024 - Present',
+      location: 'FPT University',
+      description: 'Conducting research and implementation work in computer vision, vision-language models, and quantum machine learning.',
+      achievement1: 'Participated in research-oriented engineering work',
+      achievement2: 'Strengthened experimental and academic writing skills',
+      details: 'Working at AiTA Lab has been a core part of my development as a research-focused AI student, giving me exposure to literature review, prototyping, experimentation, and technical communication.',
+      linkLabel: 'GitHub profile'
+    }
+  },
   blog: {
     title: 'Blog / Notes',
     subtitle: 'Articles, notes, small demos.',
@@ -136,5 +228,67 @@ export default {
     backToBlog: 'Back to blog',
     publishedOn: 'Published on',
     lastUpdated: 'Last updated'
+  },
+  news: {
+    title: 'News & Updates',
+    subtitle: 'Latest announcements, achievements, and project updates.',
+    latest: 'Latest News',
+    searchPlaceholder: 'Search news...',
+    noResults: 'No matching news found.',
+    readOriginal: 'Read original',
+    featuredLabel: 'Featured update',
+    highlightsTitle: 'Highlights',
+    category: {
+      announcement: 'Announcement',
+      achievement: 'Achievement',
+      event: 'Event',
+      release: 'Release',
+      media: 'Media',
+      research: 'Research'
+    },
+    links: {
+      ducProfile: "Duc's Profile",
+      nhanProfile: "Nhan's Profile"
+    },
+    aitaIeee: {
+      title: 'AiTA Lab Continues International Footprint with 2 Papers at IEEE ICCE 2026',
+      date: 'June 2026',
+      source: 'FPT University Ho Chi Minh City',
+      summary: 'AiTA Lab at FPT University Ho Chi Minh City has two papers accepted at IEEE ICCE 2026, marking continued international research recognition.',
+      highlight1: 'Two papers were accepted at the 11th IEEE International Conference on Communications and Electronics (ICCE 2026).',
+      highlight2: 'The accepted work includes Hybrid Quantum Federated Learning for brain tumor MRI analysis.',
+      highlight3: 'This milestone strengthens AiTA Lab’s growing presence in quantum machine learning and computer vision research.',
+      linkLabel: 'Read full article on FPT University website',
+      linkUrl: 'https://daihoc.fpt.edu.vn/hcm/aita-lab-tiep-tuc-ghi-dau-an-quoc-te-voi-02-bai-bao-tai-ieee-icce-2026/'
+    }
+  },
+  publications: {
+    title: 'Publications',
+    subtitle: 'Peer-reviewed papers, conference proceedings, and research outputs.',
+    latest: 'Latest Publications',
+    searchPlaceholder: 'Search publications...',
+    noResults: 'No matching publications found.',
+    previewAlt: 'Publication preview image',
+    types: {
+      conference: 'Conference',
+      journal: 'Journal',
+      preprint: 'Preprint',
+      workshop: 'Workshop',
+      thesis: 'Thesis'
+    },
+    abstract: 'Abstract',
+    keywords: 'Keywords',
+    links: {
+      pdf: 'PDF',
+      code: 'Code',
+      doi: 'DOI',
+      arxiv: 'arXiv',
+      newsArticle: 'News Article',
+      ducProfile: "Duc's Profile",
+      nhanProfile: "Nhan's Profile"
+    },
+    paper1: {
+      abstract: 'This paper presents a hybrid quantum federated learning framework for brain tumor MRI analysis, combining quantum neural networks with classical federated learning to preserve data privacy while leveraging quantum computational advantages for medical imaging tasks.'
+    }
   }
 };

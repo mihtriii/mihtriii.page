@@ -128,6 +128,9 @@ export default function Header() {
     blog: () => import('../pages/Blog.jsx'),
     cv: () => import('../pages/CV.jsx'),
     repos: () => import('../pages/Repos.jsx'),
+    moments: () => import('../pages/Moments.jsx'),
+    news: () => import('../pages/News.jsx'),
+    publications: () => import('../pages/Publications.jsx'),
   };
 
   // Close mobile drawer on route change
@@ -201,6 +204,42 @@ export default function Header() {
                         <motion.span layoutId="navHighlight" className="nav-highlight" />
                       )}
                       <span>{t('nav.repos')}</span>
+                    </span>
+                  )}
+                </NavLink>
+              </li>
+              <li className="nav-item position-relative">
+                <NavLink to="/moments" className="nav-link px-3" onMouseEnter={prefetch.moments}>
+                  {({ isActive }) => (
+                    <span className="position-relative d-inline-block">
+                      {isActive && (
+                        <motion.span layoutId="navHighlight" className="nav-highlight" />
+                      )}
+                      <span>{t('nav.moments')}</span>
+                    </span>
+                  )}
+                </NavLink>
+              </li>
+              <li className="nav-item position-relative">
+                <NavLink to="/news" className="nav-link px-3" onMouseEnter={prefetch.news}>
+                  {({ isActive }) => (
+                    <span className="position-relative d-inline-block">
+                      {isActive && (
+                        <motion.span layoutId="navHighlight" className="nav-highlight" />
+                      )}
+                      <span>{t('nav.news')}</span>
+                    </span>
+                  )}
+                </NavLink>
+              </li>
+              <li className="nav-item position-relative">
+                <NavLink to="/publications" className="nav-link px-3" onMouseEnter={prefetch.publications}>
+                  {({ isActive }) => (
+                    <span className="position-relative d-inline-block">
+                      {isActive && (
+                        <motion.span layoutId="navHighlight" className="nav-highlight" />
+                      )}
+                      <span>{t('nav.publications')}</span>
                     </span>
                   )}
                 </NavLink>

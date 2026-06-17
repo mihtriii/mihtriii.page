@@ -8,6 +8,9 @@ const CV = React.lazy(() => import('./pages/CV.jsx'));
 const Blog = React.lazy(() => import('./pages/Blog.jsx'));
 const Repos = React.lazy(() => import('./pages/Repos.jsx'));
 const BlogPost = React.lazy(() => import('./pages/BlogPost.jsx'));
+const Moments = React.lazy(() => import('./pages/Moments.jsx'));
+const News = React.lazy(() => import('./pages/News.jsx'));
+const Publications = React.lazy(() => import('./pages/Publications.jsx'));
 const AdminRoute = React.lazy(() => import('./routes/AdminRoute.jsx'));
 import { WithPresence, PageWrapper } from './components/PageTransition.jsx';
 import { useI18n } from './i18n/index.jsx';
@@ -131,6 +134,30 @@ export default function App() {
                   element={
                     <PageWrapper>
                       <Repos />
+                    </PageWrapper>
+                  }
+                />
+                <Route
+                  path="/moments"
+                  element={
+                    <PageWrapper>
+                      <Moments />
+                    </PageWrapper>
+                  }
+                />
+                <Route
+                  path="/news"
+                  element={
+                    <PageWrapper>
+                      <News />
+                    </PageWrapper>
+                  }
+                />
+                <Route
+                  path="/publications"
+                  element={
+                    <PageWrapper>
+                      <Publications />
                     </PageWrapper>
                   }
                 />

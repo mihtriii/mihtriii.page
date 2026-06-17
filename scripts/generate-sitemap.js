@@ -60,6 +60,24 @@ function generateSitemap() {
       priority: '0.7',
       lastmod: new Date().toISOString(),
     },
+    {
+      url: '/moments',
+      changefreq: 'monthly',
+      priority: '0.7',
+      lastmod: new Date().toISOString(),
+    },
+    {
+      url: '/news',
+      changefreq: 'weekly',
+      priority: '0.8',
+      lastmod: new Date().toISOString(),
+    },
+    {
+      url: '/publications',
+      changefreq: 'monthly',
+      priority: '0.8',
+      lastmod: new Date().toISOString(),
+    },
   ];
 
   const blogPosts = getBlogPosts().map(post => ({

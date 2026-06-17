@@ -181,7 +181,7 @@ export default {
     },
     farpc: {
       title: 'Vice President, FARPC Programming Club (FPTU HCMC)',
-      date: '2024 - 2025',
+      date: '2025 - 2026',
       location: 'FPT University HCMC',
       description: 'Leading a student club sounds glamorous until you\'re chasing speaker confirmations at 11 PM, debugging Zoom links for 100+ attendees, and realizing "community" is mostly unglamorous logistics. But watching a freshman debug their first segmentation fault and *get it*—that\'s the reward.',
       achievement1: 'Co-organized 12+ technical sessions: CV workshops, competitive programming, research talks',
@@ -192,7 +192,7 @@ export default {
     },
     aitaLab: {
       title: 'Undergraduate Research at AiTA Lab',
-      date: '2024 - Present',
+      date: '2025 - Present',
       location: 'FPT University',
       description: 'AiTA Lab is where I learned that research engineering is a distinct craft from software engineering. Reproducing papers that don\'t quite replicate. Designing ablations that actually isolate variables. Writing experiments that survive reviewer #2. It\'s humbling, slow, and the only way to build real depth.',
       achievement1: 'Contributed to CV/VLM research: multi-modal retrieval, vision-language alignment',
@@ -202,7 +202,7 @@ export default {
     },
     fptHackathon: {
       title: 'FPT University Hackathon 2024',
-      date: '2024',
+      date: '2025',
       location: 'FPT University HCMC',
       description: 'My first hackathon. Terrified, sleep-deprived, and surrounded by people who seemed to know everything. We built a campus navigation assistant with AR wayfinding—Unity, ARCore, and a lot of improvised 3D models. We didn\'t win, but I learned that "shipping something imperfect" beats "perfecting nothing" every time.',
       achievement1: 'Built functional AR navigation prototype in 36 hours — first AR/Unity project',
@@ -212,7 +212,7 @@ export default {
     },
     sealHackathon: {
       title: 'Seal Hackathon 2024',
-      date: '2024',
+      date: '2025',
       location: 'Vietnam',
       description: 'A marine conservation hackathon—totally outside my domain. Our challenge: detect illegal fishing vessels from satellite AIS data. I knew nothing about maritime law or signal processing. But I knew time series anomaly detection. We fused AIS trajectories with nightlight satellite imagery to flag dark fleet behavior.',
       achievement1: 'Cross-domain prototype: AIS trajectory analysis + VIIRS nightlight correlation for anomaly detection',
@@ -232,7 +232,7 @@ export default {
     },
     fptCocVuong: {
       title: 'Cốc Vương Competition 2024',
-      date: '2024',
+      date: '2025',
       location: 'FPT University',
       description: 'National coding competition organized by FPT University focusing on algorithmic problem solving.',
       achievement1: 'Top 10 placement among 200 participants',

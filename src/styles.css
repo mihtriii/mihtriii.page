@@ -1814,3 +1814,20 @@ html {
 
 @media (max-width: 575.98px) {
   .moment-featured .moment-image,
+  .moment-image {
+    height: 220px !important;
+  }
+
+  .moment-featured {
+    margin-bottom: 1rem;
+  }
+
+  .moment-tech-badge {
+    font-size: 0.65rem;
+  }
+
+  .moment-thumb {
+    width: 40px;
+    height: 40px;
+  }
+}

@@ -1678,3 +1678,139 @@ html {
     padding: 0.5rem 0;
   }
 }
+
+/* ── Moments page polish ── */
+.moment-featured {
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(var(--brand-secondary-rgb), 0.14),
+      transparent 34%
+    ),
+    var(--bs-card-bg);
+}
+
+[data-bs-theme='dark'] .moment-featured {
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(var(--brand-secondary-rgb), 0.2),
+      transparent 34%
+    ),
+    var(--bs-card-bg);
+}
+
+.moment-image-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.moment-image-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.02),
+    rgba(0, 0, 0, 0.22)
+  );
+  pointer-events: none;
+}
+
+.moment-image {
+  transition:
+    transform 0.35s ease,
+    filter 0.35s ease;
+}
+
+.card-hover:hover .moment-image,
+.moment-image-wrap:hover .moment-image {
+  transform: scale(1.045);
+  filter: saturate(1.05) contrast(1.03);
+}
+
+.moment-hover-overlay {
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.18);
+  transition: opacity 0.22s ease;
+  pointer-events: none;
+}
+
+.moment-image-wrap:hover .moment-hover-overlay,
+.card-hover:hover .moment-hover-overlay {
+  opacity: 1;
+}
+
+.moment-description {
+  line-height: 1.65;
+}
+
+.moment-tech-badge {
+  border: 1px solid rgba(var(--brand-secondary-rgb), 0.16);
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.moment-tech-badge:hover {
+  border-color: rgba(var(--brand-secondary-rgb), 0.35);
+  background: rgba(var(--brand-secondary-rgb), 0.08) !important;
+  color: var(--bs-primary) !important;
+  transform: translateY(-1px);
+}
+
+.moment-dot {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  box-shadow:
+    0 0 0 4px var(--bs-body-bg),
+    0 0 0 7px rgba(var(--brand-secondary-rgb), 0.12);
+}
+
+.moment-dot:hover {
+  transform: scale(1.25);
+  box-shadow:
+    0 0 0 4px var(--bs-body-bg),
+    0 0 0 9px rgba(var(--brand-secondary-rgb), 0.18);
+}
+
+.moment-thumb {
+  opacity: 0.82;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.moment-thumb:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+  border-color: rgba(var(--brand-secondary-rgb), 0.65) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.moment-thumb-strip {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--brand-secondary-rgb), 0.35) transparent;
+}
+
+.moment-thumb-strip::-webkit-scrollbar {
+  height: 4px;
+}
+
+.moment-thumb-strip::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.moment-thumb-strip::-webkit-scrollbar-thumb {
+  background: rgba(var(--brand-secondary-rgb), 0.35);
+  border-radius: 999px;
+}
+
+@media (max-width: 575.98px) {
+  .moment-featured .moment-image,

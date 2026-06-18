@@ -71,7 +71,7 @@ export default {
       title: 'Experience',
       currentRole: 'Undergraduate Research Assistant',
       currentOrg: 'AiTA Lab, FPT University',
-      currentTimeline: 'Oct 2024 - Present',
+      currentTimeline: 'May 2025 - Present',
       currentDesc1: 'Conducting research in computer vision, vision-language models, and quantum machine learning under lab supervision',
       currentDesc2: 'Working on literature review, experiment design, and implementation of reproducible ML/QML systems',
       currentDesc3: 'Contributing to research prototypes, technical writing, and publication-oriented projects',
@@ -210,7 +210,7 @@ export default {
     },
     aitaLab: {
       title: 'Undergraduate Research at AiTA Lab',
-      date: '2025 - Present',
+      date: 'May 2025 - Present',
       location: 'FPT University',
       description: 'AiTA Lab is where I learned that research engineering is a distinct craft from software engineering. Reproducing papers that don\'t quite replicate. Designing ablations that actually isolate variables. Writing experiments that survive reviewer #2. It\'s humbling, slow, and the only way to build real depth.',
       achievement1: 'Contributed to CV/VLM research: multi-modal retrieval, vision-language alignment',
@@ -219,7 +219,7 @@ export default {
       linkLabel: 'GitHub profile'
     },
     fptHackathon: {
-      title: 'FPT University Hackathon 2024',
+      title: 'FPT University Hackathon 2025',
       date: '2025',
       location: 'FPT University HCMC',
       description: 'My first hackathon. Terrified, sleep-deprived, and surrounded by people who seemed to know everything. We built a campus navigation assistant with AR wayfinding—Unity, ARCore, and a lot of improvised 3D models. We didn\'t win, but I learned that "shipping something imperfect" beats "perfecting nothing" every time.',
@@ -229,7 +229,7 @@ export default {
       linkLabel: 'Project repository'
     },
     sealHackathon: {
-      title: 'Seal Hackathon 2024',
+      title: 'Seal Hackathon 2025',
       date: '2025',
       location: 'Vietnam',
       description: 'A marine conservation hackathon—totally outside my domain. Our challenge: detect illegal fishing vessels from satellite AIS data. I knew nothing about maritime law or signal processing. But I knew time series anomaly detection. We fused AIS trajectories with nightlight satellite imagery to flag dark fleet behavior.',

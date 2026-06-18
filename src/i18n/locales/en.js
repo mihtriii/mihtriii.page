@@ -248,16 +248,6 @@ export default {
       details: 'Scholarship essays ask for "diverse experiences." This was mine: a single thread connecting hardware, ML, product thinking, communication, and resilience. That\'s the story worth telling—not the medal, the months that earned it.',
       linkLabel: 'Competition showcase'
     },
-    fptCocVuong: {
-      title: 'Cốc Vương Competition 2024',
-      date: '2025',
-      location: 'FPT University',
-      description: 'National coding competition organized by FPT University focusing on algorithmic problem solving.',
-      achievement1: 'Top 10 placement among 200 participants',
-      achievement2: 'Awarded for innovative solution to optimization problem',
-      details: 'Participated in intensive training and solved challenging problems under time pressure.',
-      linkLabel: 'Official page'
-    },
     fptFa25: {
       title: 'FA25 Commendation 2025',
       date: '2025',

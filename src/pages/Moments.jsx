@@ -532,46 +532,6 @@ export default function Moments() {
         ],
         images: [],
       },
-      {
-        id: 'fpt-coc-vuong-2024',
-        title: t('moments.fptCocVuong.title'),
-        year: '2025',
-        date: t('moments.fptCocVuong.date'),
-        location: t('moments.fptCocVuong.location'),
-        category: t('moments.category.competition'),
-        categoryKey: 'competition',
-        categoryIcon: 'bi-trophy',
-        description: t('moments.fptCocVuong.description'),
-        achievements: [
-          t('moments.fptCocVuong.achievement1'),
-          t('moments.fptCocVuong.achievement2'),
-        ],
-        technologies: [
-          'Algorithm Design',
-          'Competitive Programming',
-          'C++',
-          'Problem Solving',
-        ],
-        details: t('moments.fptCocVuong.details'),
-        learnings: [
-          'Pattern recognition is built through volume, not just talent.',
-          'Edge cases in contest problems mirror edge cases in production systems.',
-        ],
-        links: [
-          {
-            label: t('moments.fptCocVuong.linkLabel'),
-            url: 'https://cocvuong.fpt.edu.vn/',
-            icon: 'bi-box-arrow-up-right',
-          },
-          {
-            label: 'Facebook',
-            url: 'https://www.facebook.com/photo?fbid=1401749641785598&set=a.561317045828866',
-            icon: 'bi-facebook',
-          },
-        ],
-        images: [`${import.meta.env.BASE_URL}assets/moments/coc-vuong.jpg`],
-      },
-
       /* ── Hackathons ── */
       {
         id: 'fpt-hackathon-2024',

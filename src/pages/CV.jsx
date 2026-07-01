@@ -38,6 +38,8 @@ export default function CV() {
     'research-interests',
     'competitions-activities',
     'skills',
+    'publications',
+    'languages',
   ];
   return (
     <div className="row g-4">
@@ -514,6 +516,65 @@ export default function CV() {
                   for computer vision tasks
                 </li>
               </ul>
+            </div>
+          </div>
+        </Section>
+
+        <Section id="publications" title="Publications">
+          <div className="card card-hover card-elevate card-gradient-border" data-animate>
+            <div className="card-body p-4">
+              <div className="d-flex align-items-start gap-3 mb-3">
+                <div className="p-2 bg-success bg-opacity-10 rounded">
+                  <i className="bi bi-file-earmark-text text-success fs-5"></i>
+                </div>
+                <div className="flex-grow-1">
+                  <h3 className="h6 mb-1 fw-bold">
+                    Hybrid Quantum Federated Learning for Brain Tumor MRI Analysis
+                  </h3>
+                  <p className="text-secondary small mb-1">
+                    Quang Nhan Hoang, Minh Tri Nguyen, Duc Ngoc Minh Dang
+                  </p>
+                  <p className="text-primary small mb-0">
+                    IEEE ICCE 2026 — 11th International Conference on Communications and Electronics
+                  </p>
+                  <span className="badge text-bg-success mt-1">Accepted (2026) · Co-author</span>
+                </div>
+              </div>
+              <a
+                className="btn btn-outline-success btn-sm"
+                href="https://daihoc.fpt.edu.vn/hcm/aita-lab-tiep-tuc-ghi-dau-an-quoc-te-voi-02-bai-bao-tai-ieee-icce-2026/"
+                target="_blank"
+                rel="noopener"
+              >
+                <i className="bi bi-newspaper me-1"></i> News Article
+              </a>
+            </div>
+          </div>
+        </Section>
+
+        <Section id="languages" title="Languages">
+          <div className="card card-hover card-elevate" data-animate>
+            <div className="card-body p-4">
+              <div className="row g-4">
+                <div className="col-md-4">
+                  <div className="d-flex align-items-center gap-2">
+                    <span className="badge text-bg-primary fs-6 px-3 py-2">VI</span>
+                    <div>
+                      <p className="mb-0 fw-semibold small">Vietnamese</p>
+                      <p className="text-secondary small mb-0">Native</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="d-flex align-items-center gap-2">
+                    <span className="badge text-bg-info fs-6 px-3 py-2">EN</span>
+                    <div>
+                      <p className="mb-0 fw-semibold small">English</p>
+                      <p className="text-secondary small mb-0">IELTS 7.0</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </Section>

@@ -115,6 +115,12 @@ export default {
     projects: {
       title: 'Projects (Planned)',
       planned: 'Projects currently in planning and development phase.'
+    },
+    languages: {
+      title: 'Languages',
+      vietnamese: 'Vietnamese',
+      english: 'English',
+      native: 'Native'
     }
   },
   repos: {

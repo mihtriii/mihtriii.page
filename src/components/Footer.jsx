@@ -4,74 +4,32 @@ import { social, hasRealScholar } from '../config/site.js';
 export default function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="site-footer py-4 border-top mt-5">
+    <footer className="footer mt-5">
       <div className="container d-flex flex-wrap align-items-center gap-2 justify-content-between">
-        <p className="text-secondary small mb-0">© {year} Nguyễn Minh Trí. All rights reserved.</p>
+        <p className="mb-0">
+          <span className="roman-eyebrow me-2">© {year}</span>
+          <span className="font-display">Nguyễn Minh Trí</span>
+          <span className="text-muted ms-2">— Sic Parvis Magna</span>
+        </p>
         <div className="icon-row">
-          <a
-            className="btn btn-outline-secondary btn-sm icon-btn"
-            href={social.kaggle}
-            target="_blank"
-            rel="noopener"
-            aria-label="Kaggle"
-          >
-            <img
-              src={`${import.meta.env.BASE_URL}assets/kaggle.svg`}
-              alt="Kaggle"
-              width="18"
-              height="18"
-              loading="lazy"
-              decoding="async"
-            />
+          <a className="icon-btn" href={social.kaggle} target="_blank" rel="noopener" aria-label="Kaggle">
+            <img src={`${import.meta.env.BASE_URL}assets/kaggle.svg`} alt="Kaggle" width="18" height="18" loading="lazy" decoding="async" />
           </a>
-          <a
-            className="btn btn-outline-secondary btn-sm icon-btn"
-            href={social.linkedin}
-            target="_blank"
-            rel="noopener"
-            aria-label="LinkedIn"
-            data-brand="linkedin"
-          >
+          <a className="icon-btn" data-brand="linkedin" href={social.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">
             <i className="bi bi-linkedin"></i>
           </a>
-          <a
-            className="btn btn-outline-secondary btn-sm icon-btn"
-            href={social.github}
-            target="_blank"
-            rel="noopener"
-            aria-label="GitHub"
-            data-brand="github"
-          >
+          <a className="icon-btn" data-brand="github" href={social.github} target="_blank" rel="noopener" aria-label="GitHub">
             <i className="bi bi-github"></i>
           </a>
-          <a
-            className="btn btn-outline-secondary btn-sm icon-btn"
-            href={social.email}
-            aria-label="Email"
-            data-brand="email"
-          >
+          <a className="icon-btn" data-brand="email" href={social.email} aria-label="Email">
             <i className="bi bi-envelope"></i>
           </a>
           {hasRealScholar && (
-            <a
-              className="btn btn-outline-secondary btn-sm icon-btn"
-              href={social.scholar}
-              target="_blank"
-              rel="noopener"
-              aria-label="Google Scholar"
-              data-brand="scholar"
-            >
+            <a className="icon-btn" data-brand="scholar" href={social.scholar} target="_blank" rel="noopener" aria-label="Google Scholar">
               <i className="bi bi-mortarboard"></i>
             </a>
           )}
-          <a
-            className="btn btn-outline-secondary btn-sm icon-btn"
-            href={social.orcid}
-            target="_blank"
-            rel="noopener"
-            aria-label="ORCID"
-            data-brand="orcid"
-          >
+          <a className="icon-btn" data-brand="orcid" href={social.orcid} target="_blank" rel="noopener" aria-label="ORCID">
             <i className="bi bi-person-badge"></i>
           </a>
         </div>

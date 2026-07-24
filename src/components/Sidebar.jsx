@@ -6,11 +6,25 @@ import { github, social, hasRealScholar } from '../config/site.js';
 import { getRecentBlogPosts } from '../blog/manifest.js';
 import SidebarIcons from './SidebarIcons.jsx';
 
+/**
+ * Latin navigation labels for Roman Imperial aesthetic
+ */
+const LATIN_NAV = {
+  about: 'Athenaeum',
+  blog: 'Schola',
+  cv: 'Tabula Vitae',
+  repos: 'Opuscula',
+  moments: 'Momentum',
+  news: 'Acta Diurna',
+  publications: 'Scripta',
+};
+
 export default function Sidebar({ sectionIds = [], showSocial = true }) {
   const activeId = useScrollSpy(sectionIds);
   const [stats, setStats] = useState({ repos: null, stars: null, followers: null, loading: true });
   const [isSmall, setIsSmall] = useState(false);
   const [sectionsOpen, setSectionsOpen] = useState(true);
+
   function AnimatedNumber({ value = 0, duration = 500 }) {
     const [display, setDisplay] = useState(0);
     useEffect(() => {
@@ -26,7 +40,6 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
       };
       raf = requestAnimationFrame(step);
       return () => cancelAnimationFrame(raf);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value]);
     return <>{Number.isFinite(display) ? display : '—'}</>;
   }
@@ -55,7 +68,7 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
       <div className="section-chips" role="tablist" aria-label="Quick sections">
         <div className="chips-row">
           {sectionIds.map((id) => {
-            const label = id.replace(/-/g, ' ');
+            const label = LATIN_NAV[id] || id.replace(/-/g, ' ');
             const active = activeId === id;
             return (
               <a
@@ -66,7 +79,7 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
                 aria-selected={active}
               >
                 <span className="chip-dot" />
-                <span className="text-capitalize">{label}</span>
+                <span>{label}</span>
               </a>
             );
           })}
@@ -182,13 +195,14 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
       else clearTimeout(idleId);
     };
   }, []);
+
   return (
     <div className="sticky-top sidebar">
-  {/* Animated sidebar icons for quick access */}
-  <SidebarIcons />
+      {/* Animated sidebar icons for quick access */}
+      <SidebarIcons />
       <SectionChips />
-  <div className="card card-hover card-elevate mb-3 profile-card card-animate">
-        <div className="card-body d-flex align-items-center gap-3 py-3">
+      <div className="roman-card mb-3 profile-card card-animate">
+        <div className="roman-card-inner d-flex align-items-center gap-3 py-2">
           <span className="avatar-frame">
             <img
               className="avatar photo"
@@ -216,39 +230,39 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
             />
           </span>
           <div>
-            <div className="fw-semibold">Nguyễn Minh Trí</div>
-            <div className="text-secondary small">AI @ FPTU HCM</div>
+            <div className="fw-semibold font-display" style={{ fontSize: '1.125rem' }}>Nguyễn Minh Trí</div>
+            <div className="text-secondary small font-mono">AI @ FPTU HCM</div>
             <div className="text-secondary small d-flex align-items-center gap-2"><i className="bi bi-geo-alt"></i> Ho Chi Minh City, VN</div>
           </div>
         </div>
       </div>
-  <div className="card card-hover card-elevate mb-3 d-none d-sm-block card-animate">
-        <div className="card-body py-3">
+      <div className="roman-card mb-3 d-none d-sm-block card-animate">
+        <div className="roman-card-inner py-2">
           <div className="d-flex justify-content-between align-items-center mb-2">
-            <div className="fw-semibold text-uppercase small letter d-flex align-items-center gap-2">
-              <i className="bi bi-github"></i> On GitHub
+            <div className="roman-eyebrow d-flex align-items-center gap-2">
+              <i className="bi bi-github"></i> ON GITHUB
             </div>
-            <a className="text-decoration-none small" href={`https://github.com/${github.username}`} target="_blank" rel="noopener">View →</a>
+            <a className="roman-btn-ghost btn-sm" href={`https://github.com/${github.username}`} target="_blank" rel="noopener">View →</a>
           </div>
           <p className="mb-2 text-secondary small">Recent work and repositories.</p>
           {stats.loading ? (
             <div className="placeholder-glow"><span className="placeholder col-3 me-2"></span><span className="placeholder col-3"></span></div>
           ) : (
-            <div className="mini-stats">
-              <div className="stat-chip" title="Public repos"><i className="bi bi-journal-code me-1"></i><AnimatedNumber value={stats.repos ?? 0} /></div>
-              <div className="stat-chip" title="Total stars"><i className="bi bi-star me-1"></i><AnimatedNumber value={stats.stars ?? 0} /></div>
-              <div className="stat-chip" title="Followers"><i className="bi bi-people me-1"></i><AnimatedNumber value={stats.followers ?? 0} /></div>
+            <div className="roman-metrics">
+              <div className="roman-metric-pill" title="Public repos"><i className="bi bi-journal-code me-1"></i><AnimatedNumber value={stats.repos ?? 0} /></div>
+              <div className="roman-metric-pill" title="Total stars"><i className="bi bi-star me-1"></i><AnimatedNumber value={stats.stars ?? 0} /></div>
+              <div className="roman-metric-pill" title="Followers"><i className="bi bi-people me-1"></i><AnimatedNumber value={stats.followers ?? 0} /></div>
             </div>
           )}
         </div>
       </div>
       {sectionIds.length > 0 && (
-  <div className="card card-hover card-elevate mb-3 card-animate" data-animate>
-          <div className="card-body py-3">
+        <div className="roman-card mb-3 card-animate" data-animate>
+          <div className="roman-card-inner py-2">
             <div className="d-flex justify-content-between align-items-center mb-2">
-              <div className="fw-semibold text-uppercase small letter">Sections</div>
+              <div className="roman-eyebrow">NAVIGATIO</div>
               {isSmall && (
-                <button type="button" className="btn btn-outline-secondary btn-sm" aria-expanded={sectionsOpen} aria-controls="sidebar-sections" onClick={() => setSectionsOpen((v) => !v)}>
+                <button type="button" className="roman-btn-ghost btn-sm" aria-expanded={sectionsOpen} aria-controls="sidebar-sections" onClick={() => setSectionsOpen((v) => !v)}>
                   <i className={`bi ${sectionsOpen ? 'bi-chevron-up' : 'bi-chevron-down'}`}></i>
                 </button>
               )}
@@ -262,17 +276,20 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.2, ease: 'easeOut' }}
-                  className="d-flex flex-column gap-1 spy-list"
+                  className="spy-list"
                   aria-label="Page sections"
                   style={{ overflow: 'hidden' }}
                 >
-                  {sectionIds.map((id) => (
-                    <a key={id} href={`#${id}`} className={`spy-item ${activeId === id ? 'active' : ''}`}>
-                      {activeId === id && <motion.span layoutId="spyHighlight" className="spy-highlight" />}
-                      <span className="dot"></span>
-                      <span className="text-capitalize position-relative" style={{ zIndex: 1 }}>{id.replace(/-/g, ' ')}</span>
-                    </a>
-                  ))}
+                  {sectionIds.map((id) => {
+                    const label = LATIN_NAV[id] || id.replace(/-/g, ' ');
+                    return (
+                      <a key={id} href={`#${id}`} className={`spy-item ${activeId === id ? 'active' : ''}`}>
+                        {activeId === id && <motion.span layoutId="spyHighlight" className="spy-highlight" />}
+                        <span className="dot"></span>
+                        <span className="position-relative" style={{ zIndex: 1 }}>{label}</span>
+                      </a>
+                    );
+                  })}
                 </motion.nav>
               )}
             </AnimatePresence>
@@ -280,14 +297,14 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
         </div>
       )}
       {recentPosts.length > 0 && (
-  <div className="card card-hover card-elevate mb-3 d-none d-sm-block card-animate" data-animate>
-          <div className="card-body py-3">
-            <div className="fw-semibold text-uppercase small letter mb-2">Recent Posts</div>
+        <div className="roman-card mb-3 d-none d-sm-block card-animate" data-animate>
+          <div className="roman-card-inner py-2">
+            <div className="roman-eyebrow mb-2">RECENTIA</div>
             <div className="d-flex flex-column gap-2">
               {recentPosts.map((p) => (
                 <Link key={p.slug} className="text-decoration-none small d-flex justify-content-between align-items-center" to={`/blog/${p.slug}`}>
                   <span className="text-truncate" style={{ maxWidth: '80%' }}>{p.title}</span>
-                  {p.date && <span className="text-secondary" style={{ fontSize: '0.75rem' }}>{p.date}</span>}
+                  {p.date && <span className="text-muted" style={{ fontSize: '0.75rem' }}>{p.date}</span>}
                 </Link>
               ))}
             </div>
@@ -295,24 +312,24 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
         </div>
       )}
       {showSocial && (
-  <div className="card card-hover card-elevate mb-3 d-none d-sm-block card-animate" data-animate>
-          <div className="card-body py-3">
-            <div className="fw-semibold text-uppercase small letter mb-2">Social</div>
-            <div className="social-grid">
-              <a className="btn btn-outline-secondary btn-sm icon-btn" style={{width:32,height:32,margin:'0.15rem 0',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} data-brand="kaggle" href={social.kaggle} target="_blank" rel="noopener" aria-label="Kaggle">
+        <div className="roman-card mb-3 d-none d-sm-block card-animate" data-animate>
+          <div className="roman-card-inner py-2">
+            <div className="roman-eyebrow mb-2">SOCIALES</div>
+            <div className="d-flex gap-2 flex-wrap">
+              <a className="icon-btn" data-brand="kaggle" href={social.kaggle} target="_blank" rel="noopener" aria-label="Kaggle">
                 <img src={`${import.meta.env.BASE_URL}assets/kaggle.svg`} alt="Kaggle" width="18" height="18" loading="lazy" decoding="async" />
               </a>
-              <a className="btn btn-outline-secondary btn-sm icon-btn" style={{width:32,height:32,margin:'0.15rem 0',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} data-brand="linkedin" href={social.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">
+              <a className="icon-btn" data-brand="linkedin" href={social.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">
                 <i className="bi bi-linkedin"></i>
               </a>
-              <a className="btn btn-outline-secondary btn-sm icon-btn" style={{width:32,height:32,margin:'0.15rem 0',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} data-brand="github" href={social.github} target="_blank" rel="noopener" aria-label="GitHub">
+              <a className="icon-btn" data-brand="github" href={social.github} target="_blank" rel="noopener" aria-label="GitHub">
                 <i className="bi bi-github"></i>
               </a>
-              <a className="btn btn-outline-secondary btn-sm icon-btn" style={{width:32,height:32,margin:'0.15rem 0',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} data-brand="email" href={social.email} aria-label="Email">
+              <a className="icon-btn" data-brand="email" href={social.email} aria-label="Email">
                 <i className="bi bi-envelope"></i>
               </a>
               {hasRealScholar && (
-                <a className="btn btn-outline-secondary btn-sm icon-btn" style={{width:32,height:32,margin:'0.15rem 0',padding:0,display:'flex',alignItems:'center',justifyContent:'center'}} data-brand="scholar" href={social.scholar} target="_blank" rel="noopener" aria-label="Google Scholar">
+                <a className="icon-btn" data-brand="scholar" href={social.scholar} target="_blank" rel="noopener" aria-label="Google Scholar">
                   <i className="bi bi-mortarboard"></i>
                 </a>
               )}

@@ -130,23 +130,26 @@ export default function Repos() {
         <Sidebar />
       </aside>
       <div className="col-12 col-lg-9">
-        <section className="page-hero hero-with-bg p-4 mb-3" data-animate>
-          <h1 className="h3 mb-1">
-            <span className="gradient-text">{t('repos.title')}</span>
+        <section className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden" data-animate>
+          <span className="roman-eyebrow d-block mb-3">Opuscula</span>
+          <h1 className="font-display fw-bold mb-2 gradient-gold" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+            {t('repos.title')}
           </h1>
           <p className="text-secondary mb-0">{t('repos.subtitle')}</p>
         </section>
 
         {/* GitHub Commit Activity Chart */}
-        <div className="mb-4" data-animate>
-          <GitHubCommitChart />
+        <div className="roman-card mb-4" data-animate>
+          <div className="roman-card-inner">
+            <GitHubCommitChart />
+          </div>
         </div>
 
         <div className="d-flex flex-wrap gap-2 mb-3">
           {languages.map((l) => (
             <button
               key={l}
-              className={`btn btn-sm ${langFilter === l ? 'btn-primary' : 'btn-outline-secondary'}`}
+              className={`roman-btn ${langFilter === l ? 'roman-btn-cta' : 'roman-btn-ghost'} btn-sm`}
               onClick={() => setLangFilter(l)}
             >
               {l}
@@ -154,7 +157,7 @@ export default function Repos() {
           ))}
           <div className="ms-auto"></div>
           <input
-            className="form-control form-control-sm search-input-glow"
+            className="roman-input form-control-sm search-input-glow"
             style={{ maxWidth: 260 }}
             placeholder={t('repos.searchPlaceholder')}
             value={query}

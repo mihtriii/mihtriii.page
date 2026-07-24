@@ -4,10 +4,25 @@ import SectionDivider from '../components/SectionDivider.jsx';
 import { toast } from '../components/Toast.jsx';
 import { useI18n } from '../i18n/index.jsx';
 
+/**
+ * Latin section labels for Roman Imperial aesthetic
+ */
+const LATIN_CV = {
+  summary: 'Summarium',
+  'career-objectives': 'Propositum',
+  education: 'Educatio',
+  experience: 'Munera',
+  'research-interests': 'Studia',
+  'competitions-activities': 'Honores',
+  skills: 'Artes',
+  publications: 'Scripta',
+  languages: 'Linguae',
+};
+
 function Section({ id, title, children }) {
   return (
     <section id={id} className="section mb-4" data-animate>
-      <h2 className="h4">{title}</h2>
+      <h2 className="h4 mb-3 font-display">{title}</h2>
       {children}
     </section>
   );
@@ -17,12 +32,87 @@ function SkillMeter({ label, level = 0 }) {
   const clamped = Math.max(0, Math.min(100, level));
   return (
     <div className="skill-meter" data-animate>
-      <div className="d-flex justify-content-between align-items-center mb-1">
-        <span className="small fw-semibold">{label}</span>
-        <span className="small text-secondary">{clamped}%</span>
+      <div className="skill-meter-header">
+        <span className="skill-meter-label">{label}</span>
+        <span className="skill-meter-value">{clamped}%</span>
       </div>
       <div className="meter-track">
         <div className="meter-fill" style={{ '--w': `${clamped}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function StatCard({ icon, label, value, subtitle, className = '' }) {
+  return (
+    <div className={`col-md-6 ${className}`}>
+      <div className="d-flex align-items-start gap-3">
+        <div className="p-2 bg-gold bg-opacity-10 rounded-circle">
+          <i className={`bi ${icon} fs-5 text-gold`}></i>
+        </div>
+        <div className="flex-grow-1">
+          <h3 className="h6 mb-1 fw-bold font-display">{label}</h3>
+          <p className="small text-secondary mb-0">{value}</p>
+          {subtitle && <p className="small text-muted mb-0">{subtitle}</p>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CourseworkItem({ icon, text }) {
+  return (
+    <div className="col-md-6">
+      <div className="d-flex align-items-center gap-2 mb-2">
+        <i className={`bi ${icon} text-olive`}></i>
+        <span className="small">{text}</span>
+      </div>
+    </div>
+  );
+}
+
+function CompetitionCard({ icon, title, award, date, link, linkLabel }) {
+  return (
+    <div className="col-md-6">
+      <div className="roman-card h-100 card-animate">
+        <div className="roman-card-inner">
+          <div className="d-flex align-items-start gap-2 mb-2">
+            <i className={`bi ${icon} text-gold fs-5`}></i>
+            <div className="flex-grow-1">
+              <h3 className="h6 mb-1 font-display">{title}</h3>
+              <p className="small text-secondary mb-1">
+                <strong>{award}</strong>
+              </p>
+              <p className="small text-muted mb-0">{date}</p>
+            </div>
+          </div>
+          {link && (
+            <a
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-decoration-none"
+            >
+              <i className="bi bi-box-arrow-up-right"></i>
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SkillCategoryCard({ icon, title, children }) {
+  return (
+    <div className="col-12 col-md-6">
+      <div className="roman-card h-100 card-animate">
+        <div className="roman-card-inner">
+          <h3 className="h6 mb-3 font-display">
+            <i className={`bi ${icon} text-gold me-2`}></i>
+            {title}
+          </h3>
+          <div className="d-flex flex-wrap gap-2">{children}</div>
+        </div>
       </div>
     </div>
   );
@@ -41,60 +131,65 @@ export default function CV() {
     'publications',
     'languages',
   ];
+
   return (
     <div className="row g-4">
       <aside className="col-12 col-lg-3">
         <Sidebar sectionIds={sectionIds} />
       </aside>
       <div className="col-12 col-lg-9">
+        {/* CV Hero Section */}
         <section
-          className="page-hero hero-with-bg cv-hero p-4 mb-3 position-relative overflow-hidden"
+          className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden"
           data-animate
         >
-          <div className="d-flex flex-column gap-2">
-            <h1 className="h3 mb-0">
-              <span className="gradient-text">{t('cv.title')}</span>
+          <div className="d-flex flex-column gap-3">
+            <span className="roman-eyebrow">Curriculum Vitae</span>
+            <h1 className="font-display fw-bold mb-2" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)' }}>
+              <span className="gradient-gold">Nguyễn Minh Trí</span>
             </h1>
-            <p className="text-secondary mb-2">{t('cv.subtitle')}</p>
-            <div className="d-flex flex-wrap gap-2">
-              <span className="badge badge-glow">{t('cv.research.computerVision')}</span>
-              <span className="badge badge-glow">{t('cv.research.vlm')}</span>
-              <span className="badge badge-glow">{t('cv.research.quantumML')}</span>
+            <p className="text-secondary mb-2" style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}>
+              Undergraduate Research Assistant · AiTA Lab, FPT University HCMC
+            </p>
+            <div className="roman-metrics mb-3" role="list">
+              <span className="roman-metric-pill" role="listitem"><i className="bi bi-eye me-1"></i><span className="roman-metric-label">Focus</span><span className="roman-metric-value">Computer Vision</span></span>
+              <span className="roman-metric-pill" role="listitem"><i className="bi bi-cpu me-1"></i><span className="roman-metric-label">VLM</span><span className="roman-metric-value">VLMs</span></span>
+              <span className="roman-metric-pill" role="listitem"><i className="bi bi-lightning me-1"></i><span className="roman-metric-label">QML</span><span className="roman-metric-value">Quantum ML</span></span>
             </div>
-            <div className="d-flex flex-wrap gap-2 mt-1">
-              <button className="btn btn-gradient-border btn-sm px-4" onClick={() => window.print()}>
-                <i className="bi bi-download"></i> {t('cv.downloadPrint')}
+            <div className="d-flex flex-wrap gap-2">
+              <button className="roman-btn-cta btn-sm px-4 py-2" onClick={() => window.print()}>
+                <i className="bi bi-printer me-1"></i> Imprimere
               </button>
-              <a className="btn btn-outline-secondary btn-sm" href="mailto:mihtriii295@gmail.com">
-                <i className="bi bi-envelope"></i> Email
+              <a className="roman-btn btn-sm px-4 py-2" href="mailto:mihtriii295@gmail.com">
+                <i className="bi bi-envelope me-1"></i> Epistula
               </a>
-              <a className="btn btn-outline-secondary btn-sm" href="tel:+84858276537">
-                <i className="bi bi-telephone"></i> Phone
+              <a className="roman-btn btn-sm px-4 py-2" href="tel:+84858276537">
+                <i className="bi bi-telephone me-1"></i> Telephonum
               </a>
               <button
-                className="btn btn-outline-secondary btn-sm"
+                className="roman-btn-ghost btn-sm px-4 py-2"
                 onClick={() => {
                   navigator.clipboard.writeText('mihtriii295@gmail.com | +84 858 276 537');
                   toast('Copied contact info');
                 }}
               >
-                <i className="bi bi-clipboard"></i> Copy Contact
+                <i className="bi bi-clipboard me-1"></i> Copia
               </button>
               <a
-                className="btn btn-outline-secondary btn-sm"
+                className="roman-btn-ghost btn-sm px-4 py-2"
                 href="https://github.com/mihtriii"
                 target="_blank"
                 rel="noopener"
               >
-                <i className="bi bi-github"></i> GitHub
+                <i className="bi bi-github me-1"></i> Opuscula
               </a>
             </div>
           </div>
         </section>
 
-        <Section id="summary" title={t('cv.sections.summary')}>
-          <div className="card card-hover card-elevate card-gradient-border" data-animate>
-            <div className="card-body p-4">
+        <Section id="summary" title={LATIN_CV.summary}>
+          <div className="roman-card" data-animate>
+            <div className="roman-card-inner">
               <p className="lead mb-4">
                 Undergraduate Research Assistant at AiTA Lab with strong foundation in{' '}
                 <strong>Computer Vision</strong> and <strong>Quantum Machine Learning</strong>.
@@ -102,48 +197,32 @@ export default function CV() {
                 Machine Learning.
               </p>
               <div className="row g-4">
-                <div className="col-md-6">
-                  <div className="d-flex align-items-start gap-3">
-                    <div className="p-2 bg-primary bg-opacity-10 rounded">
-                      <i className="bi bi-bullseye text-primary fs-5"></i>
-                    </div>
-                    <div className="flex-grow-1">
-                      <h3 className="h6 mb-2 fw-bold">Research Focus</h3>
-                      <p className="small text-secondary mb-0">
-                        Vision-Language Models, Multimodal AI, Quantum Computing for CV
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="d-flex align-items-start gap-3">
-                    <div className="p-2 bg-warning bg-opacity-10 rounded">
-                      <i className="bi bi-trophy text-warning fs-5"></i>
-                    </div>
-                    <div className="flex-grow-1">
-                      <h3 className="h6 mb-2 fw-bold">Key Achievements</h3>
-                      <p className="small text-secondary mb-0">
-                        Samsung SFT 3rd Prize, VOI Honorable Mention, AIoT Hackathon Award
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                <StatCard
+                  icon="bi-bullseye"
+                  label="Research Focus"
+                  value="Vision-Language Models, Multimodal AI, Quantum Computing for CV"
+                />
+                <StatCard
+                  icon="bi-trophy"
+                  label="Key Achievements"
+                  value="Samsung SFT 3rd Prize, VOI Honorable Mention, AIoT Hackathon Award"
+                />
               </div>
             </div>
           </div>
         </Section>
 
-        <Section id="career-objectives" title={t('cv.sections.careerObjectives')}>
+        <Section id="career-objectives" title={LATIN_CV['career-objectives']}>
           <div className="row g-3" data-animate>
             <div className="col-md-6">
-              <div className="card card-hover card-elevate h-100">
-                <div className="card-body p-4">
+              <div className="roman-card h-100 card-animate">
+                <div className="roman-card-inner">
                   <div className="d-flex align-items-start gap-3">
-                    <div className="p-2 bg-primary bg-opacity-10 rounded">
-                      <i className="bi bi-mortarboard-fill fs-4 text-primary"></i>
+                    <div className="p-2 bg-gold bg-opacity-10 rounded-circle">
+                      <i className="bi bi-mortarboard-fill fs-4 text-gold"></i>
                     </div>
                     <div className="flex-grow-1">
-                      <h3 className="h6 mb-2 fw-bold">PhD in Artificial Intelligence</h3>
+                      <h3 className="h6 mb-2 fw-bold font-display">PhD in Artificial Intelligence</h3>
                       <p className="text-secondary small mb-0">{t('cv.careerObjectives.phd')}</p>
                     </div>
                   </div>
@@ -151,22 +230,22 @@ export default function CV() {
               </div>
             </div>
             <div className="col-md-6">
-              <div className="card card-hover card-elevate h-100">
-                <div className="card-body p-4">
+              <div className="roman-card h-100 card-animate">
+                <div className="roman-card-inner">
                   <div className="d-flex align-items-start gap-3">
-                    <div className="p-2 bg-success bg-opacity-10 rounded">
-                      <i className="bi bi-briefcase-fill fs-4 text-success"></i>
+                    <div className="p-2 bg-olive bg-opacity-10 rounded-circle">
+                      <i className="bi bi-briefcase-fill fs-4 text-olive"></i>
                     </div>
                     <div className="flex-grow-1">
-                      <h3 className="h6 mb-2 fw-bold">AI Engineer</h3>
+                      <h3 className="h6 mb-2 fw-bold font-display">AI Engineer</h3>
                       <p className="text-secondary small mb-3">
                         {t('cv.careerObjectives.engineer')}
                       </p>
                       <div className="d-flex flex-wrap gap-1">
-                        <span className="badge text-bg-secondary">Computer Vision</span>
-                        <span className="badge text-bg-secondary">Time Series</span>
-                        <span className="badge text-bg-secondary">Deep Learning</span>
-                        <span className="badge text-bg-secondary">MLOps</span>
+                        <span className="roman-badge-gold">Computer Vision</span>
+                        <span className="roman-badge-gold">Time Series</span>
+                        <span className="roman-badge-gold">Deep Learning</span>
+                        <span className="roman-badge-gold">MLOps</span>
                       </div>
                     </div>
                   </div>
@@ -178,55 +257,30 @@ export default function CV() {
 
         <SectionDivider variant="dots" />
 
-        <Section id="education" title={t('cv.sections.education')}>
-          <div className="card card-hover card-elevate card-gradient-border" data-animate>
-            <div className="card-body p-4">
+        <Section id="education" title={LATIN_CV.education}>
+          <div className="roman-card" data-animate>
+            <div className="roman-card-inner">
               <div className="row align-items-start mb-4">
                 <div className="col-md-8">
-                  <h3 className="h5 mb-2 fw-bold">{t('cv.education.university')}</h3>
-                  <p className="mb-2 text-primary fw-semibold">{t('cv.education.degree')}</p>
+                  <h3 className="h5 mb-2 fw-bold font-display">{t('cv.education.university')}</h3>
+                  <p className="mb-2 text-gold fw-semibold">{t('cv.education.degree')}</p>
                   <p className="text-secondary small mb-0">
                     <i className="bi bi-calendar3 me-1"></i> {t('cv.education.timeline')} ·{' '}
                     {t('cv.education.year')}
                   </p>
                 </div>
               </div>
-              <div className="border-top pt-4">
-                <h4 className="h6 fw-bold mb-3">
+              <div className="border-top border-zinc pt-4">
+                <h4 className="h6 fw-bold mb-3 font-display">
                   <i className="bi bi-journal-code me-2"></i>
                   {t('cv.education.courseworkTitle')}
                 </h4>
                 <div className="row g-2">
-                  <div className="col-md-6">
-                    <div className="d-flex align-items-center gap-2">
-                      <i className="bi bi-check-circle-fill text-success"></i>
-                      <span className="small">{t('cv.education.coursework1')}</span>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="d-flex align-items-center gap-2">
-                      <i className="bi bi-check-circle-fill text-success"></i>
-                      <span className="small">{t('cv.education.coursework2')}</span>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="d-flex align-items-center gap-2">
-                      <i className="bi bi-check-circle-fill text-success"></i>
-                      <span className="small">{t('cv.education.coursework3')}</span>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="d-flex align-items-center gap-2">
-                      <i className="bi bi-check-circle-fill text-success"></i>
-                      <span className="small">{t('cv.education.coursework4')}</span>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="d-flex align-items-center gap-2">
-                      <i className="bi bi-check-circle-fill text-success"></i>
-                      <span className="small">{t('cv.education.coursework5')}</span>
-                    </div>
-                  </div>
+                  <CourseworkItem icon="bi-check-circle-fill" text={t('cv.education.coursework1')} />
+                  <CourseworkItem icon="bi-check-circle-fill" text={t('cv.education.coursework2')} />
+                  <CourseworkItem icon="bi-check-circle-fill" text={t('cv.education.coursework3')} />
+                  <CourseworkItem icon="bi-check-circle-fill" text={t('cv.education.coursework4')} />
+                  <CourseworkItem icon="bi-check-circle-fill" text={t('cv.education.coursework5')} />
                 </div>
               </div>
             </div>
@@ -235,9 +289,9 @@ export default function CV() {
 
         <SectionDivider variant="wave" />
 
-        <Section id="experience" title={t('cv.sections.experience')}>
-          <div className="card card-hover card-elevate card-gradient-border" data-animate>
-            <div className="card-body p-4">
+        <Section id="experience" title={LATIN_CV.experience}>
+          <div className="roman-card" data-animate>
+            <div className="roman-card-inner">
               {/* Visual Timeline */}
               <div className="experience-timeline">
                 <div className="timeline-item">
@@ -248,10 +302,10 @@ export default function CV() {
                   <div className="timeline-content">
                     <div className="d-flex justify-content-between align-items-start mb-2 flex-wrap gap-2">
                       <div>
-                        <h3 className="h6 fw-bold mb-1">{t('cv.experience.currentRole')}</h3>
-                        <p className="text-primary small mb-0">{t('cv.experience.currentOrg')}</p>
+                        <h3 className="h6 fw-bold mb-1 font-display">{t('cv.experience.currentRole')}</h3>
+                        <p className="text-gold small mb-0">{t('cv.experience.currentOrg')}</p>
                       </div>
-                      <span className="badge text-bg-success">
+                      <span className="roman-badge-olive">
                         <i className="bi bi-calendar3 me-1"></i>
                         {t('cv.experience.currentTimeline')}
                       </span>
@@ -268,15 +322,15 @@ export default function CV() {
           </div>
         </Section>
 
-        <Section id="research-interests" title={t('cv.sections.researchInterests')}>
-          <div className="card card-hover card-elevate" data-animate>
-            <div className="card-body p-4">
+        <Section id="research-interests" title={LATIN_CV['research-interests']}>
+          <div className="roman-card" data-animate>
+            <div className="roman-card-inner">
               <div className="row g-3">
                 <div className="col-md-4">
                   <div className="d-flex align-items-start gap-2">
-                    <i className="bi bi-eye text-primary"></i>
+                    <i className="bi bi-eye text-gold"></i>
                     <div>
-                      <h3 className="h6 fw-bold mb-1">Vision-Language Models</h3>
+                      <h3 className="h6 fw-bold mb-1 font-display">Vision-Language Models</h3>
                       <p className="small text-secondary mb-0">
                         Multimodal retrieval, visual grounding, instruction tuning
                       </p>
@@ -285,9 +339,9 @@ export default function CV() {
                 </div>
                 <div className="col-md-4">
                   <div className="d-flex align-items-start gap-2">
-                    <i className="bi bi-cpu text-success"></i>
+                    <i className="bi bi-cpu text-olive"></i>
                     <div>
-                      <h3 className="h6 fw-bold mb-1">Applied VLMs</h3>
+                      <h3 className="h6 fw-bold mb-1 font-display">Applied VLMs</h3>
                       <p className="small text-secondary mb-0">
                         Edge/cloud deployment with performance optimizations
                       </p>
@@ -296,9 +350,9 @@ export default function CV() {
                 </div>
                 <div className="col-md-4">
                   <div className="d-flex align-items-start gap-2">
-                    <i className="bi bi-lightning text-warning"></i>
+                    <i className="bi bi-lightning text-amber"></i>
                     <div>
-                      <h3 className="h6 fw-bold mb-1">Quantum ML</h3>
+                      <h3 className="h6 fw-bold mb-1 font-display">Quantum ML</h3>
                       <p className="small text-secondary mb-0">
                         Hybrid classical-quantum architectures for vision
                       </p>
@@ -310,99 +364,45 @@ export default function CV() {
           </div>
         </Section>
 
-        <Section id="competitions-activities" title={t('cv.sections.competitionsActivities')}>
+        <Section id="competitions-activities" title={LATIN_CV['competitions-activities']}>
           <div className="row g-3" data-animate>
-            <div className="col-md-6">
-              <div className="card card-hover card-elevate h-100">
-                <div className="card-body">
-                  <div className="d-flex align-items-start gap-2 mb-2">
-                    <i className="bi bi-trophy-fill text-warning fs-5"></i>
-                    <div className="flex-grow-1">
-                      <h3 className="h6 mb-1">{t('cv.competitions.samsung')}</h3>
-                      <p className="small text-secondary mb-2">
-                        <strong>{t('cv.competitions.samsungAward')}</strong>
-                      </p>
-                      <p className="small mb-0">
-                        {t('cv.competitions.samsungTeam')}: T-Gardens{' '}
-                        <a
-                          href="https://solvefortomorrow.vn/doi-thang-giai/t-gardens"
-                          target="_blank"
-                          rel="noopener"
-                          className="text-decoration-none"
-                        >
-                          <i className="bi bi-box-arrow-up-right"></i>
-                        </a>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="card card-hover card-elevate h-100">
-                <div className="card-body">
-                  <div className="d-flex align-items-start gap-2 mb-2">
-                    <i className="bi bi-award-fill text-primary fs-5"></i>
-                    <div>
-                      <h3 className="h6 mb-1">{t('cv.competitions.aiot')}</h3>
-                      <p className="small text-secondary mb-0">
-                        <strong>{t('cv.competitions.aiotAward')}</strong>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="card card-hover card-elevate h-100">
-                <div className="card-body">
-                  <div className="d-flex align-items-start gap-2 mb-2">
-                    <i className="bi bi-mortarboard-fill text-success fs-5"></i>
-                    <div>
-                      <h3 className="h6 mb-1">{t('cv.competitions.voi')}</h3>
-                      <p className="small text-secondary mb-0">
-                        <strong>{t('cv.competitions.voiAward')}</strong>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="card card-hover card-elevate h-100">
-                <div className="card-body">
-                  <div className="d-flex align-items-start gap-2 mb-2">
-                    <i className="bi bi-people-fill text-info fs-5"></i>
-                    <div className="flex-grow-1">
-                      <h3 className="h6 mb-1">Leadership</h3>
-                      <p className="small text-secondary mb-1">
-                        <strong>Vice President, FARPC Programming Club</strong>
-                      </p>
-                      <p className="small text-secondary mb-0">
-                        Academic club focusing on <strong>AI and IoT</strong> research.{' '}
-                        <a
-                          href="https://www.facebook.com/FARPC.HCM/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-decoration-none"
-                        >
-                          <i className="bi bi-facebook"></i> Page
-                        </a>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <CompetitionCard
+              icon="bi-trophy-fill"
+              title={t('cv.competitions.samsung')}
+              award={t('cv.competitions.samsungAward')}
+              date="2024"
+              link="https://solvefortomorrow.vn/doi-thang-giai/t-gardens"
+              linkLabel="Competition showcase"
+            />
+            <CompetitionCard
+              icon="bi-award-fill"
+              title={t('cv.competitions.aiot')}
+              award={t('cv.competitions.aiotAward')}
+              date="2025"
+            />
+            <CompetitionCard
+              icon="bi-mortarboard-fill"
+              title={t('cv.competitions.voi')}
+              award={t('cv.competitions.voiAward')}
+              date="2024"
+              link="https://voi.edu.vn/"
+            />
+            <CompetitionCard
+              icon="bi-people-fill"
+              title="Leadership"
+              award="Vice President, FARPC Programming Club"
+              date="2025 - 2026"
+              link="https://www.facebook.com/FARPC.HCM/"
+            />
           </div>
         </Section>
 
-        <Section id="skills" title={t('cv.sections.skills')}>
+        <Section id="skills" title={LATIN_CV.skills}>
           {/* Skills with Progress Visualization */}
-          <div className="card card-hover card-elevate card-gradient-border mb-3" data-animate>
-            <div className="card-body p-4">
-              <h3 className="h6 mb-3">
-                <i className="bi bi-star-fill text-warning me-2"></i>
+          <div className="roman-card mb-3" data-animate>
+            <div className="roman-card-inner">
+              <h3 className="h6 mb-3 font-display">
+                <i className="bi bi-star-fill text-gold me-2"></i>
                 Core Proficiencies
               </h3>
               <div className="row g-4">
@@ -430,121 +430,68 @@ export default function CV() {
 
           {/* Existing skills cards */}
           <div className="row g-3">
-            <div className="col-12 col-md-6">
-              <div className="card card-hover card-elevate h-100">
-                <div className="card-body">
-                  <h3 className="h6 mb-3">
-                    <i className="bi bi-code-slash"></i> {t('cv.skills.programming')}
-                  </h3>
-                  <div className="d-flex flex-wrap gap-2">
-                    <span className="badge text-bg-primary">Python</span>
-                    <span className="badge text-bg-primary">C++</span>
-                    <span className="badge text-bg-secondary">JavaScript</span>
-                    <span className="badge text-bg-secondary">SQL</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-md-6">
-              <div className="card card-hover card-elevate h-100">
-                <div className="card-body">
-                  <h3 className="h6 mb-3">
-                    <i className="bi bi-robot"></i> {t('cv.skills.frameworks')}
-                  </h3>
-                  <div className="d-flex flex-wrap gap-2 mb-2">
-                    <span className="badge text-bg-primary">{t('cv.skills.pytorch')}</span>
-                    <span className="badge text-bg-primary">{t('cv.skills.cv')}</span>
-                    <span className="badge text-bg-primary">{t('cv.skills.nlp')}</span>
-                    <span className="badge text-bg-secondary">{t('cv.skills.quantum')}</span>
-                  </div>
-                  <div className="d-flex flex-wrap gap-2">
-                    <span className="badge text-bg-secondary">NumPy</span>
-                    <span className="badge text-bg-secondary">Pandas</span>
-                    <span className="badge text-bg-secondary">scikit-learn</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-md-6">
-              <div className="card card-hover card-elevate h-100">
-                <div className="card-body">
-                  <h3 className="h6 mb-3">
-                    <i className="bi bi-tools"></i> {t('cv.skills.tools')}
-                  </h3>
-                  <div className="d-flex flex-wrap gap-2">
-                    <span className="badge text-bg-info">{t('cv.skills.git')}</span>
-                    <span className="badge text-bg-info">{t('cv.skills.cloud')}</span>
-                    <span className="badge text-bg-info">{t('cv.skills.latex')}</span>
-                    <span className="badge text-bg-secondary">Linux/Unix</span>
-                    <span className="badge text-bg-secondary">Jupyter</span>
-                    <span className="badge text-bg-secondary">VS Code</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-md-6">
-              <div className="card card-hover card-elevate h-100">
-                <div className="card-body">
-                  <h3 className="h6 mb-3">
-                    <i className="bi bi-graph-up"></i> Data Visualization
-                  </h3>
-                  <div className="d-flex flex-wrap gap-2">
-                    <span className="badge text-bg-success">{t('cv.skills.dataViz')}</span>
-                    <span className="badge text-bg-secondary">TensorBoard</span>
-                    <span className="badge text-bg-secondary">Weights & Biases</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <SkillCategoryCard icon="bi-code-slash" title="Programming">
+              <span className="roman-badge-gold">Python</span>
+              <span className="roman-badge-gold">C++</span>
+              <span className="roman-badge-gold">JavaScript</span>
+              <span className="roman-badge-gold">SQL</span>
+            </SkillCategoryCard>
+
+            <SkillCategoryCard icon="bi-robot" title="Frameworks">
+              <span className="roman-badge-gold">PyTorch</span>
+              <span className="roman-badge-gold">TensorFlow</span>
+              <span className="roman-badge-gold">OpenCV</span>
+              <span className="roman-badge-gold">scikit-image</span>
+              <span className="roman-badge-gold">timm</span>
+              <span className="roman-badge-gold">Qiskit</span>
+              <span className="roman-badge-gold">PennyLane</span>
+            </SkillCategoryCard>
+
+            <SkillCategoryCard icon="bi-tools" title="Tools">
+              <span className="roman-badge-gold">Git/GitHub</span>
+              <span className="roman-badge-gold">Linux</span>
+              <span className="roman-badge-gold">LaTeX/Overleaf</span>
+              <span className="roman-badge-gold">Docker</span>
+              <span className="roman-badge-gold">Jupyter</span>
+              <span className="roman-badge-gold">VS Code</span>
+            </SkillCategoryCard>
+
+            <SkillCategoryCard icon="bi-graph-up" title="Data Visualization">
+              <span className="roman-badge-gold">Matplotlib</span>
+              <span className="roman-badge-gold">Seaborn</span>
+              <span className="roman-badge-gold">Plotly</span>
+              <span className="roman-badge-gold">TensorBoard</span>
+              <span className="roman-badge-gold">Weights & Biases</span>
+            </SkillCategoryCard>
           </div>
         </Section>
 
-        <Section id="research-interests" title={t('cv.sections.researchInterests')}>
-          <div className="card card-hover card-elevate" data-animate>
-            <div className="card-body">
-              <ul className="mb-0">
-                <li>
-                  <strong>Vision-Language Models</strong>: Multimodal retrieval, visual grounding,
-                  instruction tuning, and evaluation methodologies
-                </li>
-                <li>
-                  <strong>Applied VLMs</strong>: Deployment strategies for edge/cloud environments
-                  with latency and throughput optimizations
-                </li>
-                <li>
-                  <strong>Quantum Machine Learning</strong>: Hybrid classical-quantum architectures
-                  for computer vision tasks
-                </li>
-              </ul>
-            </div>
-          </div>
-        </Section>
-
-        <Section id="publications" title="Publications">
-          <div className="card card-hover card-elevate card-gradient-border" data-animate>
-            <div className="card-body p-4">
+        <Section id="publications" title={LATIN_CV.publications}>
+          <div className="roman-card" data-animate>
+            <div className="roman-card-inner">
               <div className="d-flex align-items-start gap-3 mb-3">
-                <div className="p-2 bg-success bg-opacity-10 rounded">
-                  <i className="bi bi-file-earmark-text text-success fs-5"></i>
+                <div className="p-2 bg-gold bg-opacity-10 rounded-circle">
+                  <i className="bi bi-journal-richtext fs-5 text-gold"></i>
                 </div>
                 <div className="flex-grow-1">
-                  <h3 className="h6 mb-1 fw-bold">
-                    Hybrid Quantum Federated Learning for Brain Tumor MRI Analysis
-                  </h3>
-                  <p className="text-secondary small mb-1">
+                  <h3 className="h6 mb-1 fw-bold font-display">Hybrid Quantum Federated Learning for Brain Tumor MRI Analysis</h3>
+                  <p className="small text-secondary mb-1">
                     Quang Nhan Hoang, Minh Tri Nguyen, Duc Ngoc Minh Dang
                   </p>
-                  <p className="text-primary small mb-0">
-                    IEEE ICCE 2026 — 11th International Conference on Communications and Electronics
+                  <p className="small text-secondary mb-1">
+                    11th IEEE International Conference on Communications and Electronics (ICCE 2026)
                   </p>
-                  <span className="badge text-bg-success mt-1">Accepted (2026) · Co-author</span>
+                  <span className="roman-badge-olive">Accepted · 2026 · Co-author</span>
                 </div>
               </div>
+              <p className="small text-secondary mb-3">
+                This paper presents a hybrid quantum federated learning framework for brain tumor MRI analysis, combining quantum neural networks with classical federated learning to preserve data privacy while leveraging quantum computational advantages for medical imaging tasks.
+              </p>
               <a
-                className="btn btn-outline-success btn-sm"
                 href="https://daihoc.fpt.edu.vn/hcm/aita-lab-tiep-tuc-ghi-dau-an-quoc-te-voi-02-bai-bao-tai-ieee-icce-2026/"
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
+                className="roman-btn btn-sm"
               >
                 <i className="bi bi-newspaper me-1"></i> News Article
               </a>
@@ -552,25 +499,25 @@ export default function CV() {
           </div>
         </Section>
 
-        <Section id="languages" title="Languages">
-          <div className="card card-hover card-elevate" data-animate>
-            <div className="card-body p-4">
-              <div className="row g-4">
-                <div className="col-md-4">
-                  <div className="d-flex align-items-center gap-2">
-                    <span className="badge text-bg-primary fs-6 px-3 py-2">VI</span>
+        <Section id="languages" title={LATIN_CV.languages}>
+          <div className="roman-card" data-animate>
+            <div className="roman-card-inner">
+              <div className="row g-3">
+                <div className="col-md-6">
+                  <div className="d-flex align-items-center gap-3">
+                    <i className="bi bi-translate fs-4 text-gold"></i>
                     <div>
-                      <p className="mb-0 fw-semibold small">Vietnamese</p>
-                      <p className="text-secondary small mb-0">Native</p>
+                      <h3 className="h6 mb-1 fw-bold font-display">Vietnamese</h3>
+                      <p className="small text-secondary mb-0">Native</p>
                     </div>
                   </div>
                 </div>
-                <div className="col-md-4">
-                  <div className="d-flex align-items-center gap-2">
-                    <span className="badge text-bg-info fs-6 px-3 py-2">EN</span>
+                <div className="col-md-6">
+                  <div className="d-flex align-items-center gap-3">
+                    <i className="bi bi-translate fs-4 text-gold"></i>
                     <div>
-                      <p className="mb-0 fw-semibold small">English</p>
-                      <p className="text-secondary small mb-0">IELTS 7.0</p>
+                      <h3 className="h6 mb-1 fw-bold font-display">English</h3>
+                      <p className="small text-secondary mb-0">IELTS 7.0</p>
                     </div>
                   </div>
                 </div>

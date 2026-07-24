@@ -5,6 +5,19 @@ import MobileNav from './MobileNav.jsx';
 import { useI18n } from '../i18n/index.jsx';
 import { useTheme } from '../contexts/ThemeContext.jsx';
 
+/**
+ * Latin navigation labels for Roman Imperial aesthetic
+ */
+const LATIN_NAV = {
+  about: 'Athenaeum',
+  blog: 'Schola',
+  cv: 'Tabula Vitae',
+  repos: 'Opuscula',
+  moments: 'Momentum',
+  news: 'Acta Diurna',
+  publications: 'Scripta',
+};
+
 function useLocalTime(tz = 'Asia/Ho_Chi_Minh') {
   const [now, setNow] = useState(new Date());
   useEffect(() => {
@@ -156,18 +169,18 @@ export default function Header() {
               height="28"
               className="me-2"
             />{' '}
-            NMTrí
+            <span className="font-display fw-bold" style={{ fontSize: '1.25rem' }}>NMTrí</span>
           </Link>
-          <div className="d-none d-md-flex align-items-center ms-auto">
+            <div className="d-none d-md-flex align-items-center ms-auto">
             <ul className="navbar-nav position-relative flex-row align-items-center">
               <li className="nav-item position-relative">
-                <NavLink end to="/" className="nav-link px-3">
+                <NavLink end to="/" className="nav-link px-3" onMouseEnter={prefetch.blog}>
                   {({ isActive }) => (
                     <span className="position-relative d-inline-block">
                       {isActive && (
                         <motion.span layoutId="navHighlight" className="nav-highlight" />
                       )}
-                      <span>{t('nav.about')}</span>
+                      <span>{LATIN_NAV.about}</span>
                     </span>
                   )}
                 </NavLink>
@@ -179,7 +192,7 @@ export default function Header() {
                       {isActive && (
                         <motion.span layoutId="navHighlight" className="nav-highlight" />
                       )}
-                      <span>{t('nav.blog')}</span>
+                      <span>{LATIN_NAV.blog}</span>
                     </span>
                   )}
                 </NavLink>
@@ -191,7 +204,7 @@ export default function Header() {
                       {isActive && (
                         <motion.span layoutId="navHighlight" className="nav-highlight" />
                       )}
-                      <span>{t('nav.cv')}</span>
+                      <span>{LATIN_NAV.cv}</span>
                     </span>
                   )}
                 </NavLink>
@@ -203,7 +216,7 @@ export default function Header() {
                       {isActive && (
                         <motion.span layoutId="navHighlight" className="nav-highlight" />
                       )}
-                      <span>{t('nav.repos')}</span>
+                      <span>{LATIN_NAV.repos}</span>
                     </span>
                   )}
                 </NavLink>
@@ -215,7 +228,7 @@ export default function Header() {
                       {isActive && (
                         <motion.span layoutId="navHighlight" className="nav-highlight" />
                       )}
-                      <span>{t('nav.moments')}</span>
+                      <span>{LATIN_NAV.moments}</span>
                     </span>
                   )}
                 </NavLink>
@@ -227,7 +240,7 @@ export default function Header() {
                       {isActive && (
                         <motion.span layoutId="navHighlight" className="nav-highlight" />
                       )}
-                      <span>{t('nav.news')}</span>
+                      <span>{LATIN_NAV.news}</span>
                     </span>
                   )}
                 </NavLink>
@@ -239,7 +252,7 @@ export default function Header() {
                       {isActive && (
                         <motion.span layoutId="navHighlight" className="nav-highlight" />
                       )}
-                      <span>{t('nav.publications')}</span>
+                      <span>{LATIN_NAV.publications}</span>
                     </span>
                   )}
                 </NavLink>
@@ -251,7 +264,7 @@ export default function Header() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {t('nav.github')}
+                  <i className="bi bi-github me-1"></i> OPUS
                 </a>
               </li>
             </ul>

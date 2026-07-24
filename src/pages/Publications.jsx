@@ -156,9 +156,10 @@ export default function Publications() {
       </aside>
 
       <div className="col-12 col-lg-9">
-        <section id="featured-publications" className="page-hero hero-with-bg p-4 mb-3" data-animate>
-          <h1 className="h3 mb-1">
-            <span className="gradient-text">{t('publications.title')}</span>
+        <section id="featured-publications" className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden" data-animate>
+          <span className="roman-eyebrow d-block mb-3">Scripta Publicata</span>
+          <h1 className="font-display fw-bold mb-2 gradient-gold" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+            {t('publications.title')}
           </h1>
           <p className="text-secondary mb-0">{t('publications.subtitle')}</p>
         </section>
@@ -171,7 +172,7 @@ export default function Publications() {
             </div>
             <div className="ms-auto"></div>
             <input
-              className="form-control form-control-sm search-input-glow"
+              className="roman-input form-control-sm search-input-glow"
               style={{ maxWidth: 300 }}
               placeholder={t('publications.searchPlaceholder')}
               value={searchQuery}

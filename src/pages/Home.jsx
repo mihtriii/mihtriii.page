@@ -21,6 +21,18 @@ import {
   staggerItemVariants,
 } from '../hooks/useScrollAnimation.js';
 
+/**
+ * Latin section labels for Roman Imperial aesthetic
+ */
+const LATIN_SECTIONS = {
+  about: 'Athenaeum',
+  focus: 'Studia',
+  goals: 'Proposita',
+  tech: 'Ars Mechanica',
+  projects: 'Opera',
+  contact: 'Contactus',
+};
+
 function Section({ id, title, children }) {
   const { ref, controls } = useScrollAnimation();
 
@@ -33,7 +45,7 @@ function Section({ id, title, children }) {
       animate={controls}
       variants={scrollAnimationVariants}
     >
-      <motion.h2 className="h4 mb-3" variants={fadeInUpVariants}>
+      <motion.h2 className="h4 mb-3 font-display" variants={fadeInUpVariants}>
         {title}
       </motion.h2>
       <motion.div variants={fadeInUpVariants}>{children}</motion.div>
@@ -138,188 +150,205 @@ export default function Home() {
       </aside>
 
       <div className="col-12 col-lg-9">
+        {/* EPIC HERO SECTION - Greek Mythology / Frieren RPG Style */}
         <section
-          className="page-hero hero-with-bg p-4 mb-3 position-relative overflow-hidden"
+          className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden"
           data-animate
         >
-          <DotFieldBackground
-            className="absolute inset-0 w-full h-full z-0"
-            dotSpacing={22}
-            cursorRadius={350}
-            cursorForce={0.06}
-            glowRadius={200}
-            gradientFrom="rgba(139, 92, 246, 0.20)"
-            gradientTo="rgba(168, 85, 247, 0.10)"
-            glowColor="#0f0a14"
-          />
-          <div className="row align-items-center g-4 position-relative z-1">
+          <div className="row align-items-center g-4 g-md-5 position-relative z-1">
             <div className="col-12 col-md-7">
+              {/* Latin Eyebrow */}
+              <span className="roman-eyebrow d-block mb-3">Salve, Viator</span>
+              
+              {/* Main Headline with Cormorant Display */}
               <AnimatedHeadline
-                text={t('home.heroHi')}
+                text="Hi, I am Trí."
                 tag="h1"
-                className="h3 mb-2"
+                className="font-display fw-bold mb-3"
+                style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', lineHeight: 1.15 }}
                 splitType="words, chars"
-                delay={40}
-                duration={0.55}
+                delay={50}
+                duration={0.65}
                 ease="power3.out"
-                from={{ opacity: 0, y: 30 }}
+                from={{ opacity: 0, y: 40 }}
                 to={{ opacity: 1, y: 0 }}
                 scrollTrigger={false}
                 gradient={true}
-                gradientColors={['#a855f7', '#d946ef', '#ec4899']}
+                gradientColors={['#F0E6C8', '#C9A84C', '#E8C96A']}
               />
-              <p className="text-secondary mb-2">
+              
+              {/* Sub-headline - Epic tagline */}
+              <p className="text-secondary mb-2 fw-medium" style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}>
                 <strong>Undergraduate Research Assistant</strong>
                 <br />
                 AiTA Lab, FPT University
               </p>
-              <p className="text-secondary mb-3">
-                <Typewriter words={['Computer Vision', 'Vision‑Language Models', 'Quantum ML']} />
+              
+              {/* Typewriter with Roman flair */}
+              <p className="text-secondary mb-4" style={{ fontSize: 'clamp(0.9375rem, 1.5vw, 1.125rem)' }}>
+                <Typewriter words={['Computer Vision', 'Vision‑Language Models', 'Quantum ML', 'Sic Parvis Magna']} />
               </p>
-              <div className="d-flex flex-wrap gap-2 mb-3">
-                <span className="badge badge-glow">Computer Vision</span>
-                <span className="badge badge-glow">VLMs</span>
-                <span className="badge badge-glow">Quantum ML</span>
+              
+              {/* Badges as Roman metric pills */}
+              <div className="roman-metrics mb-4" role="list">
+                <span className="roman-metric-pill" role="listitem"><i className="bi bi-eye me-1"></i><span className="roman-metric-label">Vision</span><span className="roman-metric-value">Computer Vision</span></span>
+                <span className="roman-metric-pill" role="listitem"><i className="bi bi-cpu me-1"></i><span className="roman-metric-label">VLM</span><span className="roman-metric-value">VLMs</span></span>
+                <span className="roman-metric-pill" role="listitem"><i className="bi bi-lightning me-1"></i><span className="roman-metric-label">QML</span><span className="roman-metric-value">Quantum ML</span></span>
               </div>
+              
+              {/* CTA Buttons - Roman Style */}
               <div className="d-flex flex-wrap gap-2 hero-cta">
-                <a href="#contact" className="btn btn-gradient-border btn-sm px-4">
-                  {t('home.buttons.contact')}
-                </a>
-                <Link to="/cv" className="btn btn-outline-gradient btn-sm px-4">
-                  {t('home.buttons.viewCV')}
+                <Link to="/cv" className="roman-btn-cta btn-sm px-4 py-2">
+                  <i className="bi bi-file-earmark-text me-1"></i> Tabula Vitae
                 </Link>
+                <a href="#contact" className="roman-btn btn-sm px-4 py-2">
+                  <i className="bi bi-send me-1"></i> Contactus
+                </a>
                 <a
-                  className="btn btn-outline-secondary btn-sm"
+                  className="roman-btn-ghost btn-sm px-4 py-2"
                   href="https://github.com/mihtriii"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  GitHub
+                  <i className="bi bi-github me-1"></i> Opuscula
                 </a>
               </div>
             </div>
             <div className="col-12 col-md-5 text-center">
               <Tilt className="d-inline-block portrait-wrap">
                 <BlurImage
-                  className="portrait rounded shadow-sm"
+                  className="portrait rounded-circle shadow-none border border-zinc"
                   src={`${import.meta.env.BASE_URL}assets/avatar.JPG`}
                   alt="Portrait"
                   imgProps={{ loading: 'eager', decoding: 'async', fetchpriority: 'high' }}
+                  style={{ width: '100%', maxWidth: '320px', aspectRatio: '1/1', objectFit: 'cover' }}
                 />
               </Tilt>
             </div>
           </div>
         </section>
 
-        <Section id="about" title={t('home.sections.about')}>
-          <p>
-            I'm an <strong>Undergraduate Research Assistant at AiTA Lab, FPT University</strong>,
-            where I work on Computer Vision and Quantum Machine Learning research. I learn by
-            building and enjoy working at the intersection of <strong>Computer Vision</strong> and{' '}
-            <strong>Vision‑Language Models</strong>, exploring <strong>Quantum ML</strong> for
-            vision as a long‑term research direction. I value clarity, simple baselines, and
-            reproducible demos that make ideas tangible.
-          </p>
-          <p>
-            Right now, I’m focused on practical VLM applications (retrieval, grounding,
-            instruction‑tuning) and setting up strong habits for research: reading, small
-            experiments, and writing. I’m open to collaborations that are lightweight, focused, and
-            shipping‑oriented.
-          </p>
-          <div className="icon-row mt-2" data-animate>
-            <a
-              className="btn btn-outline-secondary btn-sm icon-btn"
-              href={social.kaggle}
-              target="_blank"
-              rel="noopener"
-              aria-label="Kaggle"
-            >
-              <img
-                src={`${import.meta.env.BASE_URL}assets/kaggle.svg`}
-                alt="Kaggle"
-                width="18"
-                height="18"
-              />
-            </a>
-            <a
-              className="btn btn-outline-secondary btn-sm icon-btn"
-              href={social.linkedin}
-              target="_blank"
-              rel="noopener"
-              aria-label="LinkedIn"
-            >
-              <i className="bi bi-linkedin"></i>
-            </a>
-            <a
-              className="btn btn-outline-secondary btn-sm icon-btn"
-              href={social.github}
-              target="_blank"
-              rel="noopener"
-              aria-label="GitHub"
-            >
-              <i className="bi bi-github"></i>
-            </a>
-            <a
-              className="btn btn-outline-secondary btn-sm icon-btn"
-              href={social.email}
-              aria-label="Email"
-            >
-              <i className="bi bi-envelope"></i>
-            </a>
-            {hasRealScholar && (
-              <a
-                className="btn btn-outline-secondary btn-sm icon-btn"
-                href={social.scholar}
-                target="_blank"
-                rel="noopener"
-                aria-label="Google Scholar"
-              >
-                <i className="bi bi-mortarboard"></i>
-              </a>
-            )}
+        <Section id="about" title={LATIN_SECTIONS.about}>
+          <div className="roman-card" data-animate>
+            <div className="roman-card-inner">
+              <p className="lead mb-4">
+                I'm an <strong>Undergraduate Research Assistant at AiTA Lab, FPT University</strong>,
+                where I work on Computer Vision and Quantum Machine Learning research. I learn by
+                building and enjoy working at the intersection of <strong>Computer Vision</strong> and{' '}
+                <strong>Vision‑Language Models</strong>, exploring <strong>Quantum ML</strong> for
+                vision as a long‑term research direction. I value clarity, simple baselines, and
+                reproducible demos that make ideas tangible.
+              </p>
+              <p>
+                Right now, I’m focused on practical VLM applications (retrieval, grounding,
+                instruction‑tuning) and setting up strong habits for research: reading, small
+                experiments, and writing. I’m open to collaborations that are lightweight, focused, and
+                shipping‑oriented.
+              </p>
+              <div className="icon-row mt-2" data-animate>
+                <a
+                  className="icon-btn"
+                  href={social.kaggle}
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Kaggle"
+                >
+                  <img
+                    src={`${import.meta.env.BASE_URL}assets/kaggle.svg`}
+                    alt="Kaggle"
+                    width="18"
+                    height="18"
+                  />
+                </a>
+                <a
+                  className="icon-btn"
+                  href={social.linkedin}
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="LinkedIn"
+                >
+                  <i className="bi bi-linkedin"></i>
+                </a>
+                <a
+                  className="icon-btn"
+                  href={social.github}
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="GitHub"
+                >
+                  <i className="bi bi-github"></i>
+                </a>
+                <a
+                  className="icon-btn"
+                  href={social.email}
+                  aria-label="Email"
+                >
+                  <i className="bi bi-envelope"></i>
+                </a>
+                {hasRealScholar && (
+                  <a
+                    className="icon-btn"
+                    href={social.scholar}
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Google Scholar"
+                  >
+                    <i className="bi bi-mortarboard"></i>
+                  </a>
+                )}
+              </div>
+            </div>
           </div>
         </Section>
 
-        <Section id="focus" title="Research Focus">
-          <ul className="mb-0">
-            <li>
-              <strong>Vision‑Language</strong>: multimodal retrieval, visual grounding, instruction
-              tuning, evaluation.
-            </li>
-            <li>
-              <strong>Applied VLMs</strong>: edge or cloud deployment with latency/throughput
-              trade‑offs.
-            </li>
-            <li>
-              <strong>Quantum for Vision</strong>: hybrid classical‑quantum training and simple QML
-              baselines.
-            </li>
-          </ul>
+        <Section id="focus" title={LATIN_SECTIONS.focus}>
+          <div className="roman-card" data-animate>
+            <div className="roman-card-inner">
+              <ul className="mb-0">
+                <li className="mb-3">
+                  <strong className="text-gold">Vision‑Language:</strong> multimodal retrieval, visual grounding, instruction
+                  tuning, evaluation.
+                </li>
+                <li className="mb-3">
+                  <strong className="text-gold">Applied VLMs:</strong> edge or cloud deployment with latency/throughput
+                  trade‑offs.
+                </li>
+                <li>
+                  <strong className="text-gold">Quantum for Vision:</strong> hybrid classical‑quantum training and simple QML
+                  baselines.
+                </li>
+              </ul>
+            </div>
+          </div>
         </Section>
 
-        <Section id="goals" title="Near‑term Goals (2024–2026)">
-          <ul className="mb-0">
-            <li>
-              <strong>Q1 2025</strong>: Complete foundational Quantum Machine Learning course and
-              implement basic QML circuits for vision tasks.
-            </li>
-            <li>
-              Target one <strong>A*</strong> conference‑level paper by end of sophomore year.
-            </li>
-            <li>Attend/participate in relevant CV/ML conferences and workshops.</li>
-          </ul>
+        <Section id="goals" title={LATIN_SECTIONS.goals}>
+          <div className="roman-card" data-animate>
+            <div className="roman-card-inner">
+              <ul className="mb-0">
+                <li className="mb-3">
+                  <strong className="text-gold">Q1 2025:</strong> Complete foundational Quantum Machine Learning course and
+                  implement basic QML circuits for vision tasks.
+                </li>
+                <li className="mb-3">
+                  Target one <strong className="text-gold">A*</strong> conference‑level paper by end of sophomore year.
+                </li>
+                <li>Attend/participate in relevant CV/ML conferences and workshops.</li>
+              </ul>
+            </div>
+          </div>
         </Section>
 
-        <Section id="tech" title="Technologies">
+        <Section id="tech" title={LATIN_SECTIONS.tech}>
           <div className="row g-3 row-cols-1 row-cols-md-3">
             <div className="col">
               <Tilt className="h-100">
-                <div className="card card-hover card-elevate h-100 card-animate">
-                  <div className="card-body">
-                    <h3 className="h6 mb-2">Core</h3>
+                <div className="roman-card h-100 card-animate">
+                  <div className="roman-card-inner">
+                    <h3 className="h6 mb-3 text-gold font-display">Core</h3>
                     <div className="d-flex flex-wrap gap-2">
-                      <span className="badge text-bg-secondary badge-pulse">Python</span>
-                      <span className="badge text-bg-secondary badge-pulse">C++</span>
+                      <span className="roman-badge-gold badge-pulse">Python</span>
+                      <span className="roman-badge-gold badge-pulse">C++</span>
                     </div>
                   </div>
                 </div>
@@ -327,14 +356,14 @@ export default function Home() {
             </div>
             <div className="col">
               <Tilt className="h-100">
-                <div className="card card-hover card-elevate h-100 card-animate">
-                  <div className="card-body">
-                    <h3 className="h6 mb-2">ML/CV</h3>
+                <div className="roman-card h-100 card-animate">
+                  <div className="roman-card-inner">
+                    <h3 className="h6 mb-3 text-gold font-display">ML/CV</h3>
                     <div className="d-flex flex-wrap gap-2">
-                      <span className="badge text-bg-secondary badge-pulse">PyTorch</span>
-                      <span className="badge text-bg-secondary badge-pulse">OpenCV</span>
-                      <span className="badge text-bg-secondary badge-pulse">Transformers</span>
-                      <span className="badge text-bg-secondary badge-pulse">timm</span>
+                      <span className="roman-badge-gold badge-pulse">PyTorch</span>
+                      <span className="roman-badge-gold badge-pulse">OpenCV</span>
+                      <span className="roman-badge-gold badge-pulse">Transformers</span>
+                      <span className="roman-badge-gold badge-pulse">timm</span>
                     </div>
                   </div>
                 </div>
@@ -342,13 +371,13 @@ export default function Home() {
             </div>
             <div className="col">
               <Tilt className="h-100">
-                <div className="card card-hover card-elevate h-100 card-animate">
-                  <div className="card-body">
-                    <h3 className="h6 mb-2">Tooling</h3>
+                <div className="roman-card h-100 card-animate">
+                  <div className="roman-card-inner">
+                    <h3 className="h6 mb-3 text-gold font-display">Tooling</h3>
                     <div className="d-flex flex-wrap gap-2">
-                      <span className="badge text-bg-secondary badge-pulse">Git/GitHub</span>
-                      <span className="badge text-bg-secondary badge-pulse">Linux</span>
-                      <span className="badge text-bg-secondary badge-pulse">LaTeX/Overleaf</span>
+                      <span className="roman-badge-gold badge-pulse">Git/GitHub</span>
+                      <span className="roman-badge-gold badge-pulse">Linux</span>
+                      <span className="roman-badge-gold badge-pulse">LaTeX/Overleaf</span>
                     </div>
                   </div>
                 </div>
@@ -357,7 +386,7 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section id="projects" title={t('home.sections.projects')}>
+        <Section id="projects" title={LATIN_SECTIONS.projects}>
           <motion.div
             className="d-flex flex-wrap align-items-center gap-2 mb-3 project-toolbar"
             initial="hidden"
@@ -367,23 +396,23 @@ export default function Home() {
             {tags.map((t) => (
               <motion.button
                 key={t}
-                className={`btn btn-sm ${tag === t ? 'btn-primary' : 'btn-outline-secondary'}`}
+                className={`roman-btn ${tag === t ? 'roman-btn-cta' : 'roman-btn-ghost'} btn-sm`}
                 onClick={() => setTag(t)}
                 variants={staggerItemVariants}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
                 {t}
               </motion.button>
             ))}
             <div className="project-search-wrap ms-auto">
               <motion.input
-                className="form-control form-control-sm project-search-input"
+                className="roman-input form-control-sm project-search-input"
                 placeholder={t('home.projects.searchPlaceholder')}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 variants={staggerItemVariants}
-                whileFocus={{ scale: 1.02 }}
+                whileFocus={{ scale: 1.01 }}
               />
             </div>
           </motion.div>
@@ -399,36 +428,36 @@ export default function Home() {
           </motion.div>
         </Section>
 
-        <Section id="contact" title={t('home.sections.contact')}>
+        <Section id="contact" title={LATIN_SECTIONS.contact}>
           <div className="d-flex flex-column gap-3">
-            <div className="d-flex flex-wrap align-items-center gap-2 contact-row">
-              <i className="bi bi-envelope contact-icon"></i>
+            <div className="contact-row">
+              <i className="contact-icon bi bi-envelope"></i>
               <a href={social.email} className="contact-link">
                 mihtriii295@gmail.com
               </a>
               <button
-                className="btn btn-outline-secondary btn-sm ms-auto"
+                className="roman-btn-ghost btn-sm ms-auto"
                 onClick={() => {
                   navigator.clipboard.writeText('mihtriii295@gmail.com');
                   toast(t('common.copied'));
                 }}
               >
-                {t('common.copy')}
+                <i className="bi bi-clipboard me-1"></i> {t('common.copy')}
               </button>
             </div>
-            <div className="d-flex flex-wrap align-items-center gap-2 contact-row">
-              <i className="bi bi-telephone contact-icon"></i>
+            <div className="contact-row">
+              <i className="contact-icon bi bi-telephone"></i>
               <a href={social.phone} className="contact-link">
                 {social.phoneDisplay}
               </a>
               <button
-                className="btn btn-outline-secondary btn-sm ms-auto"
+                className="roman-btn-ghost btn-sm ms-auto"
                 onClick={() => {
                   navigator.clipboard.writeText(social.phoneRaw);
                   toast('Copied phone number to clipboard');
                 }}
               >
-                {t('common.copy')}
+                <i className="bi bi-clipboard me-1"></i> {t('common.copy')}
               </button>
             </div>
           </div>

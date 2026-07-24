@@ -108,89 +108,87 @@ export default function Blog() {
         <Sidebar />
       </aside>
       <div className="col-12 col-lg-9">
-        <section className="page-hero hero-with-bg p-4 mb-3" data-animate>
-          <h1 className="h3 mb-1">
-            <span className="gradient-text">{t('blog.title')}</span>
+        <section className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden" data-animate>
+          <span className="roman-eyebrow d-block mb-3">Schola</span>
+          <h1 className="font-display fw-bold mb-2 gradient-gold" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+            {t('blog.title')}
           </h1>
           <p className="text-secondary mb-0">{t('blog.subtitle')}</p>
         </section>
 
-        {/* Search and Filter Controls */}
-        <div className="card card-elevate mb-4" data-animate>
-          <div className="card-body">
-            <div className="row g-3">
-            {/* Search Input */}
-              <div className="col-12 col-md-6">
-                <div className="position-relative">
-                  <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary z-1"></i>
-                  <input
-                    type="text"
-                    className="form-control ps-5 search-input-glow"
-                    placeholder={t('common.search') + ' posts...'}
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
+        {/* Search and Filter Controls - Roman Style */}
+                <div className="roman-card mb-4" data-animate>
+                  <div className="roman-card-inner">
+                    <div className="row g-3">
+                    {/* Search Input */}
+                      <div className="col-12 col-md-6">
+                        <div className="position-relative">
+                          <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary z-1"></i>
+                          <input
+                            type="text"
+                            className="roman-input ps-5"
+                            placeholder={t('common.search') + ' posts...'}
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Sort Options */}
+                      <div className="col-12 col-md-3">
+                        <select
+                          className="roman-input"
+                          value={sortBy}
+                          onChange={(e) => setSortBy(e.target.value)}
+                        >
+                          <option value="date">Sort by Date</option>
+                          <option value="title">Sort by Title</option>
+                          <option value="readingTime">Sort by Reading Time</option>
+                        </select>
+                      </div>
+
+                      {/* Results Count */}
+                      <div className="col-12 col-md-3">
+                        <div className="d-flex align-items-center h-100 justify-content-end">
+                          <span className="roman-metric-pill">
+                            <span className="roman-metric-label">Result</span>
+                            <span className="roman-metric-value">{filteredPosts.length}</span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Tag Filter - Staggered Animation */}
+                    <div className="mt-4 pt-3 border-top border-zinc">
+                      <span className="roman-eyebrow me-2">Filter by Tag</span>
+                      <motion.div 
+                        className="d-flex flex-wrap gap-2 mt-2"
+                        initial="hidden"
+                        animate="visible"
+                        variants={{
+                          visible: { transition: { staggerChildren: 0.03 } }
+                        }}
+                      >
+                        {allTags.map((tag) => (
+                          <motion.button
+                            key={tag}
+                            variants={{
+                              hidden: { opacity: 0, scale: 0.8 },
+                              visible: { opacity: 1, scale: 1 }
+                            }}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className={`roman-btn ${selectedTag === tag ? 'roman-btn-cta' : 'roman-btn-ghost'} btn-sm`}
+                            onClick={() => setSelectedTag(tag)}
+                            style={{ fontSize: '0.85rem' }}
+                          >
+                            {tag}
+                          </motion.button>
+                        ))}
+                      </motion.div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-
-              {/* Sort Options */}
-              <div className="col-12 col-md-3">
-                <select
-                  className="form-select border-light-subtle"
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                >
-                  <option value="date">Sort by Date</option>
-                  <option value="title">Sort by Title</option>
-                  <option value="readingTime">Sort by Reading Time</option>
-                </select>
-              </div>
-
-              {/* Results Count */}
-              <div className="col-12 col-md-3">
-                <div className="d-flex align-items-center h-100 justify-content-end">
-                  <span className="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3">
-                    {filteredPosts.length} {filteredPosts.length === 1 ? 'post' : 'posts'}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Tag Filter - Staggered Animation */}
-            <div className="mt-4 pt-3 border-top border-light-subtle">
-              <span className="small text-secondary me-2 text-uppercase fw-semibold" style={{ fontSize: '0.7rem', letterSpacing: '0.5px' }}>Filter by Tag:</span>
-              <motion.div 
-                className="d-flex flex-wrap gap-2 mt-2"
-                initial="hidden"
-                animate="visible"
-                variants={{
-                  visible: { transition: { staggerChildren: 0.03 } }
-                }}
-              >
-                {allTags.map((tag) => (
-                  <motion.button
-                    key={tag}
-                    variants={{
-                      hidden: { opacity: 0, scale: 0.8 },
-                      visible: { opacity: 1, scale: 1 }
-                    }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`btn btn-sm ${
-                      selectedTag === tag 
-                        ? 'btn-primary shadow-sm' 
-                        : 'btn-outline-secondary border-0 bg-secondary-subtle'
-                    }`}
-                    onClick={() => setSelectedTag(tag)}
-                    style={{ fontSize: '0.85rem' }}
-                  >
-                    {tag}
-                  </motion.button>
-                ))}
-              </motion.div>
-            </div>
-          </div>
-        </div>
 
         {/* Posts Grid */}
         <AnimatePresence mode="wait">

@@ -158,7 +158,7 @@ export default function Publications() {
           <div className="hero-ambient" aria-hidden="true" />
           <div className="glitter-layer" aria-hidden="true" />
           
-          <span className="roman-eyebrow d-block mb-3">Scripta Publicata</span>
+          <span className="roman-eyebrow d-block mb-3">Publications</span>
           <h1 className="font-display fw-bold mb-2 text-gradient-animate" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
             {t('publications.title')}
           </h1>

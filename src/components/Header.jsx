@@ -5,19 +5,6 @@ import MobileNav from './MobileNav.jsx';
 import { useI18n } from '../i18n/index.jsx';
 import { useTheme } from '../contexts/ThemeContext.jsx';
 
-/**
- * Latin navigation labels for Roman Imperial aesthetic
- */
-const LATIN_NAV = {
-  about: 'Athenaeum',
-  blog: 'Schola',
-  cv: 'Tabula Vitae',
-  repos: 'Opuscula',
-  moments: 'Momentum',
-  news: 'Acta Diurna',
-  publications: 'Scripta',
-};
-
 function useLocalTime(tz = 'Asia/Ho_Chi_Minh') {
   const [now, setNow] = useState(new Date());
   useEffect(() => {
@@ -41,8 +28,8 @@ export default function Header() {
   const [tone, setTone] = useState(() => localStorage.getItem('tone') || 'warm');
   const [palette, setPalette] = useState(() => localStorage.getItem('palette') || 'earth');
   const [navHidden, setNavHidden] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const headerRef = useRef(null);
-  // Stabilize layout: auto-hide header is opt-in to avoid layout clashes
   const [autoHide, setAutoHide] = useState(
     () => (localStorage.getItem('ui:autoHideHeader') || 'false') === 'true'
   );
@@ -53,6 +40,17 @@ export default function Header() {
     localStorage.setItem('tone', tone);
     localStorage.setItem('palette', palette);
   }, [tone, palette]);
+
+  // Scroll progress for scroll indicator bar
+  useEffect(() => {
+    const onScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(scrollTop / docHeight);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   // Auto-hide header on mobile when scrolling down (opt-in)
   useEffect(() => {
@@ -152,25 +150,33 @@ export default function Header() {
   }, [location.pathname]);
 
   return (
-    <header
-      ref={headerRef}
-      className={`sticky-top bg-body border-bottom header-auto${navHidden ? ' header-hidden' : ''}`}
-    >
-      <nav className="navbar glass navbar-expand-lg py-2" aria-label="Primary">
-        <div className="container d-flex align-items-center justify-content-between">
-          <Link
-            to="/"
-            className="navbar-brand fw-bold d-flex align-items-center text-decoration-none me-2"
-          >
-            <img
-              src={`${import.meta.env.BASE_URL}assets/logo.svg`}
-              alt="Logo"
-              width="28"
-              height="28"
-              className="me-2"
-            />{' '}
-            <span className="font-display fw-bold" style={{ fontSize: '1.25rem' }}>NMTrí</span>
-          </Link>
+    <>
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
+      
+      {/* Scroll Progress Bar */}
+      <div className="scroll-progress" style={{ transform: `scaleX(${scrollProgress})` }} aria-hidden="true" />
+      
+      <header
+        ref={headerRef}
+        className={`sticky-top bg-body border-bottom header-auto ${navHidden ? 'header-hidden' : ''}`}
+      >
+        <nav className="navbar glass navbar-expand-lg py-2" aria-label="Primary">
+          <div className="container d-flex align-items-center justify-content-between">
+            <Link
+              to="/"
+              className="navbar-brand fw-bold d-flex align-items-center text-decoration-none me-2"
+            >
+              <img
+                src={`${import.meta.env.BASE_URL}assets/logo.svg`}
+                alt="Logo"
+                width="28"
+                height="28"
+                className="me-2"
+              />{' '}
+              <span className="font-display fw-bold" style={{ fontSize: '1.25rem' }}>NMTrí</span>
+            </Link>
             <div className="d-none d-md-flex align-items-center ms-auto">
             <ul className="navbar-nav position-relative flex-row align-items-center">
               <li className="nav-item position-relative">
@@ -180,7 +186,7 @@ export default function Header() {
                       {isActive && (
                         <motion.span layoutId="navHighlight" className="nav-highlight" />
                       )}
-                      <span>{LATIN_NAV.about}</span>
+                      <span>{t('nav.about')}</span>
                     </span>
                   )}
                 </NavLink>
@@ -192,7 +198,7 @@ export default function Header() {
                       {isActive && (
                         <motion.span layoutId="navHighlight" className="nav-highlight" />
                       )}
-                      <span>{LATIN_NAV.blog}</span>
+                      <span>{t('nav.blog')}</span>
                     </span>
                   )}
                 </NavLink>
@@ -204,7 +210,7 @@ export default function Header() {
                       {isActive && (
                         <motion.span layoutId="navHighlight" className="nav-highlight" />
                       )}
-                      <span>{LATIN_NAV.cv}</span>
+                      <span>{t('nav.cv')}</span>
                     </span>
                   )}
                 </NavLink>
@@ -216,7 +222,7 @@ export default function Header() {
                       {isActive && (
                         <motion.span layoutId="navHighlight" className="nav-highlight" />
                       )}
-                      <span>{LATIN_NAV.repos}</span>
+                      <span>{t('nav.repos')}</span>
                     </span>
                   )}
                 </NavLink>
@@ -228,7 +234,7 @@ export default function Header() {
                       {isActive && (
                         <motion.span layoutId="navHighlight" className="nav-highlight" />
                       )}
-                      <span>{LATIN_NAV.moments}</span>
+                      <span>{t('nav.moments')}</span>
                     </span>
                   )}
                 </NavLink>
@@ -240,7 +246,7 @@ export default function Header() {
                       {isActive && (
                         <motion.span layoutId="navHighlight" className="nav-highlight" />
                       )}
-                      <span>{LATIN_NAV.news}</span>
+                      <span>{t('nav.news')}</span>
                     </span>
                   )}
                 </NavLink>
@@ -252,19 +258,19 @@ export default function Header() {
                       {isActive && (
                         <motion.span layoutId="navHighlight" className="nav-highlight" />
                       )}
-                      <span>{LATIN_NAV.publications}</span>
+                      <span>{t('nav.publications')}</span>
                     </span>
                   )}
                 </NavLink>
               </li>
               <li className="nav-item">
                 <a
-                  className="nav-link px-3"
+                  className="nav-link px-3 btn-roman-secondary btn-sm"
                   href="https://github.com/mihtriii"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <i className="bi bi-github me-1"></i> OPUS
+                  <i className="bi bi-github me-1"></i> GitHub
                 </a>
               </li>
             </ul>
@@ -324,7 +330,7 @@ export default function Header() {
               <i className={`bi ${getThemeIcon()}`}></i>
             </button>
             <button
-              className="btn btn-primary btn-sm"
+              className="btn btn-roman-primary btn-sm"
               type="button"
               aria-label={t('common.openMenu')}
               onClick={() => setMobileOpen(true)}
@@ -345,5 +351,6 @@ export default function Header() {
         onToggleAutoHide={toggleAutoHide}
       />
     </header>
+    </>
   );
 }

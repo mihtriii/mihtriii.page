@@ -21,16 +21,13 @@ import {
   staggerItemVariants,
 } from '../hooks/useScrollAnimation.js';
 
-/**
- * Latin section labels for Roman Imperial aesthetic
- */
-const LATIN_SECTIONS = {
-  about: 'Athenaeum',
-  focus: 'Studia',
-  goals: 'Proposita',
-  tech: 'Ars Mechanica',
-  projects: 'Opera',
-  contact: 'Contactus',
+const SECTIONS = {
+  about: 'About',
+  focus: 'Research Focus',
+  goals: 'Goals',
+  tech: 'Technologies',
+  projects: 'Projects',
+  contact: 'Contact',
 };
 
 function Section({ id, title, children }) {
@@ -167,15 +164,16 @@ export default function Home() {
   );
 
   return (
-    <div className="row g-4">
+    <div className="row g-4 page-transition">
       <aside className="col-12 col-lg-3">
         <Sidebar sectionIds={sectionIds} showSocial={false} />
       </aside>
 
       <div className="col-12 col-lg-9">
-        {/* EPIC HERO SECTION - Roman Imperial / Frieren RPG Style */}
+        {/* HERO SECTION */}
         <section
           className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden spotlight"
+          id="main-content"
           data-animate
           style={{ '--mouse-x': `${heroMousePos.x}%`, '--mouse-y': `${heroMousePos.y}%` }}
           onMouseMove={handleHeroMouseMove}
@@ -190,11 +188,11 @@ export default function Home() {
           <div className="hero-ambient" aria-hidden="true" />
 
           <div className="row align-items-center g-4 g-md-5 position-relative z-1">
-            <div className="col-12 col-md-7">
-              {/* Latin Eyebrow */}
-              <span className="roman-eyebrow d-block mb-3 reveal">Salve, Viator</span>
+                      <div className="col-12 col-md-7">
+                        {/* English Greeting */}
+                        <span className="roman-eyebrow d-block mb-3 reveal">Hello, Visitor</span>
               
-              {/* Main Headline with Cormorant Display */}
+              {/* Main Headline */}
               <AnimatedHeadline
                 text="Hi, I am Trí."
                 tag="h1"
@@ -218,23 +216,23 @@ export default function Home() {
               
               {/* Typewriter */}
               <p className="text-secondary mb-4 reveal" style={{ fontSize: 'clamp(0.9375rem, 1.5vw, 1.125rem)' }}>
-                <Typewriter words={['Computer Vision', 'Vision‑Language Models', 'Quantum ML', 'Sic Parvis Magna']} />
+                <Typewriter words={['Computer Vision', 'Vision‑Language Models', 'Quantum ML']} />
               </p>
               
-              {/* Badges as Roman metric pills */}
+              {/* Badges */}
               <div className="roman-metrics mb-4 reveal" role="list">
                 <span className="roman-metric-pill" role="listitem"><i className="bi bi-eye me-1"></i><span className="roman-metric-label">Vision</span><span className="roman-metric-value">Computer Vision</span></span>
                 <span className="roman-metric-pill" role="listitem"><i className="bi bi-cpu me-1"></i><span className="roman-metric-label">VLM</span><span className="roman-metric-value">Vision‑Language</span></span>
                 <span className="roman-metric-pill" role="listitem"><i className="bi bi-lightning me-1"></i><span className="roman-metric-label">QML</span><span className="roman-metric-value">Quantum ML</span></span>
               </div>
               
-              {/* CTA Buttons - Roman Style */}
+              {/* CTA Buttons */}
               <div className="d-flex flex-wrap gap-2 hero-cta reveal">
                 <Link to="/cv" className="btn-roman btn-roman-primary btn-sm px-4 py-2">
-                  <i className="bi bi-file-earmark-text me-1"></i> Tabula Vitae
+                  <i className="bi bi-file-earmark-text me-1"></i> View CV
                 </Link>
                 <a href="#contact" className="btn-roman btn-roman-secondary btn-sm px-4 py-2">
-                  <i className="bi bi-send me-1"></i> Contactus
+                  <i className="bi bi-send me-1"></i> Contact
                 </a>
                 <a
                   className="btn-roman btn-roman-ghost btn-sm px-4 py-2"
@@ -242,14 +240,14 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <i className="bi bi-github me-1"></i> Opuscula
+                  <i className="bi bi-github me-1"></i> GitHub
                 </a>
               </div>
             </div>
             <div className="col-12 col-md-5 text-center reveal-right">
-              <Tilt className="d-inline-block portrait-wrap">
+              <Tilt className="d-inline-block avatar-frame">
                 <BlurImage
-                  className="portrait rounded-circle shadow-none border border-zinc beam-border"
+                  className="portrait rounded-circle shadow-none border border-zinc"
                   src={`${import.meta.env.BASE_URL}assets/avatar.JPG`}
                   alt="Portrait"
                   imgProps={{ loading: 'eager', decoding: 'async', fetchpriority: 'high' }}
@@ -261,11 +259,11 @@ export default function Home() {
 
           {/* Scroll Indicator */}
           <div className="scroll-indicator" aria-hidden="true">
-            <span>Scroll</span>
+            <span>Explore</span>
           </div>
         </section>
 
-        <Section id="about" title={LATIN_SECTIONS.about}>
+        <Section id="about" title={SECTIONS.about}>
           <div className="roman-card beam-border" data-animate>
             <div className="roman-card-inner reveal-stagger">
               <p className="lead mb-4">
@@ -338,7 +336,7 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section id="focus" title={LATIN_SECTIONS.focus}>
+        <Section id="focus" title={SECTIONS.focus}>
           <div className="roman-card beam-border" data-animate>
             <div className="roman-card-inner reveal-stagger">
               <ul className="mb-0">
@@ -359,7 +357,7 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section id="goals" title={LATIN_SECTIONS.goals}>
+        <Section id="goals" title={SECTIONS.goals}>
           <div className="roman-card beam-border" data-animate>
             <div className="roman-card-inner reveal-stagger">
               <ul className="mb-0">
@@ -376,7 +374,7 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section id="tech" title={LATIN_SECTIONS.tech}>
+        <Section id="tech" title={SECTIONS.tech}>
           <div className="row g-3 row-cols-1 row-cols-md-3">
             <div className="col">
               <Tilt className="h-100">
@@ -423,7 +421,7 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section id="projects" title={LATIN_SECTIONS.projects}>
+        <Section id="projects" title={SECTIONS.projects}>
           <motion.div
             className="d-flex flex-wrap align-items-center gap-2 mb-3 project-toolbar"
             initial="hidden"
@@ -465,7 +463,7 @@ export default function Home() {
           </motion.div>
         </Section>
 
-        <Section id="contact" title={LATIN_SECTIONS.contact}>
+        <Section id="contact" title={SECTIONS.contact}>
           <div className="d-flex flex-column gap-3 reveal-stagger">
             <div className="contact-row beam-border">
               <i className="contact-icon bi bi-envelope"></i>

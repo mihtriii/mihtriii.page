@@ -6,17 +6,27 @@ import { github, social, hasRealScholar } from '../config/site.js';
 import { getRecentBlogPosts } from '../blog/manifest.js';
 import SidebarIcons from './SidebarIcons.jsx';
 
-/**
- * Latin navigation labels for Roman Imperial aesthetic
- */
-const LATIN_NAV = {
-  about: 'Athenaeum',
-  blog: 'Schola',
-  cv: 'Tabula Vitae',
-  repos: 'Opuscula',
-  moments: 'Momentum',
-  news: 'Acta Diurna',
-  publications: 'Scripta',
+const NAV_LABELS = {
+  about: 'About',
+  blog: 'Blog',
+  cv: 'CV',
+  repos: 'Repos',
+  moments: 'Moments',
+  news: 'News',
+  publications: 'Publications',
+  summary: 'Summary',
+  'career-objectives': 'Career Objectives',
+  education: 'Education',
+  experience: 'Experience',
+  'research-interests': 'Research Interests',
+  'competitions-activities': 'Honors & Awards',
+  skills: 'Skills',
+  languages: 'Languages',
+  focus: 'Research Focus',
+  goals: 'Goals',
+  tech: 'Technologies',
+  projects: 'Projects',
+  contact: 'Contact',
 };
 
 export default function Sidebar({ sectionIds = [], showSocial = true }) {
@@ -68,7 +78,7 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
       <div className="section-chips" role="tablist" aria-label="Quick sections">
         <div className="chips-row">
           {sectionIds.map((id) => {
-            const label = LATIN_NAV[id] || id.replace(/-/g, ' ');
+            const label = NAV_LABELS[id] || id.replace(/-/g, ' ');
             const active = activeId === id;
             return (
               <a
@@ -240,7 +250,7 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
         <div className="roman-card-inner py-2">
           <div className="d-flex justify-content-between align-items-center mb-2">
             <div className="roman-eyebrow d-flex align-items-center gap-2">
-              <i className="bi bi-github"></i> ON GITHUB
+              <i className="bi bi-github"></i> GitHub
             </div>
             <a className="roman-btn-ghost btn-sm" href={`https://github.com/${github.username}`} target="_blank" rel="noopener">View →</a>
           </div>
@@ -260,7 +270,7 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
         <div className="roman-card mb-3 card-animate" data-animate>
           <div className="roman-card-inner py-2">
             <div className="d-flex justify-content-between align-items-center mb-2">
-              <div className="roman-eyebrow">NAVIGATIO</div>
+              <div className="roman-eyebrow">Navigation</div>
               {isSmall && (
                 <button type="button" className="roman-btn-ghost btn-sm" aria-expanded={sectionsOpen} aria-controls="sidebar-sections" onClick={() => setSectionsOpen((v) => !v)}>
                   <i className={`bi ${sectionsOpen ? 'bi-chevron-up' : 'bi-chevron-down'}`}></i>
@@ -281,7 +291,7 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
                   style={{ overflow: 'hidden' }}
                 >
                   {sectionIds.map((id) => {
-                    const label = LATIN_NAV[id] || id.replace(/-/g, ' ');
+                    const label = NAV_LABELS[id] || id.replace(/-/g, ' ');
                     return (
                       <a key={id} href={`#${id}`} className={`spy-item ${activeId === id ? 'active' : ''}`}>
                         {activeId === id && <motion.span layoutId="spyHighlight" className="spy-highlight" />}
@@ -299,7 +309,7 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
       {recentPosts.length > 0 && (
         <div className="roman-card mb-3 d-none d-sm-block card-animate" data-animate>
           <div className="roman-card-inner py-2">
-            <div className="roman-eyebrow mb-2">RECENTIA</div>
+                    <div className="roman-eyebrow mb-2">Recent</div>
             <div className="d-flex flex-column gap-2">
               {recentPosts.map((p) => (
                 <Link key={p.slug} className="text-decoration-none small d-flex justify-content-between align-items-center" to={`/blog/${p.slug}`}>
@@ -314,7 +324,7 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
       {showSocial && (
         <div className="roman-card mb-3 d-none d-sm-block card-animate" data-animate>
           <div className="roman-card-inner py-2">
-            <div className="roman-eyebrow mb-2">SOCIALES</div>
+            <div className="roman-eyebrow mb-2">Social</div>
             <div className="d-flex gap-2 flex-wrap">
               <a className="icon-btn" data-brand="kaggle" href={social.kaggle} target="_blank" rel="noopener" aria-label="Kaggle">
                 <img src={`${import.meta.env.BASE_URL}assets/kaggle.svg`} alt="Kaggle" width="18" height="18" loading="lazy" decoding="async" />

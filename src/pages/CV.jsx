@@ -5,18 +5,18 @@ import { toast } from '../components/Toast.jsx';
 import { useI18n } from '../i18n/index.jsx';
 
 /**
- * Latin section labels for Roman Imperial aesthetic
+ * English section labels
  */
-const LATIN_CV = {
-  summary: 'Summarium',
-  'career-objectives': 'Propositum',
-  education: 'Educatio',
-  experience: 'Munera',
-  'research-interests': 'Studia',
-  'competitions-activities': 'Honores',
-  skills: 'Artes',
-  publications: 'Scripta',
-  languages: 'Linguae',
+const CV_SECTIONS = {
+  summary: 'Summary',
+  'career-objectives': 'Career Objectives',
+  education: 'Education',
+  experience: 'Experience',
+  'research-interests': 'Research Interests',
+  'competitions-activities': 'Honors & Awards',
+  skills: 'Skills',
+  publications: 'Publications',
+  languages: 'Languages',
 };
 
 function Section({ id, title, children }) {
@@ -165,13 +165,13 @@ export default function CV() {
             </div>
             <div className="d-flex flex-wrap gap-2 reveal">
               <button className="btn-roman btn-roman-primary btn-sm px-4 py-2" onClick={() => window.print()}>
-                <i className="bi bi-printer me-1"></i> Imprimere
+                <i className="bi bi-printer me-1"></i> Download / Print
               </button>
               <a className="btn-roman btn-roman-secondary btn-sm px-4 py-2" href="mailto:mihtriii295@gmail.com">
-                <i className="bi bi-envelope me-1"></i> Epistula
+                <i className="bi bi-envelope me-1"></i> Email
               </a>
-              <a className="btn-roman btn-roman-secondary btn-sm px-4 py-2" href="tel:+84858276537">
-                <i className="bi bi-telephone me-1"></i> Telephonum
+              <a className="btn-roman btn-roman-secondary btn-sm px-4 py-2" href="tel:+848****6537">
+                <i className="bi bi-telephone me-1"></i> Phone
               </a>
               <button
                 className="btn-roman btn-roman-ghost btn-sm px-4 py-2"
@@ -180,7 +180,7 @@ export default function CV() {
                   toast('Copied contact info');
                 }}
               >
-                <i className="bi bi-clipboard me-1"></i> Copia
+                <i className="bi bi-clipboard me-1"></i> Copy
               </button>
               <a
                 className="btn-roman btn-roman-ghost btn-sm px-4 py-2"
@@ -188,7 +188,7 @@ export default function CV() {
                 target="_blank"
                 rel="noopener"
               >
-                <i className="bi bi-github me-1"></i> Opuscula
+                <i className="bi bi-github me-1"></i> GitHub
               </a>
             </div>
           </div>
@@ -199,7 +199,7 @@ export default function CV() {
           </div>
         </section>
 
-        <Section id="summary" title={LATIN_CV.summary}>
+        <Section id="summary" title={CV_SECTIONS.summary}>
           <div className="roman-card beam-border" data-animate>
             <div className="roman-card-inner reveal-stagger">
               <p className="lead mb-4">
@@ -224,7 +224,7 @@ export default function CV() {
           </div>
         </Section>
 
-        <Section id="career-objectives" title={LATIN_CV['career-objectives']}>
+        <Section id="career-objectives" title={CV_SECTIONS['career-objectives']}>
           <div className="row g-3" data-animate>
             <div className="col-md-6">
               <div className="roman-card beam-border h-100 card-animate">
@@ -269,7 +269,7 @@ export default function CV() {
 
         <SectionDivider variant="dots" />
 
-        <Section id="education" title={LATIN_CV.education}>
+        <Section id="education" title={CV_SECTIONS.education}>
           <div className="roman-card beam-border" data-animate>
             <div className="roman-card-inner reveal-stagger">
               <div className="row align-items-start mb-4">
@@ -301,7 +301,7 @@ export default function CV() {
 
         <SectionDivider variant="wave" />
 
-        <Section id="experience" title={LATIN_CV.experience}>
+        <Section id="experience" title={CV_SECTIONS.experience}>
           <div className="roman-card beam-border" data-animate>
             <div className="roman-card-inner reveal-stagger">
               {/* Visual Timeline */}
@@ -334,7 +334,7 @@ export default function CV() {
           </div>
         </Section>
 
-        <Section id="research-interests" title={LATIN_CV['research-interests']}>
+        <Section id="research-interests" title={CV_SECTIONS['research-interests']}>
           <div className="roman-card beam-border" data-animate>
             <div className="roman-card-inner reveal-stagger">
               <div className="row g-3">
@@ -376,7 +376,7 @@ export default function CV() {
           </div>
         </Section>
 
-        <Section id="competitions-activities" title={LATIN_CV['competitions-activities']}>
+        <Section id="competitions-activities" title={CV_SECTIONS['competitions-activities']}>
           <div className="row g-3" data-animate>
             <CompetitionCard
               icon="bi-trophy-fill"
@@ -409,7 +409,7 @@ export default function CV() {
           </div>
         </Section>
 
-        <Section id="skills" title={LATIN_CV.skills}>
+        <Section id="skills" title={CV_SECTIONS.skills}>
           {/* Skills with Progress Visualization */}
           <div className="roman-card beam-border mb-3" data-animate>
             <div className="roman-card-inner reveal-stagger">
@@ -478,7 +478,7 @@ export default function CV() {
           </div>
         </Section>
 
-        <Section id="publications" title={LATIN_CV.publications}>
+        <Section id="publications" title={CV_SECTIONS.publications}>
           <div className="roman-card beam-border" data-animate>
             <div className="roman-card-inner reveal-stagger">
               <div className="d-flex align-items-start gap-3 mb-3">
@@ -511,7 +511,7 @@ export default function CV() {
           </div>
         </Section>
 
-        <Section id="languages" title={LATIN_CV.languages}>
+        <Section id="languages" title={CV_SECTIONS.languages}>
           <div className="roman-card beam-border" data-animate>
             <div className="roman-card-inner reveal-stagger">
               <div className="row g-3">

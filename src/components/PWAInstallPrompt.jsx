@@ -102,7 +102,7 @@ export default function PWAInstallPrompt() {
 
           {/* Install prompt */}
           <motion.div
-            className="position-fixed bottom-0 start-50 translate-middle-x bg-body border rounded-top shadow-lg"
+            className="pwa-install-prompt position-fixed bottom-0 start-50 translate-middle-x bg-body border rounded-top shadow-lg"
             style={{
               zIndex: 1041,
               width: '90vw',

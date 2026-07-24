@@ -162,7 +162,7 @@ export default function News() {
           <div className="hero-ambient" aria-hidden="true" />
           <div className="glitter-layer" aria-hidden="true" />
           
-          <span className="roman-eyebrow d-block mb-3 reveal">Acta Diurna</span>
+          <span className="roman-eyebrow d-block mb-3 reveal">News &amp; Updates</span>
           <h1 className="font-display fw-bold mb-2 text-gradient-animate reveal" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
             <span>{t('news.title')}</span>
           </h1>

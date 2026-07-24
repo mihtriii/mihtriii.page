@@ -165,7 +165,7 @@ export default function Repos() {
           <div className="hero-ambient" aria-hidden="true" />
           <div className="glitter-layer" aria-hidden="true" />
           
-          <span className="roman-eyebrow d-block mb-3 reveal">Opuscula</span>
+          <span className="roman-eyebrow d-block mb-3 reveal">Repositories</span>
           <h1 className="font-display fw-bold mb-2 text-gradient-animate reveal" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
             {t('repos.title')}
           </h1>

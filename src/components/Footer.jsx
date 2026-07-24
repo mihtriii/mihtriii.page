@@ -9,7 +9,7 @@ export default function Footer() {
         <p className="mb-0">
           <span className="roman-eyebrow me-2">© {year}</span>
           <span className="font-display">Nguyễn Minh Trí</span>
-          <span className="text-muted ms-2">— Sic Parvis Magna</span>
+          <span className="text-muted ms-2">— From small beginnings, great things</span>
         </p>
         <div className="icon-row">
           <a className="icon-btn" href={social.kaggle} target="_blank" rel="noopener" aria-label="Kaggle">

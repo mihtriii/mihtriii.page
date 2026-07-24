@@ -7,53 +7,61 @@ import { useMagnetic } from '../hooks/useMagnetic.js';
 import { blogPosts } from '../blog/manifest.js';
 
 function BlogPostCard({ post }) {
-  const magneticRef = useMagnetic(0.08); // Subtle magnetic effect for blog grid
+  const magneticRef = useMagnetic(0.08);
 
   return (
-    <div
-      ref={magneticRef}
-      className="card card-hover card-elevate h-100 text-decoration-none magnetic"
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3 }}
+      whileHover={{ y: -8 }}
     >
-      <Link className="text-decoration-none h-100 d-flex flex-column" to={`/blog/${post.slug}`}>
-        <div className="card-body d-flex flex-column h-100">
-          <div className="d-flex justify-content-between align-items-baseline mb-2">
-            <h2 className="h6 mb-0 fw-semibold group-hover:text-primary transition-colors">
-              {post.title}
-            </h2>
-            {post.date && <span className="text-secondary small">{post.date}</span>}
-          </div>
-
-          {post.summary && <p className="mb-3 text-secondary small flex-grow-1">{post.summary}</p>}
-
-          {/* Tags and Reading Time */}
-          <div className="d-flex justify-content-between align-items-center mt-auto pt-3 border-top border-light-subtle">
-            <div className="d-flex flex-wrap gap-1">
-              {post.tags.slice(0, 2).map((tag) => (
-                <span
-                  key={tag}
-                  className="badge text-bg-secondary bg-opacity-10 text-body"
-                  style={{ fontSize: '0.7rem' }}
-                >
-                  {tag}
-                </span>
-              ))}
-              {post.tags.length > 2 && (
-                <span
-                  className="badge text-bg-light text-secondary"
-                  style={{ fontSize: '0.7rem' }}
-                >
-                  +{post.tags.length - 2}
-                </span>
-              )}
+      <div
+        ref={magneticRef}
+        className="card-roman magnetic-card project-card h-100 text-decoration-none beam-border"
+      >
+        <Link className="text-decoration-none h-100 d-flex flex-column" to={`/blog/${post.slug}`}>
+          <div className="card-body d-flex flex-column h-100">
+            <div className="d-flex justify-content-between align-items-baseline mb-2">
+              <h2 className="h6 mb-0 fw-semibold font-display group-hover:text-primary transition-colors">
+                {post.title}
+              </h2>
+              {post.date && <span className="text-secondary small">{post.date}</span>}
             </div>
-            <span className="text-secondary small d-flex align-items-center gap-1">
-              <i className="bi bi-clock"></i>
-              {post.readingTime ? `${post.readingTime} min` : 'Read'}
-            </span>
+
+            {post.summary && <p className="mb-3 text-secondary small flex-grow-1">{post.summary}</p>}
+
+            {/* Tags and Reading Time */}
+            <div className="d-flex justify-content-between align-items-center mt-auto pt-3 border-top border-zinc">
+              <div className="d-flex flex-wrap gap-1">
+                {post.tags.slice(0, 2).map((tag) => (
+                  <span
+                    key={tag}
+                    className="roman-badge-gold"
+                    style={{ fontSize: '0.7rem' }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+                {post.tags.length > 2 && (
+                  <span
+                    className="roman-badge-gold"
+                    style={{ fontSize: '0.7rem' }}
+                  >
+                    +{post.tags.length - 2}
+                  </span>
+                )}
+              </div>
+              <span className="text-secondary small d-flex align-items-center gap-1">
+                <i className="bi bi-clock"></i>
+                {post.readingTime ? `${post.readingTime} min` : 'Read'}
+              </span>
+            </div>
           </div>
-        </div>
-      </Link>
-    </div>
+        </Link>
+      </div>
+    </motion.div>
   );
 }
 
@@ -61,21 +69,20 @@ export default function Blog() {
   const { t } = useI18n();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState('All');
-  const [sortBy, setSortBy] = useState('date'); // date, title, readingTime
+  const [sortBy, setSortBy] = useState('date');
 
   const posts = useMemo(() => {
-    return [...blogPosts]
-      .sort((a, b) => {
-        switch (sortBy) {
-          case 'title':
-            return a.title.localeCompare(b.title);
-          case 'readingTime':
-            return a.readingTime - b.readingTime;
-          case 'date':
-          default:
-            return (b.date || '').localeCompare(a.date || '');
-        }
-      });
+    return [...blogPosts].sort((a, b) => {
+      switch (sortBy) {
+        case 'title':
+          return a.title.localeCompare(b.title);
+        case 'readingTime':
+          return a.readingTime - b.readingTime;
+        case 'date':
+        default:
+          return (b.date || '').localeCompare(a.date || '');
+      }
+    });
   }, [sortBy]);
 
   // Get all unique tags
@@ -108,87 +115,99 @@ export default function Blog() {
         <Sidebar />
       </aside>
       <div className="col-12 col-lg-9">
-        <section className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden" data-animate>
-          <span className="roman-eyebrow d-block mb-3">Schola</span>
-          <h1 className="font-display fw-bold mb-2 gradient-gold" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+        {/* Hero Section with React Bits styling */}
+        <section
+          className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden spotlight floating-orbs"
+          data-animate
+        >
+          <div className="hero-ambient" aria-hidden="true" />
+          <div className="glitter-layer" aria-hidden="true" />
+          
+          <span className="roman-eyebrow d-block mb-3 reveal">Schola</span>
+          <h1 className="font-display fw-bold mb-2 text-gradient-animate reveal" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
             {t('blog.title')}
           </h1>
-          <p className="text-secondary mb-0">{t('blog.subtitle')}</p>
+          <p className="text-secondary mb-0 reveal">{t('blog.subtitle')}</p>
+
+          {/* Scroll Indicator */}
+          <div className="scroll-indicator" aria-hidden="true">
+            <span>Scroll</span>
+          </div>
         </section>
 
         {/* Search and Filter Controls - Roman Style */}
-                <div className="roman-card mb-4" data-animate>
-                  <div className="roman-card-inner">
-                    <div className="row g-3">
-                    {/* Search Input */}
-                      <div className="col-12 col-md-6">
-                        <div className="position-relative">
-                          <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary z-1"></i>
-                          <input
-                            type="text"
-                            className="roman-input ps-5"
-                            placeholder={t('common.search') + ' posts...'}
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                          />
-                        </div>
-                      </div>
-
-                      {/* Sort Options */}
-                      <div className="col-12 col-md-3">
-                        <select
-                          className="roman-input"
-                          value={sortBy}
-                          onChange={(e) => setSortBy(e.target.value)}
-                        >
-                          <option value="date">Sort by Date</option>
-                          <option value="title">Sort by Title</option>
-                          <option value="readingTime">Sort by Reading Time</option>
-                        </select>
-                      </div>
-
-                      {/* Results Count */}
-                      <div className="col-12 col-md-3">
-                        <div className="d-flex align-items-center h-100 justify-content-end">
-                          <span className="roman-metric-pill">
-                            <span className="roman-metric-label">Result</span>
-                            <span className="roman-metric-value">{filteredPosts.length}</span>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Tag Filter - Staggered Animation */}
-                    <div className="mt-4 pt-3 border-top border-zinc">
-                      <span className="roman-eyebrow me-2">Filter by Tag</span>
-                      <motion.div 
-                        className="d-flex flex-wrap gap-2 mt-2"
-                        initial="hidden"
-                        animate="visible"
-                        variants={{
-                          visible: { transition: { staggerChildren: 0.03 } }
-                        }}
-                      >
-                        {allTags.map((tag) => (
-                          <motion.button
-                            key={tag}
-                            variants={{
-                              hidden: { opacity: 0, scale: 0.8 },
-                              visible: { opacity: 1, scale: 1 }
-                            }}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className={`roman-btn ${selectedTag === tag ? 'roman-btn-cta' : 'roman-btn-ghost'} btn-sm`}
-                            onClick={() => setSelectedTag(tag)}
-                            style={{ fontSize: '0.85rem' }}
-                          >
-                            {tag}
-                          </motion.button>
-                        ))}
-                      </motion.div>
-                    </div>
-                  </div>
+        <div className="roman-card beam-border mb-4" data-animate>
+          <div className="roman-card-inner reveal-stagger">
+            <div className="row g-3">
+              {/* Search Input */}
+              <div className="col-12 col-md-6">
+                <div className="position-relative">
+                  <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary z-1"></i>
+                  <input
+                    type="text"
+                    className="input-roman ps-5"
+                    placeholder={t('common.search') + ' posts...'}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
                 </div>
+              </div>
+
+              {/* Sort Options */}
+              <div className="col-12 col-md-3">
+                <select
+                  className="input-roman"
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                >
+                  <option value="date">Sort by Date</option>
+                  <option value="title">Sort by Title</option>
+                  <option value="readingTime">Sort by Reading Time</option>
+                </select>
+              </div>
+
+              {/* Results Count */}
+              <div className="col-12 col-md-3">
+                <div className="d-flex align-items-center h-100 justify-content-end">
+                  <span className="roman-metric-pill">
+                    <span className="roman-metric-label">Result</span>
+                    <span className="roman-metric-value">{filteredPosts.length}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Tag Filter - Staggered Animation */}
+            <div className="mt-4 pt-3 border-top border-zinc">
+              <span className="roman-eyebrow me-2">Filter by Tag</span>
+              <motion.div
+                className="d-flex flex-wrap gap-2 mt-2"
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  visible: { transition: { staggerChildren: 0.03 } },
+                }}
+              >
+                {allTags.map((tag) => (
+                  <motion.button
+                    key={tag}
+                    variants={{
+                      hidden: { opacity: 0, scale: 0.8 },
+                      visible: { opacity: 1, scale: 1 },
+                    }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`btn-roman ${selectedTag === tag ? 'btn-roman-primary' : 'btn-roman-ghost'} btn-sm`}
+                    onClick={() => setSelectedTag(tag)}
+                    style={{ fontSize: '0.85rem' }}
+                  >
+                    {tag}
+                  </motion.button>
+                ))}
+              </motion.div>
+            </div>
+          </div>
+        </div>
 
         {/* Posts Grid */}
         <AnimatePresence mode="wait">

@@ -21,7 +21,7 @@ const LATIN_CV = {
 
 function Section({ id, title, children }) {
   return (
-    <section id={id} className="section mb-4" data-animate>
+    <section id={id} className="section mb-4 reveal-stagger" data-animate>
       <h2 className="h4 mb-3 font-display">{title}</h2>
       {children}
     </section>
@@ -74,8 +74,8 @@ function CourseworkItem({ icon, text }) {
 function CompetitionCard({ icon, title, award, date, link, linkLabel }) {
   return (
     <div className="col-md-6">
-      <div className="roman-card h-100 card-animate">
-        <div className="roman-card-inner">
+      <div className="roman-card beam-border h-100 card-animate">
+        <div className="roman-card-inner reveal-stagger">
           <div className="d-flex align-items-start gap-2 mb-2">
             <i className={`bi ${icon} text-gold fs-5`}></i>
             <div className="flex-grow-1">
@@ -105,8 +105,8 @@ function CompetitionCard({ icon, title, award, date, link, linkLabel }) {
 function SkillCategoryCard({ icon, title, children }) {
   return (
     <div className="col-12 col-md-6">
-      <div className="roman-card h-100 card-animate">
-        <div className="roman-card-inner">
+      <div className="roman-card beam-border h-100 card-animate">
+        <div className="roman-card-inner reveal-stagger">
           <h3 className="h6 mb-3 font-display">
             <i className={`bi ${icon} text-gold me-2`}></i>
             {title}
@@ -140,34 +140,41 @@ export default function CV() {
       <div className="col-12 col-lg-9">
         {/* CV Hero Section */}
         <section
-          className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden"
+          className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden spotlight floating-orbs"
           data-animate
+          style={{ '--mouse-x': '50%', '--mouse-y': '50%' }}
         >
-          <div className="d-flex flex-column gap-3">
-            <span className="roman-eyebrow">Curriculum Vitae</span>
-            <h1 className="font-display fw-bold mb-2" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)' }}>
-              <span className="gradient-gold">Nguyễn Minh Trí</span>
+          {/* Hero Ambient Background */}
+          <div className="hero-ambient" aria-hidden="true" />
+          
+          {/* Glitter Particle Layer */}
+          <div className="glitter-layer" aria-hidden="true" />
+          
+          <div className="d-flex flex-column gap-3 position-relative z-1">
+            <span className="roman-eyebrow reveal">Curriculum Vitae</span>
+            <h1 className="font-display fw-bold mb-2 text-gradient-animate reveal" style={{ fontSize: 'clamp(2.25rem, 5vw, 3.5rem)' }}>
+              <span>Nguyễn Minh Trí</span>
             </h1>
-            <p className="text-secondary mb-2" style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}>
+            <p className="text-secondary mb-2 reveal" style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}>
               Undergraduate Research Assistant · AiTA Lab, FPT University HCMC
             </p>
-            <div className="roman-metrics mb-3" role="list">
+            <div className="roman-metrics mb-3 reveal" role="list">
               <span className="roman-metric-pill" role="listitem"><i className="bi bi-eye me-1"></i><span className="roman-metric-label">Focus</span><span className="roman-metric-value">Computer Vision</span></span>
               <span className="roman-metric-pill" role="listitem"><i className="bi bi-cpu me-1"></i><span className="roman-metric-label">VLM</span><span className="roman-metric-value">VLMs</span></span>
               <span className="roman-metric-pill" role="listitem"><i className="bi bi-lightning me-1"></i><span className="roman-metric-label">QML</span><span className="roman-metric-value">Quantum ML</span></span>
             </div>
-            <div className="d-flex flex-wrap gap-2">
-              <button className="roman-btn-cta btn-sm px-4 py-2" onClick={() => window.print()}>
+            <div className="d-flex flex-wrap gap-2 reveal">
+              <button className="btn-roman btn-roman-primary btn-sm px-4 py-2" onClick={() => window.print()}>
                 <i className="bi bi-printer me-1"></i> Imprimere
               </button>
-              <a className="roman-btn btn-sm px-4 py-2" href="mailto:mihtriii295@gmail.com">
+              <a className="btn-roman btn-roman-secondary btn-sm px-4 py-2" href="mailto:mihtriii295@gmail.com">
                 <i className="bi bi-envelope me-1"></i> Epistula
               </a>
-              <a className="roman-btn btn-sm px-4 py-2" href="tel:+84858276537">
+              <a className="btn-roman btn-roman-secondary btn-sm px-4 py-2" href="tel:+84858276537">
                 <i className="bi bi-telephone me-1"></i> Telephonum
               </a>
               <button
-                className="roman-btn-ghost btn-sm px-4 py-2"
+                className="btn-roman btn-roman-ghost btn-sm px-4 py-2"
                 onClick={() => {
                   navigator.clipboard.writeText('mihtriii295@gmail.com | +84 858 276 537');
                   toast('Copied contact info');
@@ -176,7 +183,7 @@ export default function CV() {
                 <i className="bi bi-clipboard me-1"></i> Copia
               </button>
               <a
-                className="roman-btn-ghost btn-sm px-4 py-2"
+                className="btn-roman btn-roman-ghost btn-sm px-4 py-2"
                 href="https://github.com/mihtriii"
                 target="_blank"
                 rel="noopener"
@@ -185,11 +192,16 @@ export default function CV() {
               </a>
             </div>
           </div>
+
+          {/* Scroll Indicator */}
+          <div className="scroll-indicator" aria-hidden="true">
+            <span>Scroll</span>
+          </div>
         </section>
 
         <Section id="summary" title={LATIN_CV.summary}>
-          <div className="roman-card" data-animate>
-            <div className="roman-card-inner">
+          <div className="roman-card beam-border" data-animate>
+            <div className="roman-card-inner reveal-stagger">
               <p className="lead mb-4">
                 Undergraduate Research Assistant at AiTA Lab with strong foundation in{' '}
                 <strong>Computer Vision</strong> and <strong>Quantum Machine Learning</strong>.
@@ -215,8 +227,8 @@ export default function CV() {
         <Section id="career-objectives" title={LATIN_CV['career-objectives']}>
           <div className="row g-3" data-animate>
             <div className="col-md-6">
-              <div className="roman-card h-100 card-animate">
-                <div className="roman-card-inner">
+              <div className="roman-card beam-border h-100 card-animate">
+                <div className="roman-card-inner reveal-stagger">
                   <div className="d-flex align-items-start gap-3">
                     <div className="p-2 bg-gold bg-opacity-10 rounded-circle">
                       <i className="bi bi-mortarboard-fill fs-4 text-gold"></i>
@@ -230,8 +242,8 @@ export default function CV() {
               </div>
             </div>
             <div className="col-md-6">
-              <div className="roman-card h-100 card-animate">
-                <div className="roman-card-inner">
+              <div className="roman-card beam-border h-100 card-animate">
+                <div className="roman-card-inner reveal-stagger">
                   <div className="d-flex align-items-start gap-3">
                     <div className="p-2 bg-olive bg-opacity-10 rounded-circle">
                       <i className="bi bi-briefcase-fill fs-4 text-olive"></i>
@@ -258,8 +270,8 @@ export default function CV() {
         <SectionDivider variant="dots" />
 
         <Section id="education" title={LATIN_CV.education}>
-          <div className="roman-card" data-animate>
-            <div className="roman-card-inner">
+          <div className="roman-card beam-border" data-animate>
+            <div className="roman-card-inner reveal-stagger">
               <div className="row align-items-start mb-4">
                 <div className="col-md-8">
                   <h3 className="h5 mb-2 fw-bold font-display">{t('cv.education.university')}</h3>
@@ -290,8 +302,8 @@ export default function CV() {
         <SectionDivider variant="wave" />
 
         <Section id="experience" title={LATIN_CV.experience}>
-          <div className="roman-card" data-animate>
-            <div className="roman-card-inner">
+          <div className="roman-card beam-border" data-animate>
+            <div className="roman-card-inner reveal-stagger">
               {/* Visual Timeline */}
               <div className="experience-timeline">
                 <div className="timeline-item">
@@ -323,8 +335,8 @@ export default function CV() {
         </Section>
 
         <Section id="research-interests" title={LATIN_CV['research-interests']}>
-          <div className="roman-card" data-animate>
-            <div className="roman-card-inner">
+          <div className="roman-card beam-border" data-animate>
+            <div className="roman-card-inner reveal-stagger">
               <div className="row g-3">
                 <div className="col-md-4">
                   <div className="d-flex align-items-start gap-2">
@@ -399,8 +411,8 @@ export default function CV() {
 
         <Section id="skills" title={LATIN_CV.skills}>
           {/* Skills with Progress Visualization */}
-          <div className="roman-card mb-3" data-animate>
-            <div className="roman-card-inner">
+          <div className="roman-card beam-border mb-3" data-animate>
+            <div className="roman-card-inner reveal-stagger">
               <h3 className="h6 mb-3 font-display">
                 <i className="bi bi-star-fill text-gold me-2"></i>
                 Core Proficiencies
@@ -467,8 +479,8 @@ export default function CV() {
         </Section>
 
         <Section id="publications" title={LATIN_CV.publications}>
-          <div className="roman-card" data-animate>
-            <div className="roman-card-inner">
+          <div className="roman-card beam-border" data-animate>
+            <div className="roman-card-inner reveal-stagger">
               <div className="d-flex align-items-start gap-3 mb-3">
                 <div className="p-2 bg-gold bg-opacity-10 rounded-circle">
                   <i className="bi bi-journal-richtext fs-5 text-gold"></i>
@@ -491,7 +503,7 @@ export default function CV() {
                 href="https://daihoc.fpt.edu.vn/hcm/aita-lab-tiep-tuc-ghi-dau-an-quoc-te-voi-02-bai-bao-tai-ieee-icce-2026/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="roman-btn btn-sm"
+                className="btn-roman btn-roman-secondary btn-sm"
               >
                 <i className="bi bi-newspaper me-1"></i> News Article
               </a>
@@ -500,8 +512,8 @@ export default function CV() {
         </Section>
 
         <Section id="languages" title={LATIN_CV.languages}>
-          <div className="roman-card" data-animate>
-            <div className="roman-card-inner">
+          <div className="roman-card beam-border" data-animate>
+            <div className="roman-card-inner reveal-stagger">
               <div className="row g-3">
                 <div className="col-md-6">
                   <div className="d-flex align-items-center gap-3">

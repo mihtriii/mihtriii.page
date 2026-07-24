@@ -8,18 +8,36 @@ import { useMagnetic } from '../hooks/useMagnetic.js';
 
 const RepoCard = ({ repo }) => {
   const magneticRef = useMagnetic(0.05);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 15;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 15;
+    setMousePos({ x, y });
+  };
+
+  const handleMouseLeave = () => setMousePos({ x: 0, y: 0 });
 
   return (
     <motion.div
       variants={{ hidden: { opacity: 0, y: 6 }, show: { opacity: 1, y: 0 } }}
+      whileHover={{ y: -8 }}
+      transition={{ duration: 0.3 }}
     >
-      <div 
+      <div
         ref={magneticRef}
-        className="card card-hover card-elevate card-gradient-border h-100 magnetic"
+        className="roman-card beam-border magnetic-card h-100"
+        style={{
+          '--mouse-x': `${mousePos.x}px`,
+          '--mouse-y': `${mousePos.y}px`,
+        }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
       >
-        <div className="card-body d-flex flex-column">
+        <div className="roman-card-inner d-flex flex-column h-100">
           <div className="d-flex justify-content-between align-items-start mb-2">
-            <h3 className="h6 mb-0">
+            <h3 className="h6 mb-0 font-display">
               <a
                 href={repo.html_url}
                 target="_blank"
@@ -31,29 +49,31 @@ const RepoCard = ({ repo }) => {
             </h3>
             <div className="d-flex gap-2 align-items-center text-secondary small">
               {repo.stargazers_count > 0 && (
-                <span className="badge bg-warning bg-opacity-10 text-warning d-flex align-items-center gap-1">
-                  <i className="bi bi-star-fill" style={{ fontSize: '0.7rem' }}></i> 
+                <span className="roman-badge-gold d-flex align-items-center gap-1" style={{ fontSize: '0.75rem' }}>
+                  <i className="bi bi-star-fill" style={{ fontSize: '0.6rem' }}></i>
                   {repo.stargazers_count}
                 </span>
               )}
               {repo.forks_count > 0 && (
-                 <span className="text-secondary d-flex align-items-center gap-1" style={{ fontSize: '0.8rem' }}>
+                <span className="text-secondary d-flex align-items-center gap-1" style={{ fontSize: '0.75rem' }}>
                   <i className="bi bi-diagram-3"></i> {repo.forks_count}
-                 </span>
+                </span>
               )}
             </div>
           </div>
           {repo.description && (
             <p className="text-secondary small mb-3 flex-grow-1 line-clamp-2">{repo.description}</p>
           )}
-          <div className="d-flex justify-content-between align-items-center mt-auto pt-2 border-top border-light-subtle">
+          <div className="d-flex justify-content-between align-items-center mt-auto pt-2 border-top border-zinc">
             {repo.language ? (
-              <span className="badge text-bg-secondary bg-opacity-10 text-body d-flex align-items-center gap-1">
-                <span className="d-inline-block rounded-circle bg-primary" style={{ width: 6, height: 6 }}></span>
+              <span className="roman-badge-gold d-flex align-items-center gap-1" style={{ fontSize: '0.7rem' }}>
+                <span className="d-inline-block rounded-circle bg-gold" style={{ width: 6, height: 6 }}></span>
                 {repo.language}
               </span>
-            ) : <span></span>}
-            <span className="text-secondary small" style={{ fontSize: '0.75rem' }}>
+            ) : (
+              <span></span>
+            )}
+            <span className="text-secondary small" style={{ fontSize: '0.7rem' }}>
               updated {new Date(repo.updated_at).toLocaleDateString()}
             </span>
           </div>
@@ -65,15 +85,14 @@ const RepoCard = ({ repo }) => {
 
 export default function Repos() {
   const { t } = useI18n();
-  // ... rest of the component state ...
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [query, setQuery] = useState('');
   const [langFilter, setLangFilter] = useState('All');
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
 
   useEffect(() => {
-    // ... useEffect code same as before ...
     const cached = sessionStorage.getItem('gh:repos');
     if (cached) {
       try {
@@ -107,14 +126,14 @@ export default function Repos() {
   }, []);
 
   const languages = useMemo(() => {
-    const s = new Set([t('common.all')]);
+    const s = new Set(['All']);
     repos.forEach((r) => r.language && s.add(r.language));
     return Array.from(s);
-  }, [repos, t]);
+  }, [repos]);
 
   const filtered = useMemo(() => {
     return repos.filter((r) => {
-      const okLang = langFilter === t('common.all') || r.language === langFilter;
+      const okLang = langFilter === 'All' || r.language === langFilter;
       const q = query.trim().toLowerCase();
       const okQuery =
         q === '' ||
@@ -122,7 +141,14 @@ export default function Repos() {
         (r.description || '').toLowerCase().includes(q);
       return okLang && okQuery;
     });
-  }, [repos, langFilter, query, t]);
+  }, [repos, langFilter, query]);
+
+  const handleHeroMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setMousePos({ x, y });
+  };
 
   return (
     <div className="row g-4">
@@ -130,43 +156,87 @@ export default function Repos() {
         <Sidebar />
       </aside>
       <div className="col-12 col-lg-9">
-        <section className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden" data-animate>
-          <span className="roman-eyebrow d-block mb-3">Opuscula</span>
-          <h1 className="font-display fw-bold mb-2 gradient-gold" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+        <section
+          className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden spotlight floating-orbs"
+          data-animate
+          style={{ '--mouse-x': `${mousePos.x}%`, '--mouse-y': `${mousePos.y}%` }}
+          onMouseMove={handleHeroMouseMove}
+        >
+          <div className="hero-ambient" aria-hidden="true" />
+          <div className="glitter-layer" aria-hidden="true" />
+          
+          <span className="roman-eyebrow d-block mb-3 reveal">Opuscula</span>
+          <h1 className="font-display fw-bold mb-2 text-gradient-animate reveal" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
             {t('repos.title')}
           </h1>
-          <p className="text-secondary mb-0">{t('repos.subtitle')}</p>
+          <p className="text-secondary mb-0 reveal">{t('repos.subtitle')}</p>
+
+          {/* Scroll Indicator */}
+          <div className="scroll-indicator" aria-hidden="true">
+            <span>Scroll</span>
+          </div>
         </section>
 
         {/* GitHub Commit Activity Chart */}
-        <div className="roman-card mb-4" data-animate>
-          <div className="roman-card-inner">
+        <div className="roman-card beam-border mb-4" data-animate>
+          <div className="roman-card-inner reveal-stagger">
             <GitHubCommitChart />
           </div>
         </div>
 
-        <div className="d-flex flex-wrap gap-2 mb-3">
-          {languages.map((l) => (
-            <button
-              key={l}
-              className={`roman-btn ${langFilter === l ? 'roman-btn-cta' : 'roman-btn-ghost'} btn-sm`}
-              onClick={() => setLangFilter(l)}
-            >
-              {l}
-            </button>
-          ))}
-          <div className="ms-auto"></div>
-          <input
-            className="roman-input form-control-sm search-input-glow"
-            style={{ maxWidth: 260 }}
-            placeholder={t('repos.searchPlaceholder')}
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
+        {/* Filter Controls - Roman Style */}
+        <div className="roman-card beam-border mb-4" data-animate>
+          <div className="roman-card-inner reveal-stagger">
+            <div className="d-flex flex-wrap gap-2 mb-3">
+              <span className="roman-eyebrow me-2 align-self-center">Filter by Language</span>
+              <motion.div
+                className="d-flex flex-wrap gap-2"
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  visible: { transition: { staggerChildren: 0.03 } },
+                }}
+              >
+                {languages.map((l) => (
+                  <motion.button
+                    key={l}
+                    variants={{
+                      hidden: { opacity: 0, scale: 0.8 },
+                      visible: { opacity: 1, scale: 1 },
+                    }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`btn-roman ${langFilter === l ? 'btn-roman-primary' : 'btn-roman-ghost'} btn-sm`}
+                    onClick={() => setLangFilter(l)}
+                  >
+                    {l}
+                  </motion.button>
+                ))}
+              </motion.div>
+              <div className="ms-auto"></div>
+              <div className="position-relative" style={{ maxWidth: 280 }}>
+                <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary z-1"></i>
+                <input
+                  className="input-roman ps-5 form-control-sm"
+                  placeholder={t('repos.searchPlaceholder')}
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                />
+              </div>
+            </div>
+            
+            {/* Results Count */}
+            <div className="d-flex justify-content-end">
+              <span className="roman-metric-pill">
+                <span className="roman-metric-label">Repo</span>
+                <span className="roman-metric-value">{filtered.length}</span>
+              </span>
+            </div>
+          </div>
         </div>
 
         {error && (
-          <div className="alert alert-warning" role="alert">
+          <div className="alert alert-warning roman-card beam-border" role="alert">
             {error}
           </div>
         )}
@@ -187,8 +257,8 @@ export default function Repos() {
                 key={i}
                 variants={{ hidden: { opacity: 0, y: 6 }, show: { opacity: 1, y: 0 } }}
               >
-                <div className="card card-elevate h-100">
-                  <div className="card-body">
+                <div className="roman-card beam-border h-100">
+                  <div className="roman-card-inner">
                     <div className="placeholder-glow">
                       <span className="placeholder col-6"></span>
                       <p className="placeholder col-4 small"></p>
@@ -201,7 +271,7 @@ export default function Repos() {
           ) : filtered.length === 0 ? (
             <div className="col-12">
               <div className="text-center text-muted py-5">
-                <i className="bi bi-search"></i>
+                <i className="bi bi-search" style={{ fontSize: '3rem' }}></i>
                 <p>{t('repos.noResults')}</p>
               </div>
             </div>

@@ -12,10 +12,10 @@ function PublicationCard({ publication, t }) {
       variants={{ hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } }}
       className="col-12"
     >
-      <div ref={magneticRef} className="card card-hover card-elevate card-gradient-border magnetic">
-        <div className="card-body">
+      <div ref={magneticRef} className="roman-card beam-border magnetic-card h-100">
+        <div className="roman-card-inner">
           <div className="d-flex flex-wrap align-items-center gap-2 mb-2">
-            <span className="badge text-bg-primary">
+            <span className="roman-badge-gold">
               <i className="bi bi-journal-richtext me-1"></i>
               {publication.type}
             </span>
@@ -39,7 +39,7 @@ function PublicationCard({ publication, t }) {
             </div>
           )}
 
-          <h2 className="h5 fw-semibold mb-2">{publication.title}</h2>
+          <h2 className="h5 fw-semibold mb-2 font-display">{publication.title}</h2>
           <p className="text-secondary mb-2">{publication.authors}</p>
           <p className="text-secondary small mb-3">{publication.citation}</p>
 
@@ -61,9 +61,7 @@ function PublicationCard({ publication, t }) {
               </div>
               <div className="d-flex flex-wrap gap-1">
                 {publication.keywords.map((keyword) => (
-                  <span key={keyword} className="badge text-bg-secondary bg-opacity-10 text-body">
-                    {keyword}
-                  </span>
+                  <span key={keyword} className="roman-badge-gold">{keyword}</span>
                 ))}
               </div>
             </div>
@@ -76,7 +74,7 @@ function PublicationCard({ publication, t }) {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn btn-outline-primary btn-sm"
+                className="btn-roman btn-roman-secondary btn-sm"
               >
                 <i className={`bi ${link.icon} me-1`}></i>
                 {link.label}
@@ -156,9 +154,12 @@ export default function Publications() {
       </aside>
 
       <div className="col-12 col-lg-9">
-        <section id="featured-publications" className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden" data-animate>
+        <section id="featured-publications" className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden spotlight floating-orbs" data-animate>
+          <div className="hero-ambient" aria-hidden="true" />
+          <div className="glitter-layer" aria-hidden="true" />
+          
           <span className="roman-eyebrow d-block mb-3">Scripta Publicata</span>
-          <h1 className="font-display fw-bold mb-2 gradient-gold" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+          <h1 className="font-display fw-bold mb-2 text-gradient-animate" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
             {t('publications.title')}
           </h1>
           <p className="text-secondary mb-0">{t('publications.subtitle')}</p>
@@ -172,7 +173,7 @@ export default function Publications() {
             </div>
             <div className="ms-auto"></div>
             <input
-              className="roman-input form-control-sm search-input-glow"
+              className="input-roman form-control-sm search-input-glow"
               style={{ maxWidth: 300 }}
               placeholder={t('publications.searchPlaceholder')}
               value={searchQuery}

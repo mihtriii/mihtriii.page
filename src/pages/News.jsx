@@ -6,16 +6,37 @@ import { useMagnetic } from '../hooks/useMagnetic.js';
 
 function NewsCard({ item, t }) {
   const magneticRef = useMagnetic(0.04);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 15;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 15;
+    setMousePos({ x, y });
+  };
+
+  const handleMouseLeave = () => setMousePos({ x: 0, y: 0 });
 
   return (
     <motion.article
       variants={{ hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } }}
       className="col-12"
+      whileHover={{ y: -6 }}
+      transition={{ duration: 0.3 }}
     >
-      <div ref={magneticRef} className="card card-hover card-elevate card-gradient-border magnetic">
-        <div className="card-body">
+      <div
+        ref={magneticRef}
+        className="roman-card beam-border magnetic-card h-100"
+        style={{
+          '--mouse-x': `${mousePos.x}px`,
+          '--mouse-y': `${mousePos.y}px`,
+        }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div className="roman-card-inner">
           <div className="d-flex flex-wrap align-items-center gap-2 mb-2">
-            <span className="badge text-bg-primary">
+            <span className="roman-badge-gold">
               <i className={`bi ${item.icon} me-1`}></i>
               {item.category}
             </span>
@@ -29,7 +50,7 @@ function NewsCard({ item, t }) {
             </span>
           </div>
 
-          <h2 className="h5 fw-semibold mb-2">{item.title}</h2>
+          <h2 className="h5 fw-semibold mb-2 font-display">{item.title}</h2>
           <p className="text-secondary mb-3">{item.summary}</p>
 
           {item.highlights?.length > 0 && (
@@ -47,7 +68,7 @@ function NewsCard({ item, t }) {
               href={item.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-primary btn-sm"
+              className="btn-roman btn-roman-primary btn-sm"
             >
               <i className="bi bi-newspaper me-1"></i>
               {t('news.readOriginal')}
@@ -58,7 +79,7 @@ function NewsCard({ item, t }) {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn btn-outline-secondary btn-sm"
+                className="btn-roman btn-roman-ghost btn-sm"
               >
                 <i className={`bi ${link.icon} me-1`}></i>
                 {link.label}
@@ -133,11 +154,19 @@ export default function News() {
       </aside>
 
       <div className="col-12 col-lg-9">
-        <section id="featured-news" className="page-hero hero-with-bg p-4 mb-3" data-animate>
-          <h1 className="h3 mb-1">
-            <span className="gradient-text">{t('news.title')}</span>
+        <section
+          id="featured-news"
+          className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden spotlight floating-orbs"
+          data-animate
+        >
+          <div className="hero-ambient" aria-hidden="true" />
+          <div className="glitter-layer" aria-hidden="true" />
+          
+          <span className="roman-eyebrow d-block mb-3 reveal">Acta Diurna</span>
+          <h1 className="font-display fw-bold mb-2 text-gradient-animate reveal" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+            <span>{t('news.title')}</span>
           </h1>
-          <p className="text-secondary mb-0">{t('news.subtitle')}</p>
+          <p className="text-secondary mb-0 reveal">{t('news.subtitle')}</p>
         </section>
 
         <section id="news-list" className="mb-3" data-animate>
@@ -147,13 +176,16 @@ export default function News() {
               {t('news.latest')}
             </div>
             <div className="ms-auto"></div>
-            <input
-              className="form-control form-control-sm search-input-glow"
-              style={{ maxWidth: 280 }}
-              placeholder={t('news.searchPlaceholder')}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+            <div className="position-relative">
+              <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary z-1"></i>
+              <input
+                className="input-roman ps-5 form-control-sm"
+                style={{ maxWidth: 280 }}
+                placeholder={t('news.searchPlaceholder')}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
           </div>
 
           <motion.div
@@ -168,7 +200,7 @@ export default function News() {
             {filteredNews.length === 0 ? (
               <div className="col-12">
                 <div className="text-center text-muted py-5">
-                  <i className="bi bi-search"></i>
+                  <i className="bi bi-search" style={{ fontSize: '3rem' }}></i>
                   <p>{t('news.noResults')}</p>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import DotFieldBackground from '../components/DotFieldBackground.jsx';
 import AnimatedHeadline from '../components/AnimatedHeadline.jsx';
@@ -40,7 +40,7 @@ function Section({ id, title, children }) {
     <motion.section
       ref={ref}
       id={id}
-      className="section mb-4"
+      className="section mb-4 reveal-stagger"
       initial="hidden"
       animate={controls}
       variants={scrollAnimationVariants}
@@ -55,39 +55,53 @@ function Section({ id, title, children }) {
 
 function ProjectCard({ project, index }) {
   const { t } = useI18n();
-  const magneticRef = useMagnetic(0.1);
-  
+  const magneticRef = useMagnetic(0.15);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 20;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 20;
+    setMousePos({ x, y });
+  };
+
+  const handleMouseLeave = () => setMousePos({ x: 0, y: 0 });
+
   return (
     <motion.div
       className="col"
       key={index}
       variants={staggerItemVariants}
-      whileHover={{ y: -5 }}
-      transition={{ duration: 0.2 }}
+      whileHover={{ y: -8 }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
     >
       <div
         ref={magneticRef}
-        className="card h-100 card-hover card-elevate card-gradient-border project-card magnetic"
+        className="card-roman magnetic-card project-card"
+        style={{
+          '--mouse-x': `${mousePos.x}px`,
+          '--mouse-y': `${mousePos.y}px`,
+        }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
       >
         {project.preview && (
           <div className="project-preview">
-            <img src={project.preview} alt="preview" />
+            <img src={project.preview} alt="preview" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }} />
           </div>
         )}
-        <div className="card-body">
+        <div className="card-body p-4 d-flex flex-column h-100">
           <div className="d-flex justify-content-between align-items-start mb-2">
-            <h3 className="h6 mb-0 fw-semibold">{project.title}</h3>
-            <span className="badge text-bg-primary">
+            <h3 className="h6 mb-0 fw-semibold font-display">{project.title}</h3>
+            <span className="roman-badge-gold badge-pulse">
               <i className="bi bi-rocket-takeoff me-1"></i>
               {t('home.projects.soon')}
             </span>
           </div>
-          <p className="mb-2 text-secondary small">{project.desc}</p>
-          <div className="d-flex gap-2 flex-wrap">
+          <p className="mb-3 text-secondary small flex-grow-1">{project.desc}</p>
+          <div className="d-flex gap-2 flex-wrap mt-auto">
             {project.tags.map((t) => (
-              <span key={t} className="badge text-bg-secondary">
-                {t}
-              </span>
+              <span key={t} className="roman-badge-gold">{t}</span>
             ))}
           </div>
         </div>
@@ -99,15 +113,24 @@ function ProjectCard({ project, index }) {
 export default function Home() {
   const { t } = useI18n();
   const sectionIds = ['about', 'focus', 'goals', 'tech', 'projects', 'contact'];
+  const [heroMousePos, setHeroMousePos] = useState({ x: 50, y: 50 });
 
   // SEO for homepage
   useSEO({
-    title: null, // Use default title
+    title: null,
     description:
       'AI student at FPTU HCM focusing on Computer Vision, Vision-Language Models, and Quantum ML. Personal portfolio and research blog.',
     url: '/',
     type: 'website',
   });
+
+  // Track mouse position for spotlight effect
+  const handleHeroMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setHeroMousePos({ x, y });
+  };
 
   const allProjects = useMemo(
     () => [
@@ -150,21 +173,32 @@ export default function Home() {
       </aside>
 
       <div className="col-12 col-lg-9">
-        {/* EPIC HERO SECTION - Greek Mythology / Frieren RPG Style */}
+        {/* EPIC HERO SECTION - Roman Imperial / Frieren RPG Style */}
         <section
-          className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden"
+          className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden spotlight"
           data-animate
+          style={{ '--mouse-x': `${heroMousePos.x}%`, '--mouse-y': `${heroMousePos.y}%` }}
+          onMouseMove={handleHeroMouseMove}
         >
+          {/* Floating Ambient Orbs */}
+          <div className="floating-orbs" aria-hidden="true" />
+          
+          {/* Glitter Particle Layer */}
+          <div className="glitter-layer" aria-hidden="true" />
+          
+          {/* Hero Ambient Gradient Shift */}
+          <div className="hero-ambient" aria-hidden="true" />
+
           <div className="row align-items-center g-4 g-md-5 position-relative z-1">
             <div className="col-12 col-md-7">
               {/* Latin Eyebrow */}
-              <span className="roman-eyebrow d-block mb-3">Salve, Viator</span>
+              <span className="roman-eyebrow d-block mb-3 reveal">Salve, Viator</span>
               
               {/* Main Headline with Cormorant Display */}
               <AnimatedHeadline
                 text="Hi, I am Trí."
                 tag="h1"
-                className="font-display fw-bold mb-3"
+                className="font-display fw-bold mb-3 text-gradient-animate reveal"
                 style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', lineHeight: 1.15 }}
                 splitType="words, chars"
                 delay={50}
@@ -173,39 +207,37 @@ export default function Home() {
                 from={{ opacity: 0, y: 40 }}
                 to={{ opacity: 1, y: 0 }}
                 scrollTrigger={false}
-                gradient={true}
-                gradientColors={['#F0E6C8', '#C9A84C', '#E8C96A']}
               />
               
-              {/* Sub-headline - Epic tagline */}
-              <p className="text-secondary mb-2 fw-medium" style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}>
+              {/* Sub-headline */}
+              <p className="text-secondary mb-2 fw-medium reveal" style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}>
                 <strong>Undergraduate Research Assistant</strong>
                 <br />
                 AiTA Lab, FPT University
               </p>
               
-              {/* Typewriter with Roman flair */}
-              <p className="text-secondary mb-4" style={{ fontSize: 'clamp(0.9375rem, 1.5vw, 1.125rem)' }}>
+              {/* Typewriter */}
+              <p className="text-secondary mb-4 reveal" style={{ fontSize: 'clamp(0.9375rem, 1.5vw, 1.125rem)' }}>
                 <Typewriter words={['Computer Vision', 'Vision‑Language Models', 'Quantum ML', 'Sic Parvis Magna']} />
               </p>
               
               {/* Badges as Roman metric pills */}
-              <div className="roman-metrics mb-4" role="list">
+              <div className="roman-metrics mb-4 reveal" role="list">
                 <span className="roman-metric-pill" role="listitem"><i className="bi bi-eye me-1"></i><span className="roman-metric-label">Vision</span><span className="roman-metric-value">Computer Vision</span></span>
-                <span className="roman-metric-pill" role="listitem"><i className="bi bi-cpu me-1"></i><span className="roman-metric-label">VLM</span><span className="roman-metric-value">VLMs</span></span>
+                <span className="roman-metric-pill" role="listitem"><i className="bi bi-cpu me-1"></i><span className="roman-metric-label">VLM</span><span className="roman-metric-value">Vision‑Language</span></span>
                 <span className="roman-metric-pill" role="listitem"><i className="bi bi-lightning me-1"></i><span className="roman-metric-label">QML</span><span className="roman-metric-value">Quantum ML</span></span>
               </div>
               
               {/* CTA Buttons - Roman Style */}
-              <div className="d-flex flex-wrap gap-2 hero-cta">
-                <Link to="/cv" className="roman-btn-cta btn-sm px-4 py-2">
+              <div className="d-flex flex-wrap gap-2 hero-cta reveal">
+                <Link to="/cv" className="btn-roman btn-roman-primary btn-sm px-4 py-2">
                   <i className="bi bi-file-earmark-text me-1"></i> Tabula Vitae
                 </Link>
-                <a href="#contact" className="roman-btn btn-sm px-4 py-2">
+                <a href="#contact" className="btn-roman btn-roman-secondary btn-sm px-4 py-2">
                   <i className="bi bi-send me-1"></i> Contactus
                 </a>
                 <a
-                  className="roman-btn-ghost btn-sm px-4 py-2"
+                  className="btn-roman btn-roman-ghost btn-sm px-4 py-2"
                   href="https://github.com/mihtriii"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -214,10 +246,10 @@ export default function Home() {
                 </a>
               </div>
             </div>
-            <div className="col-12 col-md-5 text-center">
+            <div className="col-12 col-md-5 text-center reveal-right">
               <Tilt className="d-inline-block portrait-wrap">
                 <BlurImage
-                  className="portrait rounded-circle shadow-none border border-zinc"
+                  className="portrait rounded-circle shadow-none border border-zinc beam-border"
                   src={`${import.meta.env.BASE_URL}assets/avatar.JPG`}
                   alt="Portrait"
                   imgProps={{ loading: 'eager', decoding: 'async', fetchpriority: 'high' }}
@@ -226,11 +258,16 @@ export default function Home() {
               </Tilt>
             </div>
           </div>
+
+          {/* Scroll Indicator */}
+          <div className="scroll-indicator" aria-hidden="true">
+            <span>Scroll</span>
+          </div>
         </section>
 
         <Section id="about" title={LATIN_SECTIONS.about}>
-          <div className="roman-card" data-animate>
-            <div className="roman-card-inner">
+          <div className="roman-card beam-border" data-animate>
+            <div className="roman-card-inner reveal-stagger">
               <p className="lead mb-4">
                 I'm an <strong>Undergraduate Research Assistant at AiTA Lab, FPT University</strong>,
                 where I work on Computer Vision and Quantum Machine Learning research. I learn by
@@ -240,9 +277,9 @@ export default function Home() {
                 reproducible demos that make ideas tangible.
               </p>
               <p>
-                Right now, I’m focused on practical VLM applications (retrieval, grounding,
+                Right now, I'm focused on practical VLM applications (retrieval, grounding,
                 instruction‑tuning) and setting up strong habits for research: reading, small
-                experiments, and writing. I’m open to collaborations that are lightweight, focused, and
+                experiments, and writing. I'm open to collaborations that are lightweight, focused, and
                 shipping‑oriented.
               </p>
               <div className="icon-row mt-2" data-animate>
@@ -302,8 +339,8 @@ export default function Home() {
         </Section>
 
         <Section id="focus" title={LATIN_SECTIONS.focus}>
-          <div className="roman-card" data-animate>
-            <div className="roman-card-inner">
+          <div className="roman-card beam-border" data-animate>
+            <div className="roman-card-inner reveal-stagger">
               <ul className="mb-0">
                 <li className="mb-3">
                   <strong className="text-gold">Vision‑Language:</strong> multimodal retrieval, visual grounding, instruction
@@ -323,8 +360,8 @@ export default function Home() {
         </Section>
 
         <Section id="goals" title={LATIN_SECTIONS.goals}>
-          <div className="roman-card" data-animate>
-            <div className="roman-card-inner">
+          <div className="roman-card beam-border" data-animate>
+            <div className="roman-card-inner reveal-stagger">
               <ul className="mb-0">
                 <li className="mb-3">
                   <strong className="text-gold">Q1 2025:</strong> Complete foundational Quantum Machine Learning course and
@@ -343,8 +380,8 @@ export default function Home() {
           <div className="row g-3 row-cols-1 row-cols-md-3">
             <div className="col">
               <Tilt className="h-100">
-                <div className="roman-card h-100 card-animate">
-                  <div className="roman-card-inner">
+                <div className="roman-card beam-border h-100 card-animate">
+                  <div className="roman-card-inner reveal-stagger">
                     <h3 className="h6 mb-3 text-gold font-display">Core</h3>
                     <div className="d-flex flex-wrap gap-2">
                       <span className="roman-badge-gold badge-pulse">Python</span>
@@ -356,8 +393,8 @@ export default function Home() {
             </div>
             <div className="col">
               <Tilt className="h-100">
-                <div className="roman-card h-100 card-animate">
-                  <div className="roman-card-inner">
+                <div className="roman-card beam-border h-100 card-animate">
+                  <div className="roman-card-inner reveal-stagger">
                     <h3 className="h6 mb-3 text-gold font-display">ML/CV</h3>
                     <div className="d-flex flex-wrap gap-2">
                       <span className="roman-badge-gold badge-pulse">PyTorch</span>
@@ -371,8 +408,8 @@ export default function Home() {
             </div>
             <div className="col">
               <Tilt className="h-100">
-                <div className="roman-card h-100 card-animate">
-                  <div className="roman-card-inner">
+                <div className="roman-card beam-border h-100 card-animate">
+                  <div className="roman-card-inner reveal-stagger">
                     <h3 className="h6 mb-3 text-gold font-display">Tooling</h3>
                     <div className="d-flex flex-wrap gap-2">
                       <span className="roman-badge-gold badge-pulse">Git/GitHub</span>
@@ -396,18 +433,18 @@ export default function Home() {
             {tags.map((t) => (
               <motion.button
                 key={t}
-                className={`roman-btn ${tag === t ? 'roman-btn-cta' : 'roman-btn-ghost'} btn-sm`}
+                className={`btn-roman ${tag === t ? 'btn-roman-primary' : 'btn-roman-ghost'} btn-sm`}
                 onClick={() => setTag(t)}
                 variants={staggerItemVariants}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
               >
                 {t}
               </motion.button>
             ))}
             <div className="project-search-wrap ms-auto">
               <motion.input
-                className="roman-input form-control-sm project-search-input"
+                className="input-roman form-control-sm project-search-input"
                 placeholder={t('home.projects.searchPlaceholder')}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -429,14 +466,14 @@ export default function Home() {
         </Section>
 
         <Section id="contact" title={LATIN_SECTIONS.contact}>
-          <div className="d-flex flex-column gap-3">
-            <div className="contact-row">
+          <div className="d-flex flex-column gap-3 reveal-stagger">
+            <div className="contact-row beam-border">
               <i className="contact-icon bi bi-envelope"></i>
               <a href={social.email} className="contact-link">
                 mihtriii295@gmail.com
               </a>
               <button
-                className="roman-btn-ghost btn-sm ms-auto"
+                className="btn-roman btn-roman-ghost btn-sm ms-auto"
                 onClick={() => {
                   navigator.clipboard.writeText('mihtriii295@gmail.com');
                   toast(t('common.copied'));
@@ -445,13 +482,13 @@ export default function Home() {
                 <i className="bi bi-clipboard me-1"></i> {t('common.copy')}
               </button>
             </div>
-            <div className="contact-row">
+            <div className="contact-row beam-border">
               <i className="contact-icon bi bi-telephone"></i>
               <a href={social.phone} className="contact-link">
                 {social.phoneDisplay}
               </a>
               <button
-                className="roman-btn-ghost btn-sm ms-auto"
+                className="btn-roman btn-roman-ghost btn-sm ms-auto"
                 onClick={() => {
                   navigator.clipboard.writeText(social.phoneRaw);
                   toast('Copied phone number to clipboard');

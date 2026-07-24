@@ -125,25 +125,33 @@ function ImageLightbox({ images, currentIndex, onClose, onPrev, onNext, caption 
 function MomentCard({ moment, onImageClick, featured = false }) {
   const magneticRef = useMagnetic(0.05);
   const [expanded, setExpanded] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 15;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 15;
+    setMousePos({ x, y });
+  };
+
+  const handleMouseLeave = () => setMousePos({ x: 0, y: 0 });
 
   return (
     <motion.div
       variants={{ hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0 } }}
       id={`moment-${moment.id}`}
+      whileHover={{ y: -8 }}
+      transition={{ duration: 0.3 }}
     >
       <div
         ref={magneticRef}
-        className={`card card-hover card-elevate card-gradient-border magnetic overflow-hidden ${
-          featured ? 'moment-featured' : ''
-        }`}
-        style={
-          featured
-            ? {
-                border: '1px solid rgba(var(--bs-primary-rgb), 0.4)',
-                boxShadow: '0 8px 32px rgba(var(--bs-primary-rgb), 0.12)',
-              }
-            : undefined
-        }
+        className="roman-card beam-border magnetic-card overflow-hidden position-relative"
+        style={{
+          '--mouse-x': `${mousePos.x}px`,
+          '--mouse-y': `${mousePos.y}px`,
+        }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
       >
         {moment.images && moment.images.length > 0 && (
           <div
@@ -193,13 +201,13 @@ function MomentCard({ moment, onImageClick, featured = false }) {
           </div>
         )}
 
-        <div className="card-body d-flex flex-column">
+        <div className="roman-card-inner d-flex flex-column">
           {/* Title + Year */}
           <div className="d-flex justify-content-between align-items-start mb-2">
-            <h3 className={`mb-0 fw-semibold ${featured ? 'h5' : 'h6'}`}>
+            <h3 className={`mb-0 fw-semibold font-display ${featured ? 'h5' : 'h6'}`}>
               {moment.title}
             </h3>
-            <span className="badge text-bg-primary flex-shrink-0 ms-2">
+            <span className="roman-badge-gold flex-shrink-0 ms-2">
               {moment.year}
             </span>
           </div>
@@ -241,7 +249,8 @@ function MomentCard({ moment, onImageClick, featured = false }) {
                 {moment.technologies.map((tech, i) => (
                   <span
                     key={i}
-                    className="badge text-bg-secondary bg-opacity-10 text-body moment-tech-badge"
+                    className="roman-badge-gold moment-tech-badge"
+                    style={{ fontSize: '0.8rem' }}
                   >
                     {tech}
                   </span>
@@ -251,15 +260,15 @@ function MomentCard({ moment, onImageClick, featured = false }) {
           )}
 
           {/* Footer */}
-          <div className="d-flex justify-content-between align-items-center mt-auto pt-2 border-top border-light-subtle">
+          <div className="d-flex justify-content-between align-items-center mt-auto pt-2 border-top border-zinc">
             {moment.category && (
-              <span className="badge text-bg-secondary bg-opacity-10 text-body d-flex align-items-center gap-1">
+              <span className="roman-badge-gold d-flex align-items-center gap-1" style={{ fontSize: '0.75rem' }}>
                 <i className={`bi ${moment.categoryIcon || 'bi-tag'}`} />
                 {moment.category}
               </span>
             )}
             <button
-              className="btn btn-outline-secondary btn-sm"
+              className="btn-roman btn-roman-ghost btn-sm"
               onClick={() => setExpanded(!expanded)}
               aria-expanded={expanded}
             >
@@ -398,8 +407,8 @@ function StatsSummary({ moments, t }) {
     <div className="row g-2 mb-3">
       {items.map((it) => (
         <div key={it.key} className="col-6 col-md-4 col-lg-2">
-          <div className="card card-elevate card-gradient-border h-100">
-            <div className="card-body p-3 d-flex align-items-center gap-2">
+          <div className="roman-card beam-border h-100 card-animate">
+            <div className="roman-card-inner p-3 d-flex align-items-center gap-2">
               <div
                 className="d-flex align-items-center justify-content-center rounded"
                 style={{
@@ -411,7 +420,7 @@ function StatsSummary({ moments, t }) {
                 <i className={`bi ${it.icon} fs-5`} />
               </div>
               <div className="d-flex flex-column" style={{ minWidth: 0 }}>
-                <span className="fw-semibold text-truncate" style={{ fontSize: '1.05rem' }}>
+                <span className="fw-semibold text-truncate text-gold font-display" style={{ fontSize: '1.25rem' }}>
                   {it.value}
                 </span>
                 <span className="text-secondary small text-truncate">
@@ -804,29 +813,37 @@ export default function Moments() {
 
       <div className="col-12 col-lg-9">
         {/* Hero */}
-        <section className="page-hero hero-with-bg p-4 mb-3" data-animate>
-          <h1 className="h3 mb-1">
-            <span className="gradient-text">{t('moments.title')}</span>
+        <section
+          className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden spotlight floating-orbs"
+          data-animate
+        >
+          <div className="hero-ambient" aria-hidden="true" />
+          <div className="glitter-layer" aria-hidden="true" />
+
+          <h1 className="h3 mb-1 reveal">
+            <span className="text-gradient-animate font-display">{t('moments.title')}</span>
           </h1>
-          <p className="text-secondary mb-2">{t('moments.subtitle')}</p>
+          <p className="text-secondary mb-2 reveal">{t('moments.subtitle')}</p>
           {t('moments.intro') && (
-            <p className="text-secondary small mb-2" style={{ maxWidth: 720 }}>
+            <p className="text-secondary small mb-2 reveal" style={{ maxWidth: 720 }}>
               {t('moments.intro')}
             </p>
           )}
-          <div className="d-flex flex-wrap gap-2 small text-secondary">
-            <span className="badge text-bg-secondary bg-opacity-10 text-body d-inline-flex align-items-center gap-1">
-              <i className="bi bi-shield-check" />
-              {t('moments.metaEvidence')}
+          <div className="d-flex flex-wrap gap-2 small text-secondary reveal">
+            <span className="roman-metric-pill d-inline-flex align-items-center gap-1">
+              <i className="bi bi-shield-check" /> {t('moments.metaEvidence')}
             </span>
-            <span className="badge text-bg-secondary bg-opacity-10 text-body d-inline-flex align-items-center gap-1">
-              <i className="bi bi-images" />
-              {t('moments.metaLinks')}
+            <span className="roman-metric-pill d-inline-flex align-items-center gap-1">
+              <i className="bi bi-images" /> {t('moments.metaLinks')}
             </span>
-            <span className="badge text-bg-secondary bg-opacity-10 text-body d-inline-flex align-items-center gap-1">
-              <i className="bi bi-clock-history" />
-              {t('moments.metaUpdated')} 2026
+            <span className="roman-metric-pill d-inline-flex align-items-center gap-1">
+              <i className="bi bi-clock-history" /> {t('moments.metaUpdated')} 2026
             </span>
+          </div>
+
+          {/* Scroll Indicator */}
+          <div className="scroll-indicator" aria-hidden="true">
+            <span>Scroll</span>
           </div>
         </section>
 
@@ -851,48 +868,63 @@ export default function Moments() {
         )}
 
         {/* ── Filters bar ── */}
-        <div className="d-flex flex-wrap align-items-center gap-2 mb-4">
-          {/* Category pills */}
-          <div className="d-flex gap-1 flex-wrap">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                className={`btn btn-sm ${
-                  categoryFilter === cat ? 'btn-primary' : 'btn-outline-secondary'
-                }`}
-                onClick={() => setCategoryFilter(cat)}
+        <div className="roman-card beam-border mb-4" data-animate>
+          <div className="roman-card-inner reveal-stagger">
+            <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
+              {/* Category pills */}
+              <div className="d-flex gap-1 flex-wrap">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    className={`btn-roman btn-sm ${
+                      categoryFilter === cat ? 'btn-roman-primary' : 'btn-roman-ghost'
+                    }`}
+                    onClick={() => setCategoryFilter(cat)}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+
+              <span className="text-muted mx-1">|</span>
+
+              {/* Year dropdown */}
+              <select
+                className="input-roman form-select-sm"
+                style={{ width: 'auto', minWidth: 110 }}
+                value={yearFilter}
+                onChange={(e) => setYearFilter(e.target.value)}
               >
-                {cat}
-              </button>
-            ))}
+                {years.map((y) => (
+                  <option key={y} value={y}>
+                    {y === allLabel ? allLabel : y}
+                  </option>
+                ))}
+              </select>
+
+              <div className="ms-auto" />
+
+              {/* Search */}
+              <div className="position-relative">
+                <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary z-1"></i>
+                <input
+                  className="input-roman ps-5 form-control-sm"
+                  style={{ maxWidth: 240 }}
+                  placeholder={t('moments.searchPlaceholder')}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+            </div>
+            
+            {/* Results Count */}
+            <div className="d-flex justify-content-end">
+              <span className="roman-metric-pill">
+                <span className="roman-metric-label">Moment</span>
+                <span className="roman-metric-value">{filteredMoments.length}</span>
+              </span>
+            </div>
           </div>
-
-          <span className="text-muted mx-1">|</span>
-
-          {/* Year dropdown */}
-          <select
-            className="form-select form-select-sm"
-            style={{ width: 'auto', minWidth: 110 }}
-            value={yearFilter}
-            onChange={(e) => setYearFilter(e.target.value)}
-          >
-            {years.map((y) => (
-              <option key={y} value={y}>
-                {y === allLabel ? allLabel : y}
-              </option>
-            ))}
-          </select>
-
-          <div className="ms-auto" />
-
-          {/* Search */}
-          <input
-            className="form-control form-control-sm search-input-glow"
-            style={{ maxWidth: 240 }}
-            placeholder={t('moments.searchPlaceholder')}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
         </div>
 
         {/* ── Timeline ── */}
@@ -925,7 +957,7 @@ export default function Moments() {
               <p className="text-secondary fw-semibold mb-1">{t('moments.noResults')}</p>
               <p className="text-secondary small mb-3">{t('moments.noResultsHint')}</p>
               {isAnyFilterActive && (
-                <button className="btn btn-primary btn-sm" onClick={clearAllFilters}>
+                <button className="btn-roman btn-roman-primary btn-sm" onClick={clearAllFilters}>
                   <i className="bi bi-x-circle me-1" />
                   {t('moments.clearFilters')}
                 </button>

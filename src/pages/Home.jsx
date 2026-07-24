@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import Particles from '../components/Particles.jsx';
+import DotFieldBackground from '../components/DotFieldBackground.jsx';
+import AnimatedHeadline from '../components/AnimatedHeadline.jsx';
 import Typewriter from '../components/Typewriter.jsx';
 import Tilt from '../components/Tilt.jsx';
 import { Link } from 'react-router-dom';
@@ -141,12 +142,32 @@ export default function Home() {
           className="page-hero hero-with-bg p-4 mb-3 position-relative overflow-hidden"
           data-animate
         >
-          <Particles />
-          <div className="row align-items-center g-4 position-relative">
+          <DotFieldBackground
+            className="absolute inset-0 w-full h-full z-0"
+            dotSpacing={22}
+            cursorRadius={350}
+            cursorForce={0.06}
+            glowRadius={200}
+            gradientFrom="rgba(139, 92, 246, 0.20)"
+            gradientTo="rgba(168, 85, 247, 0.10)"
+            glowColor="#0f0a14"
+          />
+          <div className="row align-items-center g-4 position-relative z-1">
             <div className="col-12 col-md-7">
-              <h1 className="h3 mb-2">
-                <span className="gradient-text">{t('home.heroHi')}</span>
-              </h1>
+              <AnimatedHeadline
+                text={t('home.heroHi')}
+                tag="h1"
+                className="h3 mb-2"
+                splitType="words, chars"
+                delay={40}
+                duration={0.55}
+                ease="power3.out"
+                from={{ opacity: 0, y: 30 }}
+                to={{ opacity: 1, y: 0 }}
+                scrollTrigger={false}
+                gradient={true}
+                gradientColors={['#a855f7', '#d946ef', '#ec4899']}
+              />
               <p className="text-secondary mb-2">
                 <strong>Undergraduate Research Assistant</strong>
                 <br />

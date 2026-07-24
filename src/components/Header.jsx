@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import PillNav from './PillNav.jsx';
 import MobileNav from './MobileNav.jsx';
 import { useI18n } from '../i18n/index.jsx';
 import { useTheme } from '../contexts/ThemeContext.jsx';
@@ -178,102 +179,7 @@ export default function Header() {
               <span className="font-display fw-bold" style={{ fontSize: '1.25rem' }}>NMTrí</span>
             </Link>
             <div className="d-none d-md-flex align-items-center ms-auto">
-            <ul className="navbar-nav position-relative flex-row align-items-center">
-              <li className="nav-item position-relative">
-                <NavLink end to="/" className="nav-link px-3" onMouseEnter={prefetch.blog}>
-                  {({ isActive }) => (
-                    <span className="position-relative d-inline-block">
-                      {isActive && (
-                        <motion.span layoutId="navHighlight" className="nav-highlight" />
-                      )}
-                      <span>{t('nav.about')}</span>
-                    </span>
-                  )}
-                </NavLink>
-              </li>
-              <li className="nav-item position-relative">
-                <NavLink to="/blog" className="nav-link px-3" onMouseEnter={prefetch.blog}>
-                  {({ isActive }) => (
-                    <span className="position-relative d-inline-block">
-                      {isActive && (
-                        <motion.span layoutId="navHighlight" className="nav-highlight" />
-                      )}
-                      <span>{t('nav.blog')}</span>
-                    </span>
-                  )}
-                </NavLink>
-              </li>
-              <li className="nav-item position-relative">
-                <NavLink to="/cv" className="nav-link px-3" onMouseEnter={prefetch.cv}>
-                  {({ isActive }) => (
-                    <span className="position-relative d-inline-block">
-                      {isActive && (
-                        <motion.span layoutId="navHighlight" className="nav-highlight" />
-                      )}
-                      <span>{t('nav.cv')}</span>
-                    </span>
-                  )}
-                </NavLink>
-              </li>
-              <li className="nav-item position-relative">
-                <NavLink to="/repos" className="nav-link px-3" onMouseEnter={prefetch.repos}>
-                  {({ isActive }) => (
-                    <span className="position-relative d-inline-block">
-                      {isActive && (
-                        <motion.span layoutId="navHighlight" className="nav-highlight" />
-                      )}
-                      <span>{t('nav.repos')}</span>
-                    </span>
-                  )}
-                </NavLink>
-              </li>
-              <li className="nav-item position-relative">
-                <NavLink to="/moments" className="nav-link px-3" onMouseEnter={prefetch.moments}>
-                  {({ isActive }) => (
-                    <span className="position-relative d-inline-block">
-                      {isActive && (
-                        <motion.span layoutId="navHighlight" className="nav-highlight" />
-                      )}
-                      <span>{t('nav.moments')}</span>
-                    </span>
-                  )}
-                </NavLink>
-              </li>
-              <li className="nav-item position-relative">
-                <NavLink to="/news" className="nav-link px-3" onMouseEnter={prefetch.news}>
-                  {({ isActive }) => (
-                    <span className="position-relative d-inline-block">
-                      {isActive && (
-                        <motion.span layoutId="navHighlight" className="nav-highlight" />
-                      )}
-                      <span>{t('nav.news')}</span>
-                    </span>
-                  )}
-                </NavLink>
-              </li>
-              <li className="nav-item position-relative">
-                <NavLink to="/publications" className="nav-link px-3" onMouseEnter={prefetch.publications}>
-                  {({ isActive }) => (
-                    <span className="position-relative d-inline-block">
-                      {isActive && (
-                        <motion.span layoutId="navHighlight" className="nav-highlight" />
-                      )}
-                      <span>{t('nav.publications')}</span>
-                    </span>
-                  )}
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link px-3 btn-roman-secondary btn-sm"
-                  href="https://github.com/mihtriii"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i className="bi bi-github me-1"></i> GitHub
-                </a>
-              </li>
-            </ul>
+            <PillNav t={t} prefetchData={prefetch} />
             <div className="d-flex ms-2 gap-2 align-items-center">
               <span className="text-secondary small d-none d-md-inline">
                 <i className="bi bi-clock"></i> {time}

@@ -1,33 +1,11 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import LineSidebarNav from './LineSidebarNav.jsx';
 import { useScrollSpy } from './ScrollSpy.jsx';
 import { github, social, hasRealScholar } from '../config/site.js';
 import { getRecentBlogPosts } from '../blog/manifest.js';
 import SidebarIcons from './SidebarIcons.jsx';
-
-const NAV_LABELS = {
-  about: 'About',
-  blog: 'Blog',
-  cv: 'CV',
-  repos: 'Repos',
-  moments: 'Moments',
-  news: 'News',
-  publications: 'Publications',
-  summary: 'Summary',
-  'career-objectives': 'Career Objectives',
-  education: 'Education',
-  experience: 'Experience',
-  'research-interests': 'Research Interests',
-  'competitions-activities': 'Honors & Awards',
-  skills: 'Skills',
-  languages: 'Languages',
-  focus: 'Research Focus',
-  goals: 'Goals',
-  tech: 'Technologies',
-  projects: 'Projects',
-  contact: 'Contact',
-};
 
 export default function Sidebar({ sectionIds = [], showSocial = true }) {
   const activeId = useScrollSpy(sectionIds);
@@ -267,44 +245,13 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
         </div>
       </div>
       {sectionIds.length > 0 && (
-        <div className="roman-card mb-3 card-animate" data-animate>
-          <div className="roman-card-inner py-2">
-            <div className="d-flex justify-content-between align-items-center mb-2">
-              <div className="roman-eyebrow">Navigation</div>
-              {isSmall && (
-                <button type="button" className="roman-btn-ghost btn-sm" aria-expanded={sectionsOpen} aria-controls="sidebar-sections" onClick={() => setSectionsOpen((v) => !v)}>
-                  <i className={`bi ${sectionsOpen ? 'bi-chevron-up' : 'bi-chevron-down'}`}></i>
-                </button>
-              )}
-            </div>
-            <AnimatePresence initial={false}>
-              {(!isSmall || sectionsOpen) && (
-                <motion.nav
-                  id="sidebar-sections"
-                  key="sections"
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.2, ease: 'easeOut' }}
-                  className="spy-list"
-                  aria-label="Page sections"
-                  style={{ overflow: 'hidden' }}
-                >
-                  {sectionIds.map((id) => {
-                    const label = NAV_LABELS[id] || id.replace(/-/g, ' ');
-                    return (
-                      <a key={id} href={`#${id}`} className={`spy-item ${activeId === id ? 'active' : ''}`}>
-                        {activeId === id && <motion.span layoutId="spyHighlight" className="spy-highlight" />}
-                        <span className="dot"></span>
-                        <span className="position-relative" style={{ zIndex: 1 }}>{label}</span>
-                      </a>
-                    );
-                  })}
-                </motion.nav>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
+        <LineSidebarNav
+          sectionIds={sectionIds}
+          activeId={activeId}
+          isSmall={isSmall}
+          sectionsOpen={sectionsOpen}
+          setSectionsOpen={setSectionsOpen}
+        />
       )}
       {recentPosts.length > 0 && (
         <div className="roman-card mb-3 d-none d-sm-block card-animate" data-animate>

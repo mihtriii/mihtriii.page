@@ -1476,7 +1476,83 @@ p, li, span, div, a, button, input, textarea, label { font-family: var(--font-bo
   width: 80%;
 }
 
-/* ---- Focus Visible ---- */
+/* ============================================================
+   REACT BITS STYLE — Pill Nav (Header Navbar)
+   ============================================================ */
+.nav-pill {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 36px;
+  border-radius: 12px;
+  background: rgba(201, 168, 76, 0.15);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  pointer-events: none;
+  z-index: 1;
+  transition: none; /* GSAP handles animation */
+}
+.nav-pill-inner {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-amber));
+  opacity: 0.15;
+  filter: blur(0.5px);
+}
+.nav-pill-glow {
+  position: absolute;
+  inset: -4px;
+  border-radius: 16px;
+  background: radial-gradient(ellipse at center, rgba(201, 168, 76, 0.3) 0%, transparent 70%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-out);
+}
+.nav-pill:hover .nav-pill-glow,
+.nav-pill.active .nav-pill-glow {
+  opacity: 1;
+}
+
+/* Pill Nav item wrapper */
+.nav-pill-wrapper {
+  position: relative;
+  z-index: 2;
+}
+.nav-pill-wrapper .nav-link {
+  position: relative;
+  z-index: 2;
+  transition: color 0.2s var(--ease-out);
+}
+
+/* ============================================================
+   REACT BITS STYLE — Line Sidebar (Sidebar Navigation)
+   ============================================================ */
+.sidebar-line-indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 0;
+  background: var(--accent-gold);
+  border-radius: 0 4px 4px 0;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+  transition: none; /* GSAP handles animation */
+}
+.sidebar-line-indicator.visible {
+  opacity: 0.9;
+}
+.sidebar-line-indicator.glow {
+  box-shadow: 0 0 12px var(--accent-gold), 0 0 24px rgba(201, 168, 76, 0.4);
+}
+
+.spy-list {
+  position: relative;
+}
+
+/* Focus Visible */
 :focus-visible {
   outline: 2px solid var(--accent-gold);
   outline-offset: 2px;

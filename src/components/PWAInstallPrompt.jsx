@@ -32,7 +32,7 @@ export default function PWAInstallPrompt() {
         if (!isInstalled && !localStorage.getItem('pwa-install-dismissed')) {
           setShowInstallPrompt(true);
         }
-      }, 3000);
+      }, 15000); // Increased from 3000 to 15000ms (15 seconds)
     };
 
     // Listen for app installed event

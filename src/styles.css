@@ -378,7 +378,58 @@ p, li, span, div, a, button, input, textarea, label { font-family: var(--font-bo
 }
 .sidebar .roman-eyebrow { margin-bottom: 1rem; }
 
-/* Dashboard Grid */
+/* Sidebar Navigation (spy-list) */
+.spy-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.spy-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s var(--ease-standard), background 0.2s var(--ease-standard);
+  position: relative;
+}
+.spy-item:hover {
+  color: var(--accent-gold);
+  background: rgba(201, 168, 76, 0.08);
+}
+.spy-item.active {
+  color: var(--accent-gold);
+  background: rgba(201, 168, 76, 0.12);
+}
+.spy-item .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid var(--text-muted);
+  transition: all 0.2s var(--ease-standard);
+  flex-shrink: 0;
+}
+.spy-item:hover .dot {
+  border-color: var(--accent-gold);
+}
+.spy-item.active .dot {
+  background: var(--accent-gold);
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 8px rgba(201, 168, 76, 0.4);
+}
+.spy-highlight {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent-gold);
+  border-radius: 0 8px 8px 0;
+  opacity: 0.8;
+}
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -1063,7 +1114,16 @@ p, li, span, div, a, button, input, textarea, label { font-family: var(--font-bo
 }
 .reveal-scale.visible { opacity: 1; transform: scale(1); }
 
-/* Stagger delays for reveal children */
+/* Cascade: when [data-animate] gets .is-visible/.visible → also reveal its children */
+.is-visible .reveal,
+.is-visible .reveal-left,
+.is-visible .reveal-right,
+.is-visible .reveal-scale {
+  opacity: 1;
+  transform: translateY(0) translateX(0) scale(1);
+}
+
+/* Reveal stagger cascade from .is-visible */
 .reveal-stagger > * {
   opacity: 0;
   transform: translateY(20px);
@@ -1077,6 +1137,14 @@ p, li, span, div, a, button, input, textarea, label { font-family: var(--font-bo
 .reveal-stagger.visible > *:nth-child(6)  { transition-delay: 400ms; opacity: 1; transform: translateY(0); }
 .reveal-stagger.visible > *:nth-child(7)  { transition-delay: 480ms; opacity: 1; transform: translateY(0); }
 .reveal-stagger.visible > *:nth-child(8)  { transition-delay: 560ms; opacity: 1; transform: translateY(0); }
+.is-visible .reveal-stagger > *:nth-child(1)  { transition-delay: 0ms;   opacity: 1; transform: translateY(0); }
+.is-visible .reveal-stagger > *:nth-child(2)  { transition-delay: 80ms;  opacity: 1; transform: translateY(0); }
+.is-visible .reveal-stagger > *:nth-child(3)  { transition-delay: 160ms; opacity: 1; transform: translateY(0); }
+.is-visible .reveal-stagger > *:nth-child(4)  { transition-delay: 240ms; opacity: 1; transform: translateY(0); }
+.is-visible .reveal-stagger > *:nth-child(5)  { transition-delay: 320ms; opacity: 1; transform: translateY(0); }
+.is-visible .reveal-stagger > *:nth-child(6)  { transition-delay: 400ms; opacity: 1; transform: translateY(0); }
+.is-visible .reveal-stagger > *:nth-child(7)  { transition-delay: 480ms; opacity: 1; transform: translateY(0); }
+.is-visible .reveal-stagger > *:nth-child(8)  { transition-delay: 560ms; opacity: 1; transform: translateY(0); }
 
 /* ---- Floating Orb / Ambient Blobs ---- */
 .floating-orbs {

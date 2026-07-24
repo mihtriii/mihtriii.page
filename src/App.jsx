@@ -26,7 +26,7 @@ export default function App() {
 
     // If user prefers reduced motion, reveal everything immediately
     if (!supportsIO || reduceMotion) {
-      document.querySelectorAll('[data-animate]').forEach((el) => el.classList.add('is-visible'));
+      document.querySelectorAll('[data-animate]').forEach((el) => el.classList.add('is-visible', 'visible'));
       return;
     }
 
@@ -34,7 +34,7 @@ export default function App() {
       (entries) => {
         entries.forEach((e) => {
           if (e.isIntersecting) {
-            e.target.classList.add('is-visible');
+            e.target.classList.add('is-visible', 'visible');
             io.unobserve(e.target);
           }
         });
@@ -70,7 +70,7 @@ export default function App() {
     const safety = setTimeout(() => {
       document
         .querySelectorAll('[data-animate]:not(.is-visible)')
-        .forEach((el) => el.classList.add('is-visible'));
+        .forEach((el) => el.classList.add('is-visible', 'visible'));
     }, 2000);
 
     return () => {

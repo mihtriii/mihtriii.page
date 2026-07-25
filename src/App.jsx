@@ -19,14 +19,39 @@ export default function App() {
   const { t } = useI18n();
   const location = useLocation();
 
-  // Simple reduced-motion respect for CSS [data-animate] elements
+  // Scroll-triggered reveal for [data-animate] elements
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduceMotion) {
-      document.querySelectorAll('[data-animate]').forEach((el) => {
+    const els = document.querySelectorAll('[data-animate]:not(.is-visible)');
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      els.forEach((el) => el.classList.add('is-visible', 'visible'));
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible', 'visible');
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.1 }
+    );
+    els.forEach((el) => io.observe(el));
+
+    // Safety: force visible after 2s
+    const safety = setTimeout(() => {
+      document.querySelectorAll('[data-animate]:not(.is-visible)').forEach((el) => {
         el.classList.add('is-visible', 'visible');
       });
-    }
+    }, 2000);
+
+    return () => {
+      io.disconnect();
+      clearTimeout(safety);
+    };
   }, [location.pathname]);
 
   return (

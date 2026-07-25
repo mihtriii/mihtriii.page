@@ -72,6 +72,33 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* 2026: Native theme support with light-dark() */
+:root {
+  color-scheme: dark light;
+}
+
+/* 2026: Native lazy rendering for below-fold content */
+.skip-render {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
+/* 2026: View Transitions - define named transitions for route changes */
+::view-transition-old(root) {
+  animation: -ua-view-transition-fade-out 300ms ease-out;
+}
+::view-transition-new(root) {
+  animation: -ua-view-transition-fade-in 300ms ease-in;
+}
+
+/* 2026: Interaction media queries for touch UX */
+@media (pointer: coarse) {
+  .btn-roman, .btn-roman-primary, .btn-roman-secondary, .btn-roman-ghost {
+    min-height: 44px; /* touch-friendly */
+    min-width: 44px;
+  }
+}
+
 ::selection {
   background: rgba(201, 168, 76, 0.25);
   color: var(--text-primary);
@@ -90,6 +117,14 @@ body {
   color: var(--text-primary);
   background: var(--bg-primary);
   min-height: 100vh;
+}
+
+/* 2026: Use dvh for viewport-relative units on mobile */
+@supports (height: 100dvh) {
+  .mobile-drawer {
+    height: 100dvh;
+    max-height: 100dvh;
+  }
 }
 
 /* ---- 3. Atmospheric Background (Noise + Vignette) ---- */
@@ -156,6 +191,16 @@ p, li, span, div, a, button, input, textarea, label { font-family: var(--font-bo
 
 /* ---- 5. Component Primitives ---- */
 
+/* 2026: Container queries for responsive components */
+.card-container {
+  container-type: inline-size;
+  container-name: card;
+}
+.sidebar-container {
+  container-type: inline-size;
+  container-name: sidebar;
+}
+
 /* Roman Card */
 .roman-card {
   border-radius: 24px;
@@ -170,6 +215,16 @@ p, li, span, div, a, button, input, textarea, label { font-family: var(--font-bo
   transform: translateY(-2px);
 }
 .roman-card-inner { padding: 1.25rem; }
+
+/* 2026: Container-query responsive card layouts */
+@container card (max-width: 320px) {
+  .roman-card-inner { padding: 0.875rem; }
+  .roman-card { border-radius: 16px; }
+}
+
+@container card (min-width: 480px) {
+  .roman-card-inner { padding: 1.5rem; }
+}
 
 /* Roman Card — Elevated (for hero panels) */
 .roman-card-elevated {
@@ -1457,23 +1512,6 @@ p, li, span, div, a, button, input, textarea, label { font-family: var(--font-bo
   width: 60px;
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
-}
-
-/* ---- Nav Highlight Animation ---- */
-.nav-highlight {
-  position: absolute;
-  bottom: 8px;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: var(--accent-gold);
-  border-radius: 1px;
-  transition: width 0.3s var(--ease-out), left 0.3s var(--ease-out);
-  transform: translateX(-50%);
-}
-.nav-item.active .nav-highlight,
-.nav-link.active .nav-highlight {
-  width: 80%;
 }
 
 /* ============================================================

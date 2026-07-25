@@ -1,17 +1,14 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import DotFieldBackground from '../components/DotFieldBackground.jsx';
 import AnimatedHeadline from '../components/AnimatedHeadline.jsx';
 import Typewriter from '../components/Typewriter.jsx';
 import Tilt from '../components/Tilt.jsx';
 import { Link } from 'react-router-dom';
 import BlurImage from '../components/BlurImage.jsx';
 import Sidebar from '../components/Sidebar.jsx';
-import SectionDivider from '../components/SectionDivider.jsx';
 import { toast } from '../components/Toast.jsx';
 import { social, hasRealScholar } from '../config/site.js';
 import { useI18n } from '../i18n/index.jsx';
-import SEOHead, { useSEO } from '../components/SEOHead.jsx';
 import { useMagnetic } from '../hooks/useMagnetic.js';
 import {
   useScrollAnimation,
@@ -111,15 +108,6 @@ export default function Home() {
   const { t } = useI18n();
   const sectionIds = ['about', 'focus', 'goals', 'tech', 'projects', 'contact'];
   const [heroMousePos, setHeroMousePos] = useState({ x: 50, y: 50 });
-
-  // SEO for homepage
-  useSEO({
-    title: null,
-    description:
-      'AI student at FPTU HCM focusing on Computer Vision, Vision-Language Models, and Quantum ML. Personal portfolio and research blog.',
-    url: '/',
-    type: 'website',
-  });
 
   // Track mouse position for spotlight effect
   const handleHeroMouseMove = (e) => {
@@ -362,13 +350,12 @@ export default function Home() {
             <div className="roman-card-inner reveal-stagger">
               <ul className="mb-0">
                 <li className="mb-3">
-                  <strong className="text-gold">Q1 2025:</strong> Complete foundational Quantum Machine Learning course and
-                  implement basic QML circuits for vision tasks.
+                  <strong className="text-gold">2025:</strong> Complete foundational QML course, implement basic QML circuits for vision tasks.
                 </li>
                 <li className="mb-3">
-                  Target one <strong className="text-gold">A*</strong> conference‑level paper by end of sophomore year.
+                  Target first <strong className="text-gold">conference‑level</strong> paper (IEEE ICCE 2026) — ✅ Accepted.
                 </li>
-                <li>Attend/participate in relevant CV/ML conferences and workshops.</li>
+                <li>Attend CV/ML conferences and workshops, build toward graduate school applications.</li>
               </ul>
             </div>
           </div>

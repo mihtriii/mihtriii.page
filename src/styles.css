@@ -11,7 +11,7 @@
   --font-mono: 'JetBrains Mono', 'Fira Code', Menlo, monospace;
 }
 
-/* ---- 1. Roman Imperial Color Palette ---- */
+/* ---- 1. Roman Imperial Color Palette (DARK MODE DEFAULT) ---- */
 :root {
   /* Core substrates */
   --bg-primary:   #0B0B09;  /* Obsidian */
@@ -61,6 +61,41 @@
   --z-modal:      1050;
   --z-popover:    1060;
   --z-tooltip:    1070;
+}
+
+/* ---- 1b. LIGHT MODE Palette ---- */
+[data-bs-theme="light"] {
+  /* Core substrates */
+  --bg-primary:   #F8F5F0;  /* Parchment */
+  --bg-surface:   #FFFFFF;  /* Pure white */
+  --bg-card:      #FDFDFD;  /* Off-white */
+  --bg-elevated:  #F5F5F5;  /* Elevated */
+
+  /* Text */
+  --text-primary:   #1A1A16;  /* Obsidian */
+  --text-secondary: #4A4A40;  /* Muted */
+  --text-muted:     #8A8A7C;  /* Dim */
+  --text-inverse:   #FFFFFF;  /* On gold */
+
+  /* Accents - same gold */
+  --accent-gold:      #C9A84C;
+  --accent-gold-dim:  #8B7234;
+  --accent-gold-light:#E8C96A;
+  --accent-olive:     #6B7C3C;
+  --accent-amber:     #D4820A;
+  --accent-crimson:   #8B2A2A;
+  --accent-teal:      #2A7C6B;
+
+  /* Borders */
+  --border-zinc:     #E0E0D8;
+  --border-gold:     #C9A84C;
+  --border-gold-dim: rgba(201, 168, 76, 0.25);
+
+  /* Shadows */
+  --shadow-card:      0 4px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(201,168,76,0.06);
+  --shadow-glow-gold: 0 0 24px rgba(201,168,76,0.15), 0 4px 16px rgba(0,0,0,0.05);
+  --shadow-glow-large: 0 0 40px rgba(201,168,76,0.2), 0 8px 32px rgba(0,0,0,0.08);
+  --shadow-inner-gold: inset 0 1px 0 rgba(201,168,76,0.10);
 }
 
 /* ---- 2. Base Reset & Global Styles ---- */
@@ -149,7 +184,12 @@ body::after {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(11,11,9,0.95) 100%);
+  background: radial-gradient(ellipse at center, transparent 40%, var(--bg-primary) 100%);
+}
+
+/* Light mode: no dark vignette, subtle noise instead */
+[data-bs-theme="light"] body::after {
+  opacity: 0.3;
 }
 
 /* ---- 4. Typography ---- */

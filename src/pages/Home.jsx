@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import AnimatedHeadline from '../components/AnimatedHeadline.jsx';
 import Typewriter from '../components/Typewriter.jsx';
@@ -9,7 +9,6 @@ import Sidebar from '../components/Sidebar.jsx';
 import { toast } from '../components/Toast.jsx';
 import { social, hasRealScholar } from '../config/site.js';
 import { useI18n } from '../i18n/index.jsx';
-import { useMagnetic } from '../hooks/useMagnetic.js';
 import {
   useScrollAnimation,
   scrollAnimationVariants,
@@ -34,7 +33,7 @@ function Section({ id, title, children }) {
     <motion.section
       ref={ref}
       id={id}
-      className="section mb-4 reveal-stagger"
+      className="section mb-4"
       initial="hidden"
       animate={controls}
       variants={scrollAnimationVariants}
@@ -49,17 +48,20 @@ function Section({ id, title, children }) {
 
 function ProjectCard({ project, index }) {
   const { t } = useI18n();
-  const magneticRef = useMagnetic(0.15);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const cardRef = useRef(null);
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width - 0.5) * 20;
     const y = ((e.clientY - rect.top) / rect.height - 0.5) * 20;
-    setMousePos({ x, y });
+    e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+    e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
   };
 
-  const handleMouseLeave = () => setMousePos({ x: 0, y: 0 });
+  const handleMouseLeave = (e) => {
+    e.currentTarget.style.setProperty('--mouse-x', '0px');
+    e.currentTarget.style.setProperty('--mouse-y', '0px');
+  };
 
   return (
     <motion.div
@@ -70,12 +72,8 @@ function ProjectCard({ project, index }) {
       transition={{ duration: 0.3, ease: 'easeOut' }}
     >
       <div
-        ref={magneticRef}
+        ref={cardRef}
         className="card-roman magnetic-card project-card"
-        style={{
-          '--mouse-x': `${mousePos.x}px`,
-          '--mouse-y': `${mousePos.y}px`,
-        }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
@@ -107,14 +105,15 @@ function ProjectCard({ project, index }) {
 export default function Home() {
   const { t } = useI18n();
   const sectionIds = ['about', 'focus', 'goals', 'tech', 'projects', 'contact'];
-  const [heroMousePos, setHeroMousePos] = useState({ x: 50, y: 50 });
+  const heroRef = useRef(null);
 
-  // Track mouse position for spotlight effect
+  // Track mouse position for spotlight effect — use ref to avoid re-renders
   const handleHeroMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
-    setHeroMousePos({ x, y });
+    e.currentTarget.style.setProperty('--mouse-x', `${x}%`);
+    e.currentTarget.style.setProperty('--mouse-y', `${y}%`);
   };
 
   const allProjects = useMemo(
@@ -163,7 +162,6 @@ export default function Home() {
           className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden spotlight"
           id="main-content"
           data-animate
-          style={{ '--mouse-x': `${heroMousePos.x}%`, '--mouse-y': `${heroMousePos.y}%` }}
           onMouseMove={handleHeroMouseMove}
         >
           {/* Floating Ambient Orbs */}
@@ -178,13 +176,13 @@ export default function Home() {
           <div className="row align-items-center g-4 g-md-5 position-relative z-1">
                       <div className="col-12 col-md-7">
                         {/* English Greeting */}
-                        <span className="roman-eyebrow d-block mb-3 reveal">Hello, Visitor</span>
+                        <span className="roman-eyebrow d-block mb-3">Hello, Visitor</span>
               
               {/* Main Headline */}
               <AnimatedHeadline
                 text="Hi, I am Trí."
                 tag="h1"
-                className="font-display fw-bold mb-3 text-gradient-animate reveal"
+                className="font-display fw-bold mb-3 text-gradient-animate"
                 style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', lineHeight: 1.15 }}
                 splitType="words, chars"
                 delay={50}
@@ -196,26 +194,26 @@ export default function Home() {
               />
               
               {/* Sub-headline */}
-              <p className="text-secondary mb-2 fw-medium reveal" style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}>
+              <p className="text-secondary mb-2 fw-medium" style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}>
                 <strong>Undergraduate Research Assistant</strong>
                 <br />
                 AiTA Lab, FPT University
               </p>
               
               {/* Typewriter */}
-              <p className="text-secondary mb-4 reveal" style={{ fontSize: 'clamp(0.9375rem, 1.5vw, 1.125rem)' }}>
+              <p className="text-secondary mb-4" style={{ fontSize: 'clamp(0.9375rem, 1.5vw, 1.125rem)' }}>
                 <Typewriter words={['Computer Vision', 'Vision‑Language Models', 'Quantum ML']} />
               </p>
               
               {/* Badges */}
-              <div className="roman-metrics mb-4 reveal" role="list">
+              <div className="roman-metrics mb-4" role="list">
                 <span className="roman-metric-pill" role="listitem"><i className="bi bi-eye me-1"></i><span className="roman-metric-label">Vision</span><span className="roman-metric-value">Computer Vision</span></span>
                 <span className="roman-metric-pill" role="listitem"><i className="bi bi-cpu me-1"></i><span className="roman-metric-label">VLM</span><span className="roman-metric-value">Vision‑Language</span></span>
                 <span className="roman-metric-pill" role="listitem"><i className="bi bi-lightning me-1"></i><span className="roman-metric-label">QML</span><span className="roman-metric-value">Quantum ML</span></span>
               </div>
               
               {/* CTA Buttons */}
-              <div className="d-flex flex-wrap gap-2 hero-cta reveal">
+              <div className="d-flex flex-wrap gap-2 hero-cta">
                 <Link to="/cv" className="btn-roman btn-roman-primary btn-sm px-4 py-2">
                   <i className="bi bi-file-earmark-text me-1"></i> View CV
                 </Link>
@@ -232,7 +230,7 @@ export default function Home() {
                 </a>
               </div>
             </div>
-            <div className="col-12 col-md-5 text-center reveal-right">
+            <div className="col-12 col-md-5 text-center">
               <Tilt className="d-inline-block avatar-frame">
                 <BlurImage
                   className="portrait rounded-circle shadow-none border border-zinc"
@@ -252,8 +250,8 @@ export default function Home() {
         </section>
 
         <Section id="about" title={SECTIONS.about}>
-          <div className="roman-card beam-border" data-animate>
-            <div className="roman-card-inner reveal-stagger">
+          <div className="roman-card beam-border">
+            <div className="roman-card-inner">
               <p className="lead mb-4">
                 I'm an <strong>Undergraduate Research Assistant at AiTA Lab, FPT University</strong>,
                 where I work on Computer Vision and Quantum Machine Learning research. I learn by
@@ -268,7 +266,7 @@ export default function Home() {
                 experiments, and writing. I'm open to collaborations that are lightweight, focused, and
                 shipping‑oriented.
               </p>
-              <div className="icon-row mt-2" data-animate>
+              <div className="icon-row mt-2">
                 <a
                   className="icon-btn"
                   href={social.kaggle}
@@ -325,8 +323,8 @@ export default function Home() {
         </Section>
 
         <Section id="focus" title={SECTIONS.focus}>
-          <div className="roman-card beam-border" data-animate>
-            <div className="roman-card-inner reveal-stagger">
+          <div className="roman-card beam-border">
+            <div className="roman-card-inner">
               <ul className="mb-0">
                 <li className="mb-3">
                   <strong className="text-gold">Vision‑Language:</strong> multimodal retrieval, visual grounding, instruction
@@ -346,8 +344,8 @@ export default function Home() {
         </Section>
 
         <Section id="goals" title={SECTIONS.goals}>
-          <div className="roman-card beam-border" data-animate>
-            <div className="roman-card-inner reveal-stagger">
+          <div className="roman-card beam-border">
+            <div className="roman-card-inner">
               <ul className="mb-0">
                 <li className="mb-3">
                   <strong className="text-gold">2025:</strong> Complete foundational QML course, implement basic QML circuits for vision tasks.
@@ -365,8 +363,8 @@ export default function Home() {
           <div className="row g-3 row-cols-1 row-cols-md-3">
             <div className="col">
               <Tilt className="h-100">
-                <div className="roman-card beam-border h-100 card-animate">
-                  <div className="roman-card-inner reveal-stagger">
+                <div className="roman-card beam-border h-100">
+                  <div className="roman-card-inner">
                     <h3 className="h6 mb-3 text-gold font-display">Core</h3>
                     <div className="d-flex flex-wrap gap-2">
                       <span className="roman-badge-gold badge-pulse">Python</span>
@@ -378,8 +376,8 @@ export default function Home() {
             </div>
             <div className="col">
               <Tilt className="h-100">
-                <div className="roman-card beam-border h-100 card-animate">
-                  <div className="roman-card-inner reveal-stagger">
+                <div className="roman-card beam-border h-100">
+                  <div className="roman-card-inner">
                     <h3 className="h6 mb-3 text-gold font-display">ML/CV</h3>
                     <div className="d-flex flex-wrap gap-2">
                       <span className="roman-badge-gold badge-pulse">PyTorch</span>
@@ -393,8 +391,8 @@ export default function Home() {
             </div>
             <div className="col">
               <Tilt className="h-100">
-                <div className="roman-card beam-border h-100 card-animate">
-                  <div className="roman-card-inner reveal-stagger">
+                <div className="roman-card beam-border h-100">
+                  <div className="roman-card-inner">
                     <h3 className="h6 mb-3 text-gold font-display">Tooling</h3>
                     <div className="d-flex flex-wrap gap-2">
                       <span className="roman-badge-gold badge-pulse">Git/GitHub</span>
@@ -451,7 +449,7 @@ export default function Home() {
         </Section>
 
         <Section id="contact" title={SECTIONS.contact}>
-          <div className="d-flex flex-column gap-3 reveal-stagger">
+          <div className="d-flex flex-column gap-3">
             <div className="contact-row beam-border">
               <i className="contact-icon bi bi-envelope"></i>
               <a href={social.email} className="contact-link">

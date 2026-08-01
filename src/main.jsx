@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
@@ -7,9 +7,9 @@ import ScrollProgress from './components/ScrollProgress.jsx';
 import ToastContainer from './components/Toast.jsx';
 import BackToTop from './components/BackToTop.jsx';
 import RippleProvider from './components/RippleProvider.jsx';
-import MobileTabBar from './components/MobileTabBar.jsx';
-import ThemeCustomizer from './components/ThemeCustomizer.jsx';
-import PWAInstallPrompt from './components/PWAInstallPrompt.jsx';
+const MobileTabBar = lazy(() => import('./components/MobileTabBar.jsx'));
+const ThemeCustomizer = lazy(() => import('./components/ThemeCustomizer.jsx'));
+const PWAInstallPrompt = lazy(() => import('./components/PWAInstallPrompt.jsx'));
 import { I18nProvider } from './i18n/index.jsx';
 import { ThemeProvider } from './contexts/ThemeContext.jsx';
 import { AnimationProvider } from './components/ThemeToggle.jsx';
@@ -58,9 +58,11 @@ function Root() {
               <ToastContainer />
               <BackToTop />
               <RippleProvider />
-              <ThemeCustomizer />
-              <PWAInstallPrompt />
-              {isMobile && <MobileTabBar />}
+              <Suspense fallback={null}>
+                <ThemeCustomizer />
+                <PWAInstallPrompt />
+                {isMobile && <MobileTabBar />}
+              </Suspense>
               <App />
             </BrowserRouter>
           </I18nProvider>

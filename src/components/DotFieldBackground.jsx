@@ -34,8 +34,12 @@ export default function DotFieldBackground({
     () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
     []
   );
+  const isMobile = useMemo(
+    () => window.matchMedia('(max-width: 767.98px)').matches,
+    []
+  );
 
-  const isDisabled = disabled || prefersReducedMotion || reducedMotion;
+  const isDisabled = disabled || prefersReducedMotion || reducedMotion || isMobile;
 
   // Generate initial dot grid
   const generateDots = (width, height) => {

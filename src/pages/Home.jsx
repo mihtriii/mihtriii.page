@@ -1,6 +1,6 @@
-import React, { useMemo, useState, useRef } from 'react';
+import React, { Suspense, useMemo, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import AnimatedHeadline from '../components/AnimatedHeadline.jsx';
+const AnimatedHeadline = React.lazy(() => import('../components/AnimatedHeadline.jsx'));
 import Typewriter from '../components/Typewriter.jsx';
 import Tilt from '../components/Tilt.jsx';
 import { Link } from 'react-router-dom';
@@ -179,19 +179,21 @@ export default function Home() {
                         <span className="roman-eyebrow d-block mb-3">Hello, Visitor</span>
               
               {/* Main Headline */}
-              <AnimatedHeadline
-                text="Hi, I am Trí."
-                tag="h1"
-                className="font-display fw-bold mb-3 text-gradient-animate"
-                style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', lineHeight: 1.15 }}
-                splitType="words, chars"
-                delay={50}
-                duration={0.65}
-                ease="power3.out"
-                from={{ opacity: 0, y: 40 }}
-                to={{ opacity: 1, y: 0 }}
-                scrollTrigger={false}
-              />
+              <Suspense fallback={<h1 className="font-display fw-bold mb-3 text-gradient-animate" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', lineHeight: 1.15 }}>Hi, I am Trí.</h1>}>
+                <AnimatedHeadline
+                  text="Hi, I am Trí."
+                  tag="h1"
+                  className="font-display fw-bold mb-3 text-gradient-animate"
+                  style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', lineHeight: 1.15 }}
+                  splitType="words, chars"
+                  delay={50}
+                  duration={0.65}
+                  ease="power3.out"
+                  from={{ opacity: 0, y: 40 }}
+                  to={{ opacity: 1, y: 0 }}
+                  scrollTrigger={false}
+                />
+              </Suspense>
               
               {/* Sub-headline */}
               <p className="text-secondary mb-2 fw-medium" style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}>

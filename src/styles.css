@@ -1034,6 +1034,34 @@ p, li, span, div, a, button, input, textarea, label { font-family: var(--font-bo
   @keyframes gradientShift { 0%, 100% { transform: translate(0, 0) scale(1); } }
 }
 
+/* Disable decorative animations on mobile for performance */
+@media (max-width: 767.98px) {
+  /* Disable CSS-only decorative animations */
+  .floating-orbs,
+  .glitter-layer,
+  .hero-ambient,
+  .avatar-frame,
+  .hero-section::before {
+    animation: none !important;
+  }
+  .badge-pulse {
+    animation: none !important;
+  }
+  /* Disable body noise animation */
+  body::before {
+    animation: none !important;
+  }
+  /* Disable text gradient animation if exists */
+  .text-gradient-animate {
+    background-size: 200% 200%;
+    animation: none !important;
+  }
+  /* Disable magnetic card beam animation */
+  .magnetic-card:hover::before {
+    animation: none !important;
+  }
+}
+
 /* ---- 11. Print Styles ---- */
 @media print {
   body::before, body::after { display: none; }

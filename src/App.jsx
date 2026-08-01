@@ -3,6 +3,7 @@ import { AnimationProvider } from './components/ThemeToggle.jsx';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
+import CriticalImagePreload from './components/CriticalImagePreload.jsx';
 import Home from './pages/Home.jsx';
 const CV = React.lazy(() => import('./pages/CV.jsx'));
 const Blog = React.lazy(() => import('./pages/Blog.jsx'));
@@ -57,6 +58,7 @@ export default function App() {
   return (
     <AnimationProvider>
       <div className="app">
+        <CriticalImagePreload />
         {location.pathname !== '/admin' && <Header />}
         <main className={location.pathname === '/admin' ? '' : 'container py-4'}>
           <WithPresence location={location}>

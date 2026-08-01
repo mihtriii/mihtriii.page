@@ -236,7 +236,7 @@ export default function Home() {
                   className="portrait rounded-circle shadow-none border border-zinc"
                   src={`${import.meta.env.BASE_URL}assets/avatar.JPG`}
                   alt="Portrait"
-                  imgProps={{ loading: 'eager', decoding: 'async', fetchpriority: 'high' }}
+                  imgProps={{ loading: 'eager', decoding: 'async', fetchPriority: 'high' }}
                   style={{ width: '100%', maxWidth: '320px', aspectRatio: '1/1', objectFit: 'cover' }}
                 />
               </Tilt>

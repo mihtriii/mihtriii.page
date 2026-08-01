@@ -13,6 +13,30 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
   const [isSmall, setIsSmall] = useState(false);
   const [sectionsOpen, setSectionsOpen] = useState(true);
 
+  // Shared labels for section chips (mobile) and LineSidebarNav
+  const NAV_LABELS = {
+    about: 'About',
+    blog: 'Blog',
+    cv: 'CV',
+    repos: 'Repos',
+    moments: 'Moments',
+    news: 'News',
+    publications: 'Publications',
+    summary: 'Summary',
+    'career-objectives': 'Career Objectives',
+    education: 'Education',
+    experience: 'Experience',
+    'research-interests': 'Research Interests',
+    'competitions-activities': 'Honors & Awards',
+    skills: 'Skills',
+    languages: 'Languages',
+    focus: 'Research Focus',
+    goals: 'Goals',
+    tech: 'Technologies',
+    projects: 'Projects',
+    contact: 'Contact',
+  };
+
   function AnimatedNumber({ value = 0, duration = 500 }) {
     const [display, setDisplay] = useState(0);
     useEffect(() => {

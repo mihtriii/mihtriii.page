@@ -23,6 +23,10 @@ const NAV_LABELS = {
   tech: 'Technologies',
   projects: 'Projects',
   contact: 'Contact',
+  // Moments section keys
+  competitions: 'Competitions',
+  hackathons: 'Hackathons',
+  activities: 'Leadership & Community',
 };
 
 export default function LineSidebarNav({ sectionIds, activeId, isSmall, sectionsOpen, setSectionsOpen }) {

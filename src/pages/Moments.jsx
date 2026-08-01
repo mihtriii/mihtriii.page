@@ -714,6 +714,36 @@ export default function Moments() {
         ],
         images: [],
       },
+      {
+        id: 'ieee-icce-2026',
+        title: t('moments.ieeeIcce2026.title'),
+        year: '2026',
+        date: t('moments.ieeeIcce2026.date'),
+        location: t('moments.ieeeIcce2026.location'),
+        category: t('moments.category.research'),
+        categoryKey: 'research',
+        categoryIcon: 'bi-cpu',
+        description: t('moments.ieeeIcce2026.description'),
+        achievements: [
+          'Accepted paper at IEEE ICCE 2026',
+          'Research milestone for AiTA Lab in quantum machine learning and medical imaging',
+          'Conference visual documentation from IEEE ICCE 2026',
+        ],
+        technologies: ['Quantum ML', 'Federated Learning', 'Computer Vision', 'Medical Imaging', 'PyTorch'],
+        details: 'This image documents the IEEE ICCE 2026 conference associated with the accepted paper "Hybrid Quantum Federated Learning for Brain Tumor Magnetic Resonance Imaging Analysis", co-authored through AiTA Lab.',
+        learnings: [
+          'Research milestones need clear links between authorship, venue, and evidence.',
+          'Conference documentation preserves context around published research work.',
+        ],
+        links: [
+          {
+            label: 'FPT University News',
+            url: 'https://daihoc.fpt.edu.vn/hcm/aita-lab-tiep-tuc-ghi-dau-an-quoc-te-voi-02-bai-bao-tai-ieee-icce-2026/',
+            icon: 'bi-newspaper',
+          },
+        ],
+        images: [`${import.meta.env.BASE_URL}assets/moments/ieee-icce-2026.jpg`],
+      }
     ],
     [t],
   );
@@ -979,7 +1009,7 @@ export default function Moments() {
                     {yearMoments.length}{' '}
                     {yearMoments.length === 1
                       ? t('moments.statsMoments').toLowerCase()
-                      : t('moments.statsMoments').toLowerCase() + 's'}
+                      : t('moments.statsMoments')}
                   </span>
                 </div>
 

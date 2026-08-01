@@ -263,6 +263,38 @@ export default {
       achievement2: 'Led community outreach program impacting 300 students',
       details: 'Organized workshops and mentored junior students, fostering a collaborative learning environment.',
       linkLabel: ''
+    },
+    ieeeIcce2026: {
+      title: 'IEEE ICCE 2026 Conference',
+      date: 'Jun 29 – Jul 1, 2026',
+      location: 'Nha Trang, Vietnam',
+      description: 'Attended the 11th IEEE International Conference on Communications and Electronics (ICCE 2026) as a co-author of the accepted paper "Hybrid Quantum Federated Learning for Brain Tumor Magnetic Resonance Imaging Analysis". The conference was hosted at VNU-HUST with IEEE Photonics Society and IEEE Signal Processing Society as technical sponsors.',
+      achievements: [
+        'Paper accepted at IEEE ICCE 2026 (A* ranked conference)',
+        'Presented research on Quantum Federated Learning for medical imaging',
+        'Networked with researchers from IEEE Vietnam Section, HUST, and international labs'
+      ],
+      technologies: ['Quantum ML', 'Federated Learning', 'Computer Vision', 'Medical Imaging', 'PyTorch'],
+      details: 'The conference took place in Nha Trang with 29–31 June 2026 dates. The paper was a collaboration with AiTA Lab colleagues. This was my first A* conference attendance and paper presentation, marking a significant milestone in my research journey.',
+      learnings: [
+        'Conference networking is as valuable as the technical sessions — conversations over coffee lead to collaborations.',
+        'Presenting quantum-classical hybrid work to a diverse audience sharpens your ability to explain complex ideas simply.',
+        'Seeing the breadth of IEEE Photonics and Signal Processing research puts your niche work in perspective.'
+      ],
+      links: [
+        {
+          label: 'Conference Website',
+          url: 'https://icce2026.org/',
+          icon: 'bi-box-arrow-up-right'
+        },
+        {
+          label: 'FPT University News',
+          url: 'https://daihoc.fpt.edu.vn/hcm/aita-lab-tiep-tuc-ghi-dau-an-quoc-te-voi-02-bai-bao-tai-ieee-icce-2026/',
+          icon: 'bi-newspaper'
+        }
+      ],
+      images: ['/assets/moments/ieee-icce-2026.jpg'],
+      featured: true,
     }
   },
   blog: {

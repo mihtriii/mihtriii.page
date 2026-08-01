@@ -37,16 +37,16 @@ export default function App() {
           }
         });
       },
-      { rootMargin: '0px 0px -10% 0px', threshold: 0.1 }
+      { rootMargin: '0px 0px -5% 0px', threshold: 0.05 }
     );
     els.forEach((el) => io.observe(el));
 
-    // Safety: force visible after 2s
+    // Safety: force visible after 800ms (reduced from 2s)
     const safety = setTimeout(() => {
       document.querySelectorAll('[data-animate]:not(.is-visible)').forEach((el) => {
         el.classList.add('is-visible', 'visible');
       });
-    }, 2000);
+    }, 800);
 
     return () => {
       io.disconnect();

@@ -7,6 +7,9 @@ export default function PWAInstallPrompt() {
   const [isInstalled, setIsInstalled] = useState(false);
   const [isSupported, setIsSupported] = useState(false);
 
+  // Detect mobile viewport
+  const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 767.98px)').matches;
+
   useEffect(() => {
     // Check if PWA is supported
     setIsSupported('serviceWorker' in navigator && 'BeforeInstallPromptEvent' in window);
@@ -27,12 +30,15 @@ export default function PWAInstallPrompt() {
       e.preventDefault();
       setDeferredPrompt(e);
 
-      // Show install prompt after a delay (to not be too aggressive)
+      // Show install prompt after a delay
+      // On mobile: delay much longer (30s) and only if user hasn't dismissed
+      // On desktop: 15s
+      const delay = isMobile ? 30000 : 15000;
       setTimeout(() => {
         if (!isInstalled && !localStorage.getItem('pwa-install-dismissed')) {
           setShowInstallPrompt(true);
         }
-      }, 15000); // Increased from 3000 to 15000ms (15 seconds)
+      }, delay);
     };
 
     // Listen for app installed event

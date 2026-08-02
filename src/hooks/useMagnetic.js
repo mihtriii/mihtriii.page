@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 /**
  * Adds subtle magnetic effect to elements on hover
  * Elements move slightly toward cursor position
+ * Disabled on touch/mobile — no hover interaction
  */
 export function useMagnetic(strength = 0.15) {
   const ref = useRef(null);
@@ -10,6 +11,9 @@ export function useMagnetic(strength = 0.15) {
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
+
+    // Skip on touch/mobile devices
+    if (window.matchMedia('(pointer: coarse)').matches) return;
 
     const handleMouseMove = (e) => {
       const rect = element.getBoundingClientRect();

@@ -34,9 +34,15 @@ export default function AnimatedHeadline({
     () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
     []
   );
+  // Disable animation on mobile/touch — render static text for perf
+  const isMobile = useMemo(
+    () => window.matchMedia('(max-width: 767.98px)').matches,
+    []
+  );
 
-  // Initialize SplitText
+  // Initialize SplitText (skip on mobile)
   useEffect(() => {
+    if (isMobile) return;
     if (elementRef.current && !splitRef.current) {
       splitRef.current = new SplitText(elementRef.current, {
         type: splitType,
@@ -51,10 +57,14 @@ export default function AnimatedHeadline({
         splitRef.current = null;
       }
     };
-  }, [splitType, text]);
+  }, [splitType, text, isMobile]);
 
-  // Run animation
+  // Run animation (skip on mobile)
   useEffect(() => {
+    if (isMobile) {
+      onComplete?.();
+      return;
+    }
     const chars = splitRef.current?.chars;
     if (!chars || !chars.length) return;
 

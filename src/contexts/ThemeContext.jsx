@@ -100,7 +100,8 @@ export function ThemeProvider({ children }) {
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('theme');
     if (saved && saved !== 'auto') return saved === 'dark';
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // Default to dark mode (academic aesthetic)
+    return true;
   });
 
   const [themeMode, setThemeMode] = useState(() => {

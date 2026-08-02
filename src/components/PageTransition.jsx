@@ -1,6 +1,11 @@
 import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
+// Disable page transitions on mobile
+function isMobile() {
+  return typeof window !== 'undefined' && window.matchMedia('(max-width: 767.98px)').matches;
+}
+
 // Enhanced page transition variants
 const pageVariants = {
   initial: {
@@ -46,6 +51,9 @@ const childVariants = {
 };
 
 export function PageWrapper({ children }) {
+  // On mobile: render without animation
+  if (isMobile) return <>{children}</>;
+
   return (
     <motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit">
       {children}
@@ -54,6 +62,8 @@ export function PageWrapper({ children }) {
 }
 
 export function WithPresence({ location, children }) {
+  if (isMobile) return <>{children}</>;
+
   return (
     <AnimatePresence mode="wait" initial={false}>
       <motion.div key={location.pathname}>{children}</motion.div>

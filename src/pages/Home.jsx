@@ -50,7 +50,10 @@ function ProjectCard({ project, index }) {
   const { t } = useI18n();
   const cardRef = useRef(null);
 
+  const isTouch = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches;
+
   const handleMouseMove = (e) => {
+    if (isTouch) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width - 0.5) * 20;
     const y = ((e.clientY - rect.top) / rect.height - 0.5) * 20;
@@ -59,6 +62,7 @@ function ProjectCard({ project, index }) {
   };
 
   const handleMouseLeave = (e) => {
+    if (isTouch) return;
     e.currentTarget.style.setProperty('--mouse-x', '0px');
     e.currentTarget.style.setProperty('--mouse-y', '0px');
   };

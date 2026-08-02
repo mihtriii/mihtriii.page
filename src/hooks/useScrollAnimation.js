@@ -1,11 +1,19 @@
 import { useEffect, useRef } from 'react';
 import { useInView, useAnimation } from 'framer-motion';
 
+// Disable scroll animations on mobile for performance
+const isMobile = () =>
+  typeof window !== 'undefined' &&
+  (window.matchMedia('(max-width: 767.98px)').matches ||
+    window.matchMedia('(pointer: coarse)').matches);
+
 // Hook for scroll-triggered animations
 export function useScrollAnimation(threshold = 0.1, triggerOnce = true) {
   const controls = useAnimation();
   const ref = useRef(null);
-  const inView = useInView(ref, { threshold, triggerOnce });
+
+  // On mobile: skip framer-motion, elements render visible by default
+  const inView = isMobile() ? true : useInView(ref, { threshold, triggerOnce });
 
   useEffect(() => {
     if (inView) {

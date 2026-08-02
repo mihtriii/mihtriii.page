@@ -1,14 +1,21 @@
-import React, { useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { useAnimation } from './ThemeToggle.jsx';
 
 export default function Tilt({ children, max = 8, glare = false, className = '' }) {
   const ref = useRef(null);
   const { enabled: animationEnabled } = useAnimation ? useAnimation() : { enabled: true };
+  
+  // Disable on mobile/touch — no hover interaction
+  const isMobile = useMemo(
+    () => window.matchMedia('(max-width: 767.98px)').matches || 
+          window.matchMedia('(pointer: coarse)').matches,
+    []
+  );
 
   let ticking = false;
 
   const onMove = (e) => {
-    if (!animationEnabled) return;
+    if (!animationEnabled || isMobile) return;
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
@@ -40,8 +47,8 @@ export default function Tilt({ children, max = 8, glare = false, className = '' 
     <div
       ref={ref}
       className={`tilt ${className}`}
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
+      onMouseMove={isMobile ? undefined : onMove}
+      onMouseLeave={isMobile ? undefined : onLeave}
       role="presentation"
     >
       {children}

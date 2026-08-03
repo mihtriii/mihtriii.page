@@ -31,9 +31,9 @@ export default function PWAInstallPrompt() {
       setDeferredPrompt(e);
 
       // Show install prompt after a delay
-      // On mobile: delay much longer (30s) and only if user hasn't dismissed
-      // On desktop: 15s
-      const delay = isMobile ? 30000 : 15000;
+      // On mobile: delay much longer (60s) and only if user hasn't dismissed
+      // On desktop: 30s
+      const delay = isMobile ? 60000 : 30000;
       setTimeout(() => {
         if (!isInstalled && !localStorage.getItem('pwa-install-dismissed')) {
           setShowInstallPrompt(true);

@@ -21,8 +21,8 @@
 
   /* Text */
   --text-primary:   #F0E6C8;  /* Cream */
-  --text-secondary: #A89C7C;  /* Cream-dim */
-  --text-muted:     #5A5A48;  /* Muted */
+  --text-secondary: #D4C4A0;  /* Cream-dim - raised for readability */
+  --text-muted:     #8A8A7C;  /* Muted - raised for readability */
   --text-inverse:   #0B0B09;  /* On gold */
 
   /* Accents */
@@ -73,8 +73,8 @@
 
   /* Text */
   --text-primary:   #1A1A16;  /* Obsidian */
-  --text-secondary: #4A4A40;  /* Muted */
-  --text-muted:     #8A8A7C;  /* Dim */
+  --text-secondary: #5A5A4E;  /* Muted - raised for readability */
+  --text-muted:     #7A7A6E;  /* Dim - raised for readability */
   --text-inverse:   #FFFFFF;  /* On gold */
 
   /* Accents - same gold */
@@ -147,8 +147,8 @@ html {
 body {
   margin: 0;
   font-family: var(--font-body);
-  font-size: 0.9375rem;
-  line-height: 1.65;
+  font-size: 1rem;
+  line-height: 1.7;
   color: var(--text-primary);
   background: var(--bg-primary);
   min-height: 100vh;
@@ -2210,4 +2210,12 @@ header.sticky-top.header-hidden {
 @keyframes arrowBounce {
   0%, 100% { transform: rotate(45deg) translateY(0); opacity: 0.5; }
   50% { transform: rotate(45deg) translateY(8px); opacity: 1; }
+}
+
+/* Publication Image - constrained height, lazy loaded */
+.publication-image {
+  max-height: 300px;
+  object-fit: contain;
+  background: var(--bg-surface);
+  content-visibility: auto;
 }

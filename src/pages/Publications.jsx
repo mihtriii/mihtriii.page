@@ -61,7 +61,9 @@ function PublicationCard({ publication, t }) {
               <img
                 src={publication.image}
                 alt={t('publications.previewAlt')}
-                className="img-fluid rounded-4 border"
+                className="img-fluid rounded-4 border publication-image"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           )}

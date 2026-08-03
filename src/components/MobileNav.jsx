@@ -1,17 +1,16 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useI18n } from '../i18n/index.jsx';
 import { NavLink } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useTheme } from '../contexts/ThemeContext.jsx';
 
-export default function MobileNav({ open, onClose, tone, onToggleTone, palette, onTogglePalette, autoHide, onToggleAutoHide }) {
+export default function MobileNav({ open, onClose }) {
   const { t } = useI18n();
+  const { themeMode, toggleTheme } = useTheme();
   const firstLinkRef = useRef(null);
   const drawerRef = useRef(null);
   const lastActive = useRef(null);
-  const startX = useRef(0);
-  const startY = useRef(0);
-  const swiping = useRef(false);
 
   useEffect(() => {
     if (open) {
@@ -74,26 +73,13 @@ export default function MobileNav({ open, onClose, tone, onToggleTone, palette, 
     }
   }, [open, onClose]);
 
-  const onPointerDown = useCallback((e) => {
-    startX.current = e.clientX ?? (e.touches?.[0]?.clientX || 0);
-    startY.current = e.clientY ?? (e.touches?.[0]?.clientY || 0);
-    swiping.current = true;
-  }, []);
-
-  const onPointerMove = useCallback((e) => {
-    if (!swiping.current) return;
-    const x = e.clientX ?? (e.touches?.[0]?.clientX || 0);
-    const y = e.clientY ?? (e.touches?.[0]?.clientY || 0);
-    const dx = x - startX.current;
-    const dy = Math.abs(y - startY.current);
-    // If user swipes right > 60px with low vertical movement, close
-    if (dx > 60 && dy < 40) {
-      swiping.current = false;
-      onClose();
+  const getThemeIcon = () => {
+    switch (themeMode) {
+      case 'light': return 'bi-sun';
+      case 'dark': return 'bi-moon-stars';
+      default: return 'bi-circle-half';
     }
-  }, [onClose]);
-
-  const onPointerUp = useCallback(() => { swiping.current = false; }, []);
+  };
 
   const content = (
     <AnimatePresence>
@@ -121,12 +107,6 @@ export default function MobileNav({ open, onClose, tone, onToggleTone, palette, 
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'tween', duration: 0.2, ease: 'easeOut' }}
-            onPointerDown={onPointerDown}
-            onPointerMove={onPointerMove}
-            onPointerUp={onPointerUp}
-            onTouchStart={onPointerDown}
-            onTouchMove={onPointerMove}
-            onTouchEnd={onPointerUp}
           >
             <div className="mobile-drawer-header">
               <span id="mobileMenuTitle" className="fw-semibold">{t('common.menu')}</span>
@@ -141,32 +121,32 @@ export default function MobileNav({ open, onClose, tone, onToggleTone, palette, 
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/blog" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} onMouseEnter={() => import('../pages/Blog.jsx')} onTouchStart={() => import('../pages/Blog.jsx')} aria-label={t('nav.blog')}>
+                <NavLink to="/blog" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} aria-label={t('nav.blog')}>
                   <i className="bi bi-journal-text"></i> {t('nav.blog')}
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/cv" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} onMouseEnter={() => import('../pages/CV.jsx')} onTouchStart={() => import('../pages/CV.jsx')} aria-label={t('nav.cv')}>
+                <NavLink to="/cv" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} aria-label={t('nav.cv')}>
                   <i className="bi bi-badge-ad"></i> {t('nav.cv')}
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/repos" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} onMouseEnter={() => import('../pages/Repos.jsx')} onTouchStart={() => import('../pages/Repos.jsx')} aria-label={t('nav.repos')}>
+                <NavLink to="/repos" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} aria-label={t('nav.repos')}>
                   <i className="bi bi-git"></i> {t('nav.repos')}
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/moments" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} onMouseEnter={() => import('../pages/Moments.jsx')} onTouchStart={() => import('../pages/Moments.jsx')} aria-label={t('nav.moments')}>
+                <NavLink to="/moments" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} aria-label={t('nav.moments')}>
                   <i className="bi bi-camera-reels"></i> {t('nav.moments')}
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/news" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} onMouseEnter={() => import('../pages/News.jsx')} onTouchStart={() => import('../pages/News.jsx')} aria-label={t('nav.news')}>
+                <NavLink to="/news" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} aria-label={t('nav.news')}>
                   <i className="bi bi-newspaper"></i> {t('nav.news')}
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/publications" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} onMouseEnter={() => import('../pages/Publications.jsx')} onTouchStart={() => import('../pages/Publications.jsx')} aria-label={t('nav.publications')}>
+                <NavLink to="/publications" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} aria-label={t('nav.publications')}>
                   <i className="bi bi-journal-richtext"></i> {t('nav.publications')}
                 </NavLink>
               </li>
@@ -177,34 +157,15 @@ export default function MobileNav({ open, onClose, tone, onToggleTone, palette, 
               </li>
             </ul>
 
-            {/* Settings section - theme controls moved from header */}
-            <div className="mobile-drawer-settings">
-              <div className="fw-semibold text-uppercase small letter mb-2 text-secondary">
-                <i className="bi bi-gear me-1"></i> Settings
-              </div>
-              <div className="d-flex flex-column gap-2">
-                {onToggleTone && (
-                  <button className="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2 text-start" onClick={onToggleTone}>
-                    <i className="bi bi-palette2"></i>
-                    <span className="flex-grow-1">Tone</span>
-                    <span className="badge bg-body-secondary text-body-secondary">{tone}</span>
-                  </button>
-                )}
-                {onTogglePalette && (
-                  <button className="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2 text-start" onClick={onTogglePalette}>
-                    <i className="bi bi-layers"></i>
-                    <span className="flex-grow-1">Palette</span>
-                    <span className="badge bg-body-secondary text-body-secondary">{palette}</span>
-                  </button>
-                )}
-                {onToggleAutoHide && (
-                  <button className="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2 text-start" onClick={onToggleAutoHide}>
-                    <i className="bi bi-chevron-bar-up"></i>
-                    <span className="flex-grow-1">Auto-hide header</span>
-                    <span className="badge bg-body-secondary text-body-secondary">{autoHide ? 'on' : 'off'}</span>
-                  </button>
-                )}
-              </div>
+            <div className="mobile-drawer-settings mt-4 pt-3 border-top border-zinc">
+              <button
+                onClick={toggleTheme}
+                className="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2"
+                type="button"
+              >
+                <i className={`bi ${getThemeIcon()}`}></i>
+                <span>Theme: {themeMode.charAt(0).toUpperCase() + themeMode.slice(1)}</span>
+              </button>
             </div>
           </motion.nav>
         </>
@@ -212,10 +173,5 @@ export default function MobileNav({ open, onClose, tone, onToggleTone, palette, 
     </AnimatePresence>
   );
 
-  // Render into a portal to avoid conflicts with header stacking/transform
-  if (typeof document !== 'undefined' && document.body) {
-    return createPortal(content, document.body);
-  }
-  return content;
+  return createPortal(content, document.body);
 }
-

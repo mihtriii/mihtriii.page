@@ -250,9 +250,7 @@ export default function Home() {
           </div>
 
           {/* Scroll Indicator */}
-          <div className="scroll-indicator" aria-hidden="true">
-            <span>Explore</span>
-          </div>
+          <div className="scroll-indicator" aria-hidden="true"></div>
         </section>
 
         <Section id="about" title={SECTIONS.about}>

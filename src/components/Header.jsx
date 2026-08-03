@@ -1,103 +1,36 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import PillNav from './PillNav.jsx';
 import MobileNav from './MobileNav.jsx';
 import { useI18n } from '../i18n/index.jsx';
 import { useTheme } from '../contexts/ThemeContext.jsx';
 
-function useLocalTime(tz = 'Asia/Ho_Chi_Minh') {
-  const [now, setNow] = useState(new Date());
-  useEffect(() => {
-    const id = setInterval(() => setNow(new Date()), 60_000);
-    return () => clearInterval(id);
-  }, []);
-  const fmt = new Intl.DateTimeFormat('en-US', {
-    timeZone: tz,
-    hour: '2-digit',
-    minute: '2-digit',
-  }).format(now);
-  return fmt;
-}
-
 export default function Header() {
   const { t } = useI18n();
   const { themeMode, toggleTheme } = useTheme();
   const location = useLocation();
-  const time = useLocalTime();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [tone, setTone] = useState(() => localStorage.getItem('tone') || 'warm');
-  const [palette, setPalette] = useState(() => localStorage.getItem('palette') || 'earth');
-  const [navHidden, setNavHidden] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const headerRef = useRef(null);
-  const [autoHide, setAutoHide] = useState(
-    () => (localStorage.getItem('ui:autoHideHeader') || 'false') === 'true'
-  );
 
-  useEffect(() => {
-    document.documentElement.setAttribute('data-tone', tone);
-    document.documentElement.setAttribute('data-palette', palette);
-    localStorage.setItem('tone', tone);
-    localStorage.setItem('palette', palette);
-  }, [tone, palette]);
-
-  // Scroll progress for scroll indicator bar
+  // Scroll progress bar
   useEffect(() => {
     const onScroll = () => {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      setScrollProgress(scrollTop / docHeight);
+      setScrollProgress(docHeight > 0 ? scrollTop / docHeight : 0);
     };
     window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Auto-hide header on mobile when scrolling down (opt-in)
-  useEffect(() => {
-    if (!autoHide) {
-      setNavHidden(false);
-      return;
-    }
-    const mq = window.matchMedia('(max-width: 767.98px)');
-    let lastY = window.scrollY;
-    let ticking = false;
-    const onScroll = () => {
-      if (!mq.matches) return setNavHidden(false);
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const y = window.scrollY;
-        const dy = y - lastY;
-        const down = dy > 6;
-        const up = dy < -6;
-        const nearTop = y < 40;
-        if (nearTop) setNavHidden(false);
-        else if (down) setNavHidden(true);
-        else if (up) setNavHidden(false);
-        lastY = y;
-        ticking = false;
-      });
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    const onChange = () => {
-      if (!mq.matches) setNavHidden(false);
-    };
-    mq.addEventListener?.('change', onChange);
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      mq.removeEventListener?.('change', onChange);
-    };
-  }, [autoHide]);
-
-  // Keep --header-offset synced with actual header height, and reduce when hidden on mobile
+  // Keep --header-offset synced with actual header height
   useEffect(() => {
     const root = document.documentElement;
-    const isMobile = () => window.matchMedia('(max-width: 767.98px)').matches;
     const compute = () => {
       const h = headerRef.current?.getBoundingClientRect().height || 72;
-      const value = navHidden && isMobile() ? '8px' : `${Math.round(h)}px`;
-      root.style.setProperty('--header-offset', value);
+      root.style.setProperty('--header-offset', `${Math.round(h)}px`);
     };
     compute();
     const onResize = () => compute();
@@ -110,32 +43,9 @@ export default function Header() {
       window.removeEventListener('resize', onResize);
       window.removeEventListener('orientationchange', onResize);
     };
-  }, [navHidden]);
+  }, []);
 
-  const toggleTone = () => setTone((t) => (t === 'warm' ? 'cool' : 'warm'));
-  const togglePalette = () => setPalette((p) => (p === 'earth' ? 'classic' : 'earth'));
-  const toggleAutoHide = () =>
-    setAutoHide((v) => {
-      const nv = !v;
-      localStorage.setItem('ui:autoHideHeader', String(nv));
-      return nv;
-    });
-
-  // Theme icon helper
-  const getThemeIcon = () => {
-    switch (themeMode) {
-      case 'light':
-        return 'bi-sun';
-      case 'dark':
-        return 'bi-moon-stars';
-      case 'auto':
-        return 'bi-circle-half';
-      default:
-        return 'bi-circle-half';
-    }
-  };
-
-  // Prefetch non-home routes to speed up navigation
+  // Prefetch non-home routes
   const prefetch = {
     blog: () => import('../pages/Blog.jsx'),
     cv: () => import('../pages/CV.jsx'),
@@ -150,119 +60,76 @@ export default function Header() {
     setMobileOpen(false);
   }, [location.pathname]);
 
-  // Detect mobile viewport
-  const isMobile = useMemo(
-    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 767.98px)').matches,
-    []
-  );
+  // Theme icon helper
+  const getThemeIcon = () => {
+    switch (themeMode) {
+      case 'light': return 'bi-sun';
+      case 'dark': return 'bi-moon-stars';
+      default: return 'bi-circle-half';
+    }
+  };
 
   return (
     <>
       <a href="#main-content" className="skip-link">
-        Skip to main content
+        {t('common.skipToContent')}
       </a>
-      
-      {/* Scroll Progress Bar */}
+
       <div className="scroll-progress" style={{ transform: `scaleX(${scrollProgress})` }} aria-hidden="true" />
-      
-      <header
-        ref={headerRef}
-        className={`sticky-top bg-body border-bottom header-auto ${navHidden ? 'header-hidden' : ''}`}
-      >
-        <nav className="navbar glass navbar-expand-lg py-2" aria-label="Primary">
+
+      <header ref={headerRef} className="sticky-top bg-body border-bottom header-auto">
+        <nav className="navbar glass py-2" aria-label="Primary">
           <div className="container d-flex align-items-center justify-content-between">
-            <Link
-              to="/"
-              className="navbar-brand fw-bold d-flex align-items-center text-decoration-none me-2"
-            >
+            <Link to="/" className="navbar-brand fw-bold d-flex align-items-center text-decoration-none me-2">
               <img
                 src={`${import.meta.env.BASE_URL}assets/logo.svg`}
                 alt="Logo"
                 width="28"
                 height="28"
                 className="me-2"
-              />{' '}
+              />
               <span className="font-display fw-bold" style={{ fontSize: '1.25rem' }}>NMTrí</span>
             </Link>
-            <div className="d-none d-md-flex align-items-center ms-auto">
-            <PillNav t={t} prefetchData={prefetch} />
-            <div className="d-flex ms-2 gap-2 align-items-center">
-              <span className="text-secondary small d-none d-md-inline">
-                <i className="bi bi-clock"></i> {time}
-              </span>
+
+            {/* Desktop nav */}
+            <div className="d-none d-xl-flex align-items-center ms-auto">
+              <PillNav t={t} prefetchData={prefetch} />
               <button
                 onClick={toggleTheme}
-                className="btn btn-outline-secondary btn-sm"
+                className="btn btn-outline-secondary btn-sm ms-2"
                 type="button"
                 aria-label={`Theme: ${themeMode}`}
                 title={`Theme: ${themeMode}`}
               >
                 <i className={`bi ${getThemeIcon()}`}></i>
               </button>
+            </div>
+
+            {/* Mobile controls: theme + menu only */}
+            <div className="d-flex d-xl-none align-items-center ms-auto">
               <button
-                onClick={toggleTone}
-                className="btn btn-outline-secondary btn-sm"
+                onClick={toggleTheme}
+                className="btn btn-outline-secondary btn-sm me-1"
                 type="button"
-                aria-label={`Tone: ${tone}`}
-                title={`Tone: ${tone}`}
+                aria-label={`Theme: ${themeMode}`}
               >
-                <i className="bi bi-palette2"></i>
+                <i className={`bi ${getThemeIcon()}`}></i>
               </button>
               <button
-                onClick={togglePalette}
-                className="btn btn-outline-secondary btn-sm"
+                className="btn btn-roman-primary btn-sm"
                 type="button"
-                aria-label={`Palette: ${palette}`}
-                title={`Palette: ${palette}`}
+                aria-label={t('common.openMenu')}
+                aria-expanded={mobileOpen}
+                onClick={() => setMobileOpen(true)}
               >
-                <i className="bi bi-layers"></i>
-              </button>
-              <button
-                onClick={toggleAutoHide}
-                className="btn btn-outline-secondary btn-sm"
-                type="button"
-                aria-label={`Auto hide header: ${autoHide}`}
-                title={`Auto hide header: ${autoHide ? 'on' : 'off'}`}
-              >
-                <i className="bi bi-chevron-bar-up"></i>
+                <i className="bi bi-list"></i>
               </button>
             </div>
           </div>
+        </nav>
+      </header>
 
-          <div className="d-flex align-items-center d-md-none ms-auto">
-            <span className="text-secondary small me-2 d-none d-sm-inline">
-              <i className="bi bi-clock"></i> {time}
-            </span>
-            <button
-              onClick={toggleTheme}
-              className="btn btn-outline-secondary btn-sm me-1"
-              type="button"
-              aria-label={`Theme: ${themeMode}`}
-            >
-              <i className={`bi ${getThemeIcon()}`}></i>
-            </button>
-            <button
-              className="btn btn-roman-primary btn-sm"
-              type="button"
-              aria-label={t('common.openMenu')}
-              onClick={() => setMobileOpen(true)}
-            >
-              <i className="bi bi-list"></i>
-            </button>
-          </div>
-        </div>
-      </nav>
-      <MobileNav
-        open={mobileOpen}
-        onClose={() => setMobileOpen(false)}
-        tone={tone}
-        onToggleTone={toggleTone}
-        palette={palette}
-        onTogglePalette={togglePalette}
-        autoHide={autoHide}
-        onToggleAutoHide={toggleAutoHide}
-      />
-    </header>
+      <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} />
     </>
   );
 }

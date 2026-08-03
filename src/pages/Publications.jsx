@@ -95,6 +95,31 @@ export default function Publications() {
   const publications = useMemo(
     () => [
       {
+        id: 'slimfusion-lightweight-audio-visual-emotion',
+        type: t('publications.types.conference'),
+        title: 'SlimFusion: Lightweight Audio–Visual Emotion Recognition for Edge Inference',
+        authors: 'Minh Tri Nguyen, et al.',
+        date: 'Aug 2026',
+        venue: 'MIWAI 2026',
+        citation:
+          'In Proceedings of the 19th International Conference on Multi-disciplinary Trends in Artificial Intelligence (MIWAI 2026), LNAI, Springer, Aug 2026',
+        abstract: t('publications.paper2.abstract'),
+        keywords: [
+          'Audio-Visual Emotion Recognition',
+          'Edge Inference',
+          'Lightweight Models',
+          'Multi-modal Fusion',
+          'Efficient AI',
+        ],
+        links: [
+          {
+            label: t('publications.links.conferenceUrl'),
+            url: 'https://miwai26.miwai.org/',
+            icon: 'bi-globe',
+          },
+        ],
+      },
+      {
         id: 'hybrid-quantum-federated-learning-brain-tumor',
         type: t('publications.types.conference'),
         title: 'Hybrid Quantum Federated Learning for Brain Tumor Magnetic Resonance Imaging Analysis',

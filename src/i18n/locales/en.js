@@ -362,10 +362,14 @@ export default {
       arxiv: 'arXiv',
       newsArticle: 'News Article',
       ducProfile: "Duc's Profile",
-      nhanProfile: "Nhan's Profile"
+      nhanProfile: "Nhan's Profile",
+      conferenceUrl: 'Conference'
     },
     paper1: {
       abstract: 'This paper presents a hybrid quantum federated learning framework for brain tumor MRI analysis, combining quantum neural networks with classical federated learning to preserve data privacy while leveraging quantum computational advantages for medical imaging tasks.'
+    },
+    paper2: {
+      abstract: 'SlimFusion proposes a lightweight audio-visual fusion architecture for emotion recognition, optimized for edge inference with reduced parameters and latency while preserving multi-modal accuracy.'
     }
   }
 };

@@ -1,52 +1,28 @@
-import React, { Suspense, useMemo, useState, useRef } from 'react';
-import { motion } from 'framer-motion';
-const AnimatedHeadline = React.lazy(() => import('../components/AnimatedHeadline.jsx'));
-import Typewriter from '../components/Typewriter.jsx';
-import Tilt from '../components/Tilt.jsx';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import BlurImage from '../components/BlurImage.jsx';
 import Sidebar from '../components/Sidebar.jsx';
 import { toast } from '../components/Toast.jsx';
 import { social, hasRealScholar } from '../config/site.js';
 import { useI18n } from '../i18n/index.jsx';
-import {
-  useScrollAnimation,
-  scrollAnimationVariants,
-  fadeInUpVariants,
-  staggerContainerVariants,
-  staggerItemVariants,
-} from '../hooks/useScrollAnimation.js';
 
 const SECTIONS = {
   about: 'About',
   focus: 'Research Focus',
-  goals: 'Goals',
-  tech: 'Technologies',
   projects: 'Projects',
   contact: 'Contact',
 };
 
 function Section({ id, title, children }) {
-  const { ref, controls } = useScrollAnimation();
-
   return (
-    <motion.section
-      ref={ref}
-      id={id}
-      className="section mb-4"
-      initial="hidden"
-      animate={controls}
-      variants={scrollAnimationVariants}
-    >
-      <motion.h2 className="h4 mb-3 font-display" variants={fadeInUpVariants}>
-        {title}
-      </motion.h2>
-      <motion.div variants={fadeInUpVariants}>{children}</motion.div>
-    </motion.section>
+    <section id={id} className="section mb-4">
+      <h2 className="h4 mb-3 font-display">{title}</h2>
+      {children}
+    </section>
   );
 }
 
-function ProjectCard({ project, index }) {
+function ProjectCard({ project }) {
   const { t } = useI18n();
   const cardRef = useRef(null);
 
@@ -68,16 +44,10 @@ function ProjectCard({ project, index }) {
   };
 
   return (
-    <motion.div
-      className="col"
-      key={index}
-      variants={staggerItemVariants}
-      whileHover={{ y: -8 }}
-      transition={{ duration: 0.3, ease: 'easeOut' }}
-    >
+    <div className="col">
       <div
         ref={cardRef}
-        className="card-roman magnetic-card project-card"
+        className="roman-card magnetic-card project-card h-100"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
@@ -102,16 +72,15 @@ function ProjectCard({ project, index }) {
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 export default function Home() {
   const { t } = useI18n();
-  const sectionIds = ['about', 'focus', 'goals', 'tech', 'projects', 'contact'];
+  const sectionIds = ['about', 'focus', 'projects', 'contact'];
   const heroRef = useRef(null);
 
-  // Track mouse position for spotlight effect — use ref to avoid re-renders
   const handleHeroMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
@@ -123,35 +92,25 @@ export default function Home() {
   const allProjects = useMemo(
     () => [
       {
-        title: 'Mini‑VLM Playground',
+        title: 'Mini‐VLM Playground',
         desc: 'Retrieval/grounding demos with small benchmarks',
         tags: ['VLM', 'Retrieval'],
         preview: null,
       },
       {
         title: 'QML for Vision',
-        desc: 'Hybrid quantum‑classical baselines on MNIST/CIFAR',
+        desc: 'Hybrid quantum‐classical baselines on MNIST/CIFAR',
         tags: ['QML', 'Vision'],
         preview: null,
       },
       {
-        title: 'Edge‑friendly CV',
+        title: 'Edge‐friendly CV',
         desc: 'Distilled/quantized models for edge inference',
         tags: ['Edge', 'CV'],
         preview: null,
       },
     ],
     []
-  );
-  const [query, setQuery] = useState('');
-  const [tag, setTag] = useState('All');
-  const tags = ['All', 'VLM', 'Retrieval', 'QML', 'Vision', 'Edge', 'CV'];
-  const filtered = allProjects.filter(
-    (p) =>
-      (tag === 'All' || p.tags.includes(tag)) &&
-      (query.trim() === '' ||
-        p.title.toLowerCase().includes(query.toLowerCase()) ||
-        p.desc.toLowerCase().includes(query.toLowerCase()))
   );
 
   return (
@@ -178,9 +137,9 @@ export default function Home() {
           <div className="hero-ambient" aria-hidden="true" />
 
           <div className="row align-items-center g-4 g-md-5 position-relative z-1">
-                      <div className="col-12 col-md-7">
-                        {/* English Greeting */}
-                        <span className="roman-eyebrow d-block mb-3">Hello, Visitor</span>
+            <div className="col-12 col-md-7">
+              {/* English Greeting */}
+              <span className="roman-eyebrow d-block mb-3">Hello, Visitor</span>
               
               {/* Main Headline */}
               <Suspense fallback={<h1 className="font-display fw-bold mb-3 text-gradient-animate" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', lineHeight: 1.15 }}>Hi, I am Trí.</h1>}>
@@ -198,50 +157,43 @@ export default function Home() {
                   scrollTrigger={false}
                 />
               </Suspense>
-              
-              {/* Sub-headline */}
-              <p className="text-secondary mb-2 fw-medium" style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}>
+
+              <p className="lead mb-4">
                 <strong>Undergraduate Research Assistant</strong>
-                <br />
-                AiTA Lab, FPT University
               </p>
-              
-              {/* Typewriter */}
-              <p className="text-secondary mb-4" style={{ fontSize: 'clamp(0.9375rem, 1.5vw, 1.125rem)' }}>
-                <Typewriter words={['Computer Vision', 'Vision‑Language Models', 'Quantum ML']} />
-              </p>
-              
-              {/* Badges */}
-              <div className="roman-metrics mb-4" role="list">
-                <span className="roman-metric-pill" role="listitem"><i className="bi bi-eye me-1"></i><span className="roman-metric-label">Vision</span><span className="roman-metric-value">Computer Vision</span></span>
-                <span className="roman-metric-pill" role="listitem"><i className="bi bi-cpu me-1"></i><span className="roman-metric-label">VLM</span><span className="roman-metric-value">Vision‑Language</span></span>
-                <span className="roman-metric-pill" role="listitem"><i className="bi bi-lightning me-1"></i><span className="roman-metric-label">QML</span><span className="roman-metric-value">Quantum ML</span></span>
+
+              <div className="d-flex flex-wrap gap-2 mb-4">
+                <Typewriter
+                  words={["Computer Vision", "Vision‐Language Models", "Quantum ML"]}
+                  loop={true}
+                  cursor={true}
+                  typeSpeed={80}
+                  deleteSpeed={50}
+                  delaySpeed={2000}
+                />
               </div>
-              
-              {/* CTA Buttons */}
-              <div className="d-flex flex-wrap gap-2 hero-cta">
-                <Link to="/cv" className="btn-roman btn-roman-primary btn-sm px-4 py-2">
-                  <i className="bi bi-file-earmark-text me-1"></i> View CV
+
+              <div className="d-flex gap-3">
+                <Link to="/cv" className="btn-roman btn-roman-primary">
+                  <i className="bi bi-badge-ad me-1"></i> {t('nav.cv')}
                 </Link>
-                <a href="#contact" className="btn-roman btn-roman-secondary btn-sm px-4 py-2">
-                  <i className="bi bi-send me-1"></i> Contact
+                <a href="#contact" className="btn-roman btn-roman-secondary">
+                  <i className="bi bi-envelope me-1"></i> {t('common.contact')}
                 </a>
-                <a
-                  className="btn-roman btn-roman-ghost btn-sm px-4 py-2"
-                  href="https://github.com/mihtriii"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href="https://github.com/mihtriii" target="_blank" rel="noopener" className="btn-roman btn-roman-secondary">
                   <i className="bi bi-github me-1"></i> GitHub
                 </a>
               </div>
             </div>
-            <div className="col-12 col-md-5 text-center">
-              <Tilt className="d-inline-block avatar-frame">
+
+            <div className="col-12 col-md-5">
+              <Tilt>
                 <BlurImage
-                  className="portrait rounded-circle shadow-none border border-zinc"
                   src={`${import.meta.env.BASE_URL}assets/avatar.JPG`}
                   alt="Portrait"
+                  width={320}
+                  height={320}
+                  className="rounded-circle mx-auto d-block img-fluid"
                   imgProps={{ loading: 'eager', decoding: 'async', fetchPriority: 'high' }}
                   style={{ width: '100%', maxWidth: '320px', aspectRatio: '1/1', objectFit: 'cover' }}
                 />
@@ -250,7 +202,9 @@ export default function Home() {
           </div>
 
           {/* Scroll Indicator */}
-          <div className="scroll-indicator" aria-hidden="true"></div>
+          <div className="scroll-indicator" aria-hidden="true">
+            <span>Explore</span>
+          </div>
         </section>
 
         <Section id="about" title={SECTIONS.about}>
@@ -260,64 +214,27 @@ export default function Home() {
                 I'm an <strong>Undergraduate Research Assistant at AiTA Lab, FPT University</strong>,
                 where I work on Computer Vision and Quantum Machine Learning research. I learn by
                 building and enjoy working at the intersection of <strong>Computer Vision</strong> and{' '}
-                <strong>Vision‑Language Models</strong>, exploring <strong>Quantum ML</strong> for
-                vision as a long‑term research direction. I value clarity, simple baselines, and
-                reproducible demos that make ideas tangible.
+                <strong>Vision‐Language Models</strong>, exploring <strong>Quantum ML</strong> for vision as a long‐term
+                research direction. I value clarity, simple baselines, and reproducible demos that make ideas tangible.
               </p>
               <p>
-                Right now, I'm focused on practical VLM applications (retrieval, grounding,
-                instruction‑tuning) and setting up strong habits for research: reading, small
-                experiments, and writing. I'm open to collaborations that are lightweight, focused, and
-                shipping‑oriented.
+                Right now, I'm focused on practical VLM applications (retrieval, grounding, instruction‐tuning) and setting up strong habits for research: reading, small experiments, and writing. I'm open to collaborations that are lightweight, focused, and shipping‐oriented.
               </p>
-              <div className="icon-row mt-2">
-                <a
-                  className="icon-btn"
-                  href={social.kaggle}
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="Kaggle"
-                >
-                  <img
-                    src={`${import.meta.env.BASE_URL}assets/kaggle.svg`}
-                    alt="Kaggle"
-                    width="18"
-                    height="18"
-                  />
+              <div className="d-flex gap-2 mt-3">
+                <a className="icon-btn" data-brand="kaggle" href={social.kaggle} target="_blank" rel="noopener" aria-label="Kaggle">
+                  <img src={`${import.meta.env.BASE_URL}assets/kaggle.svg`} alt="Kaggle" width="18" height="18" loading="lazy" decoding="async" />
                 </a>
-                <a
-                  className="icon-btn"
-                  href={social.linkedin}
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="LinkedIn"
-                >
+                <a className="icon-btn" data-brand="linkedin" href={social.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">
                   <i className="bi bi-linkedin"></i>
                 </a>
-                <a
-                  className="icon-btn"
-                  href={social.github}
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="GitHub"
-                >
+                <a className="icon-btn" data-brand="github" href={social.github} target="_blank" rel="noopener" aria-label="GitHub">
                   <i className="bi bi-github"></i>
                 </a>
-                <a
-                  className="icon-btn"
-                  href={social.email}
-                  aria-label="Email"
-                >
+                <a className="icon-btn" data-brand="email" href={social.email} aria-label="Email">
                   <i className="bi bi-envelope"></i>
                 </a>
                 {hasRealScholar && (
-                  <a
-                    className="icon-btn"
-                    href={social.scholar}
-                    target="_blank"
-                    rel="noopener"
-                    aria-label="Google Scholar"
-                  >
+                  <a className="icon-btn" data-brand="scholar" href={social.scholar} target="_blank" rel="noopener" aria-label="Google Scholar">
                     <i className="bi bi-mortarboard"></i>
                   </a>
                 )}
@@ -330,131 +247,31 @@ export default function Home() {
           <div className="roman-card beam-border">
             <div className="roman-card-inner">
               <ul className="mb-0">
-                <li className="mb-3">
-                  <strong className="text-gold">Vision‑Language:</strong> multimodal retrieval, visual grounding, instruction
-                  tuning, evaluation.
+                <li className="mb-2">
+                  <strong>Vision‐Language:</strong> multimodal retrieval, visual grounding, instruction tuning, evaluation.
                 </li>
-                <li className="mb-3">
-                  <strong className="text-gold">Applied VLMs:</strong> edge or cloud deployment with latency/throughput
-                  trade‑offs.
+                <li className="mb-2">
+                  <strong>Efficient Vision:</strong> active learning, model distillation, edge deployment, UAV vision.
                 </li>
                 <li>
-                  <strong className="text-gold">Quantum for Vision:</strong> hybrid classical‑quantum training and simple QML
-                  baselines.
+                  <strong>Quantum ML:</strong> hybrid quantum‐classical models for vision tasks, long‐term research direction.
                 </li>
               </ul>
-            </div>
-          </div>
-        </Section>
-
-        <Section id="goals" title={SECTIONS.goals}>
-          <div className="roman-card beam-border">
-            <div className="roman-card-inner">
-              <ul className="mb-0">
-                <li className="mb-3">
-                  <strong className="text-gold">2025:</strong> Complete foundational QML course, implement basic QML circuits for vision tasks.
-                </li>
-                <li className="mb-3">
-                  Target first <strong className="text-gold">conference‑level</strong> paper (IEEE ICCE 2026) — ✅ Accepted.
-                </li>
-                <li>Attend CV/ML conferences and workshops, build toward graduate school applications.</li>
-              </ul>
-            </div>
-          </div>
-        </Section>
-
-        <Section id="tech" title={SECTIONS.tech}>
-          <div className="row g-3 row-cols-1 row-cols-md-3">
-            <div className="col">
-              <Tilt className="h-100">
-                <div className="roman-card beam-border h-100">
-                  <div className="roman-card-inner">
-                    <h3 className="h6 mb-3 text-gold font-display">Core</h3>
-                    <div className="d-flex flex-wrap gap-2">
-                      <span className="roman-badge-gold badge-pulse">Python</span>
-                      <span className="roman-badge-gold badge-pulse">C++</span>
-                    </div>
-                  </div>
-                </div>
-              </Tilt>
-            </div>
-            <div className="col">
-              <Tilt className="h-100">
-                <div className="roman-card beam-border h-100">
-                  <div className="roman-card-inner">
-                    <h3 className="h6 mb-3 text-gold font-display">ML/CV</h3>
-                    <div className="d-flex flex-wrap gap-2">
-                      <span className="roman-badge-gold badge-pulse">PyTorch</span>
-                      <span className="roman-badge-gold badge-pulse">OpenCV</span>
-                      <span className="roman-badge-gold badge-pulse">Transformers</span>
-                      <span className="roman-badge-gold badge-pulse">timm</span>
-                    </div>
-                  </div>
-                </div>
-              </Tilt>
-            </div>
-            <div className="col">
-              <Tilt className="h-100">
-                <div className="roman-card beam-border h-100">
-                  <div className="roman-card-inner">
-                    <h3 className="h6 mb-3 text-gold font-display">Tooling</h3>
-                    <div className="d-flex flex-wrap gap-2">
-                      <span className="roman-badge-gold badge-pulse">Git/GitHub</span>
-                      <span className="roman-badge-gold badge-pulse">Linux</span>
-                      <span className="roman-badge-gold badge-pulse">LaTeX/Overleaf</span>
-                    </div>
-                  </div>
-                </div>
-              </Tilt>
             </div>
           </div>
         </Section>
 
         <Section id="projects" title={SECTIONS.projects}>
-          <motion.div
-            className="d-flex flex-wrap align-items-center gap-2 mb-3 project-toolbar"
-            initial="hidden"
-            animate="visible"
-            variants={staggerContainerVariants}
-          >
-            {tags.map((t) => (
-              <motion.button
-                key={t}
-                className={`btn-roman ${tag === t ? 'btn-roman-primary' : 'btn-roman-ghost'} btn-sm`}
-                onClick={() => setTag(t)}
-                variants={staggerItemVariants}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                {t}
-              </motion.button>
+          <div className="row g-3 row-cols-1 row-cols-md-2">
+            {allProjects.map((p, i) => (
+              <ProjectCard key={i} project={p} />
             ))}
-            <div className="project-search-wrap ms-auto">
-              <motion.input
-                className="input-roman form-control-sm project-search-input"
-                placeholder={t('home.projects.searchPlaceholder')}
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                variants={staggerItemVariants}
-                whileFocus={{ scale: 1.01 }}
-              />
-            </div>
-          </motion.div>
-          <motion.div
-            className="row g-3 row-cols-1 row-cols-md-2"
-            initial="hidden"
-            animate="visible"
-            variants={staggerContainerVariants}
-          >
-            {filtered.map((p, i) => (
-              <ProjectCard key={i} project={p} index={i} />
-            ))}
-          </motion.div>
+          </div>
         </Section>
 
         <Section id="contact" title={SECTIONS.contact}>
           <div className="d-flex flex-column gap-3">
-            <div className="contact-row beam-border">
+            <div className="contact-row">
               <i className="contact-icon bi bi-envelope"></i>
               <a href={social.email} className="contact-link">
                 mihtriii295@gmail.com
@@ -469,16 +286,31 @@ export default function Home() {
                 <i className="bi bi-clipboard me-1"></i> {t('common.copy')}
               </button>
             </div>
-            <div className="contact-row beam-border">
-              <i className="contact-icon bi bi-telephone"></i>
-              <a href={social.phone} className="contact-link">
-                {social.phoneDisplay}
+            <div className="contact-row">
+              <i className="contact-icon bi bi-github"></i>
+              <a href="https://github.com/mihtriii" target="_blank" rel="noopener" className="contact-link">
+                github.com/mihtriii
               </a>
               <button
                 className="btn-roman btn-roman-ghost btn-sm ms-auto"
                 onClick={() => {
-                  navigator.clipboard.writeText(social.phoneRaw);
-                  toast('Copied phone number to clipboard');
+                  navigator.clipboard.writeText('https://github.com/mihtriii');
+                  toast(t('common.copied'));
+                }}
+              >
+                <i className="bi bi-clipboard me-1"></i> {t('common.copy')}
+              </button>
+            </div>
+            <div className="contact-row">
+              <i className="contact-icon bi bi-linkedin"></i>
+              <a href="https://www.linkedin.com/in/mihtriii/" target="_blank" rel="noopener" className="contact-link">
+                linkedin.com/in/mihtriii
+              </a>
+              <button
+                className="btn-roman btn-roman-ghost btn-sm ms-auto"
+                onClick={() => {
+                  navigator.clipboard.writeText('https://www.linkedin.com/in/mihtriii/');
+                  toast(t('common.copied'));
                 }}
               >
                 <i className="bi bi-clipboard me-1"></i> {t('common.copy')}

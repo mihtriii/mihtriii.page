@@ -91,7 +91,6 @@ export default function LineSidebarNav({ sectionIds, activeId, isSmall, sections
     <div className="roman-card mb-3 card-animate" data-animate>
       <div className="roman-card-inner py-2">
         <div className="d-flex justify-content-between align-items-center mb-2">
-          <div className="roman-eyebrow">Navigation</div>
           {isSmall && (
             <button
               type="button"

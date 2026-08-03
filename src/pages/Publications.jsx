@@ -4,6 +4,27 @@ import Sidebar from '../components/Sidebar.jsx';
 import { useI18n } from '../i18n/index.jsx';
 import { useMagnetic } from '../hooks/useMagnetic.js';
 
+// Status badge helpers — color + icon per publication state
+const STATUS_STYLES = {
+  published: { className: 'status-published', icon: 'bi-check-circle-fill' },
+  accepted: { className: 'status-accepted', icon: 'bi-patch-check-fill' },
+  inpress: { className: 'status-inpress', icon: 'bi-hourglass-split' },
+  submitted: { className: 'status-submitted', icon: 'bi-send-fill' },
+  preprint: { className: 'status-preprint', icon: 'bi-file-earmark-text-fill' },
+  revising: { className: 'status-revising', icon: 'bi-arrow-repeat' },
+  underreview: { className: 'status-underreview', icon: 'bi-eye-fill' },
+};
+
+function statusClass(status) {
+  const key = status.toLowerCase().replace(/[^a-z]/g, '');
+  return STATUS_STYLES[key]?.className || 'status-default';
+}
+
+function statusIcon(status) {
+  const key = status.toLowerCase().replace(/[^a-z]/g, '');
+  return STATUS_STYLES[key]?.icon || 'bi-circle';
+}
+
 function PublicationCard({ publication, t }) {
   const magneticRef = useMagnetic(0.04);
 
@@ -19,6 +40,12 @@ function PublicationCard({ publication, t }) {
               <i className="bi bi-journal-richtext me-1"></i>
               {publication.type}
             </span>
+            {publication.status && (
+              <span className={`roman-badge-status ${statusClass(publication.status)}`}>
+                <i className={`bi ${statusIcon(publication.status)} me-1`}></i>
+                {publication.status}
+              </span>
+            )}
             <span className="text-secondary small">
               <i className="bi bi-calendar3 me-1"></i>
               {publication.date}
@@ -97,10 +124,11 @@ export default function Publications() {
       {
         id: 'slimfusion-lightweight-audio-visual-emotion',
         type: t('publications.types.conference'),
+        status: 'Accepted',
         title: 'SlimFusion: Lightweight Audio–Visual Emotion Recognition for Edge Inference',
         authors: 'Minh Tri Nguyen, et al.',
         date: 'Aug 2026',
-        venue: 'MIWAI 2026',
+        venue: 'MIWAI 2026 (LNAI, Springer)',
         citation:
           'In Proceedings of the 19th International Conference on Multi-disciplinary Trends in Artificial Intelligence (MIWAI 2026), LNAI, Springer, Aug 2026',
         abstract: t('publications.paper2.abstract'),
@@ -122,6 +150,7 @@ export default function Publications() {
       {
         id: 'hybrid-quantum-federated-learning-brain-tumor',
         type: t('publications.types.conference'),
+        status: 'Accepted',
         title: 'Hybrid Quantum Federated Learning for Brain Tumor Magnetic Resonance Imaging Analysis',
         authors: 'Quang Nhan Hoang, Minh Tri Nguyen, and Duc Ngoc Minh Dang',
         date: 'Jun 2026',

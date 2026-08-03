@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mihtriii.github.io/sitemap.xml
+Sitemap: https://mihtriii-page.vercel.app/sitemap.xml

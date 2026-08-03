@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const baseUrl = 'https://mihtriii.github.io';
+const baseUrl = 'https://mihtriii-page.vercel.app';
 
 // Get all blog posts
 function getBlogPosts() {

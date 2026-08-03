@@ -1,5 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 48 48">
-  <rect width="48" height="48" rx="12" fill="#6f42c1"/>
-  <path d="M12 32l12-16 12 16H12z" fill="white"/>
+  <defs>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8C96A"/>
+      <stop offset="50%" stop-color="#C9A84C"/>
+      <stop offset="100%" stop-color="#8B7234"/>
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="12" fill="#0B0B09"/>
+  <rect x="2" y="2" width="44" height="44" rx="10" fill="none" stroke="url(#gold)" stroke-width="1.5"/>
+  <!-- Roman column / monogram N+T -->
+  <text x="24" y="32" font-family="Georgia, serif" font-size="22" font-weight="700"
+        text-anchor="middle" fill="url(#gold)" letter-spacing="-1">NT</text>
 </svg>
-

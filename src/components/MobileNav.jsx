@@ -4,6 +4,7 @@ import { useI18n } from '../i18n/index.jsx';
 import { NavLink } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext.jsx';
+import { social } from '../config/site.js';
 
 export default function MobileNav({ open, onClose }) {
   const { t } = useI18n();
@@ -35,7 +36,7 @@ export default function MobileNav({ open, onClose }) {
       document.body.style.right = '0';
       document.body.style.width = '100%';
 
-      const t = setTimeout(() => firstLinkRef.current?.focus(), 0);
+      const tm = setTimeout(() => firstLinkRef.current?.focus(), 50);
       const onKey = (e) => { if (e.key === 'Escape') onClose(); };
       window.addEventListener('keydown', onKey);
 
@@ -54,10 +55,9 @@ export default function MobileNav({ open, onClose }) {
       };
       drawerRef.current?.addEventListener('keydown', trap);
       return () => {
-        clearTimeout(t);
+        clearTimeout(tm);
         window.removeEventListener('keydown', onKey);
         drawerRef.current?.removeEventListener('keydown', trap);
-        // Restore scroll position and previous styles
         const y = -parseInt(document.body.style.top || '0', 10) || 0;
         document.body.style.overflow = prev.overflow;
         document.body.style.position = prev.position;
@@ -75,11 +75,21 @@ export default function MobileNav({ open, onClose }) {
 
   const getThemeIcon = () => {
     switch (themeMode) {
-      case 'light': return 'bi-sun';
-      case 'dark': return 'bi-moon-stars';
+      case 'light': return 'bi-sun-fill';
+      case 'dark': return 'bi-moon-stars-fill';
       default: return 'bi-circle-half';
     }
   };
+
+  const navItems = [
+    { to: '/', label: t('nav.about'), icon: 'bi-person-badge', exact: true },
+    { to: '/cv', label: t('nav.cv'), icon: 'bi-file-earmark-person' },
+    { to: '/publications', label: t('nav.publications'), icon: 'bi-journal-richtext' },
+    { to: '/blog', label: t('nav.blog'), icon: 'bi-journal-text' },
+    { to: '/moments', label: t('nav.moments'), icon: 'bi-camera-reels' },
+    { to: '/repos', label: t('nav.repos'), icon: 'bi-git' },
+    { to: '/news', label: t('nav.news'), icon: 'bi-newspaper' },
+  ];
 
   const content = (
     <AnimatePresence>
@@ -89,11 +99,10 @@ export default function MobileNav({ open, onClose }) {
             key="overlay"
             className="mobile-overlay"
             aria-hidden="true"
-            role="presentation"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
+            transition={{ duration: 0.2 }}
             onClick={onClose}
           />
           <motion.nav
@@ -102,69 +111,102 @@ export default function MobileNav({ open, onClose }) {
             ref={drawerRef}
             role="dialog"
             aria-modal="true"
-            aria-labelledby="mobileMenuTitle"
+            aria-label="Mobile Navigation"
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
-            transition={{ type: 'tween', duration: 0.2, ease: 'easeOut' }}
+            transition={{ type: 'spring', damping: 28, stiffness: 300 }}
           >
-            <div className="mobile-drawer-header">
-              <span id="mobileMenuTitle" className="fw-semibold">{t('common.menu')}</span>
-              <button className="btn btn-outline-secondary btn-sm" onClick={onClose} aria-label={t('common.closeMenu')}>
+            {/* Header / Profile banner */}
+            <div className="mobile-drawer-header d-flex align-items-center justify-content-between p-3 border-bottom border-zinc">
+              <div className="d-flex align-items-center gap-2">
+                <img
+                  className="rounded-circle border border-zinc"
+                  src={`${import.meta.env.BASE_URL}assets/avatar.JPG`}
+                  alt="Nguyễn Minh Trí"
+                  width="40"
+                  height="40"
+                />
+                <div>
+                  <div className="font-display fw-bold h6 mb-0 text-primary">Nguyễn Minh Trí</div>
+                  <div className="text-gold font-mono small" style={{ fontSize: '0.7rem' }}>
+                    AiTA Lab · FPTU HCMC
+                  </div>
+                </div>
+              </div>
+              <button
+                className="btn-roman btn-roman-ghost btn-sm btn-icon"
+                onClick={onClose}
+                aria-label={t('common.closeMenu')}
+                style={{ width: 36, height: 36, padding: 0 }}
+              >
                 <i className="bi bi-x-lg"></i>
               </button>
             </div>
-            <ul className="list-unstyled mb-0">
-              <li>
-                <NavLink to="/" end className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} ref={firstLinkRef} aria-label={t('nav.about')}>
-                  <i className="bi bi-person"></i> {t('nav.about')}
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/blog" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} aria-label={t('nav.blog')}>
-                  <i className="bi bi-journal-text"></i> {t('nav.blog')}
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/cv" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} aria-label={t('nav.cv')}>
-                  <i className="bi bi-badge-ad"></i> {t('nav.cv')}
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/repos" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} aria-label={t('nav.repos')}>
-                  <i className="bi bi-git"></i> {t('nav.repos')}
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/moments" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} aria-label={t('nav.moments')}>
-                  <i className="bi bi-camera-reels"></i> {t('nav.moments')}
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/news" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} aria-label={t('nav.news')}>
-                  <i className="bi bi-newspaper"></i> {t('nav.news')}
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/publications" className={({isActive}) => `mobile-link${isActive ? ' active' : ''}`} onClick={onClose} aria-label={t('nav.publications')}>
-                  <i className="bi bi-journal-richtext"></i> {t('nav.publications')}
-                </NavLink>
-              </li>
-              <li>
-                <a href="https://github.com/mihtriii" target="_blank" rel="noopener" className="mobile-link" onClick={onClose} aria-label="GitHub profile">
-                  <i className="bi bi-github"></i> {t('nav.github')}
-                </a>
-              </li>
-            </ul>
 
-            <div className="mobile-drawer-settings mt-4 pt-3 border-top border-zinc">
+            {/* Nav list */}
+            <div className="mobile-drawer-body flex-grow-1 p-3 overflow-y-auto">
+              <div className="roman-eyebrow mb-2">Navigation</div>
+              <ul className="list-unstyled d-flex flex-column gap-1 mb-3">
+                {navItems.map((item, index) => (
+                  <li key={item.to}>
+                    <NavLink
+                      to={item.to}
+                      end={item.exact}
+                      className={({ isActive }) =>
+                        `mobile-link d-flex align-items-center justify-content-between p-2.5 rounded-3 text-decoration-none ${
+                          isActive ? 'active' : ''
+                        }`
+                      }
+                      onClick={onClose}
+                      ref={index === 0 ? firstLinkRef : null}
+                    >
+                      <div className="d-flex align-items-center gap-3">
+                        <i className={`bi ${item.icon} fs-5 text-gold`}></i>
+                        <span className="fw-semibold">{item.label}</span>
+                      </div>
+                      <i className="bi bi-chevron-right small text-muted"></i>
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Direct PDF Download Action */}
+              <div className="roman-eyebrow mb-2">Documents</div>
+              <a
+                href={`${import.meta.env.BASE_URL}CV_NguyenMinhTri.pdf`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-roman btn-roman-primary w-100 mb-3 justify-content-center py-2.5"
+                onClick={onClose}
+              >
+                <i className="bi bi-download me-1"></i> Download PDF CV
+              </a>
+
+              {/* Social Profiles */}
+              <div className="roman-eyebrow mb-2">Connect</div>
+              <div className="d-flex gap-2 mb-3">
+                <a className="icon-btn" href={social.github} target="_blank" rel="noopener" aria-label="GitHub">
+                  <i className="bi bi-github"></i>
+                </a>
+                <a className="icon-btn" href={social.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">
+                  <i className="bi bi-linkedin"></i>
+                </a>
+                <a className="icon-btn" href={social.email} aria-label="Email">
+                  <i className="bi bi-envelope"></i>
+                </a>
+              </div>
+            </div>
+
+            {/* Footer / Theme toggle */}
+            <div className="mobile-drawer-settings p-3 border-top border-zinc mt-auto">
               <button
                 onClick={toggleTheme}
-                className="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2"
+                className="btn-roman btn-roman-ghost w-100 d-flex align-items-center justify-content-center gap-2 py-2"
                 type="button"
               >
-                <i className={`bi ${getThemeIcon()}`}></i>
-                <span>Theme: {themeMode.charAt(0).toUpperCase() + themeMode.slice(1)}</span>
+                <i className={`bi ${getThemeIcon()} text-gold`}></i>
+                <span className="small">Theme: {themeMode.charAt(0).toUpperCase() + themeMode.slice(1)}</span>
               </button>
             </div>
           </motion.nav>

@@ -64,7 +64,7 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
     if (!isMobile || !sectionIds || sectionIds.length === 0) return null;
     return (
       <div className="section-chips mb-3" role="tablist" aria-label="Quick sections">
-        <div className="chips-row">
+        <div className="chips-row d-flex gap-2 overflow-x-auto py-1 px-1">
           {sectionIds.map((id) => {
             const label = NAV_LABELS[id] || id.replace(/-/g, ' ');
             const active = activeId === id;
@@ -72,12 +72,14 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
               <a
                 key={id}
                 href={`#${id}`}
-                className={`chip ${active ? 'active' : ''}`}
+                className={`btn-roman btn-sm text-decoration-none flex-shrink-0 ${
+                  active ? 'btn-roman-primary' : 'btn-roman-ghost'
+                }`}
                 role="tab"
                 aria-selected={active}
+                style={{ fontSize: '0.75rem', padding: '0.3rem 0.75rem' }}
               >
-                <span className="chip-dot" />
-                <span>{label}</span>
+                {label}
               </a>
             );
           })}
@@ -85,6 +87,10 @@ export default function Sidebar({ sectionIds = [], showSocial = true }) {
       </div>
     );
   };
+
+  if (isMobile && (!sectionIds || sectionIds.length === 0)) {
+    return null;
+  }
 
   return (
     <div className="sidebar-wrapper">

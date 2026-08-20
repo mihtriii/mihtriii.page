@@ -155,24 +155,24 @@ export default function CV() {
                 href={`${import.meta.env.BASE_URL}CV_NguyenMinhTri.pdf`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-roman btn-roman-primary btn-sm px-3"
+                className="btn-roman btn-roman-primary btn-sm px-3 flex-grow-1 flex-sm-grow-0 justify-content-center"
               >
                 <i className="bi bi-download me-1"></i> Download PDF CV
               </a>
               <button
-                className="btn-roman btn-roman-secondary btn-sm px-3"
+                className="btn-roman btn-roman-secondary btn-sm px-3 flex-grow-1 flex-sm-grow-0 justify-content-center"
                 onClick={() => window.print()}
               >
                 <i className="bi bi-printer me-1"></i> Print
               </button>
               <a
-                className="btn-roman btn-roman-ghost btn-sm px-3"
+                className="btn-roman btn-roman-ghost btn-sm px-3 flex-grow-1 flex-sm-grow-0 justify-content-center"
                 href="mailto:mihtriii295@gmail.com"
               >
                 <i className="bi bi-envelope me-1"></i> Email
               </a>
               <button
-                className="btn-roman btn-roman-ghost btn-sm px-3"
+                className="btn-roman btn-roman-ghost btn-sm px-3 flex-grow-1 flex-sm-grow-0 justify-content-center"
                 onClick={() => {
                   navigator.clipboard.writeText('mihtriii295@gmail.com');
                   toast('Copied email to clipboard!');

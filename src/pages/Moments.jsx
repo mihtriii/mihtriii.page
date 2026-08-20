@@ -890,60 +890,56 @@ export default function Moments() {
 
         {/* ── Filters bar ── */}
         <div className="roman-card beam-border mb-4" data-animate>
-          <div className="roman-card-inner reveal-stagger">
-            <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
-              {/* Category pills */}
-              <div className="d-flex gap-1 flex-wrap">
+          <div className="roman-card-inner p-3 p-md-4">
+            <div className="d-flex flex-column gap-3">
+              {/* Category pills scrollable */}
+              <div className="d-flex gap-1 overflow-x-auto pb-1">
                 {categories.map((cat) => (
                   <button
                     key={cat}
-                    className={`btn-roman btn-sm ${
+                    className={`btn-roman btn-sm flex-shrink-0 ${
                       categoryFilter === cat ? 'btn-roman-primary' : 'btn-roman-ghost'
                     }`}
                     onClick={() => setCategoryFilter(cat)}
+                    style={{ fontSize: '0.75rem' }}
                   >
                     {cat}
                   </button>
                 ))}
               </div>
 
-              <span className="text-muted mx-1">|</span>
-
-              {/* Year dropdown */}
-              <select
-                className="input-roman form-select-sm"
-                style={{ width: 'auto', minWidth: 110 }}
-                value={yearFilter}
-                onChange={(e) => setYearFilter(e.target.value)}
-              >
-                {years.map((y) => (
-                  <option key={y} value={y}>
-                    {y === allLabel ? allLabel : y}
-                  </option>
-                ))}
-              </select>
-
-              <div className="ms-auto" />
-
-              {/* Search */}
-              <div className="position-relative">
-                <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary z-1"></i>
-                <input
-                  className="input-roman ps-5 form-control-sm"
-                  style={{ maxWidth: 240 }}
-                  placeholder={t('moments.searchPlaceholder')}
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
+              {/* Controls row: Year select + Search + Count */}
+              <div className="row g-2 align-items-center">
+                <div className="col-12 col-sm-4">
+                  <select
+                    className="input-roman form-select-sm"
+                    value={yearFilter}
+                    onChange={(e) => setYearFilter(e.target.value)}
+                  >
+                    {years.map((y) => (
+                      <option key={y} value={y}>
+                        {y === allLabel ? `Year: ${allLabel}` : `Year: ${y}`}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-8 col-sm-6">
+                  <div className="position-relative">
+                    <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary"></i>
+                    <input
+                      className="input-roman ps-5 form-control-sm"
+                      placeholder={t('moments.searchPlaceholder')}
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="col-4 col-sm-2 text-end">
+                  <span className="roman-metric-pill">
+                    <span className="roman-metric-value">{filteredMoments.length}</span>
+                  </span>
+                </div>
               </div>
-            </div>
-            
-            {/* Results Count */}
-            <div className="d-flex justify-content-end">
-              <span className="roman-metric-pill">
-                <span className="roman-metric-label">Moment</span>
-                <span className="roman-metric-value">{filteredMoments.length}</span>
-              </span>
             </div>
           </div>
         </div>

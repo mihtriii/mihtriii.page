@@ -117,7 +117,25 @@ export default function Home() {
           <div className="hero-ambient" aria-hidden="true" />
 
           <div className="row align-items-center g-4 g-md-5 position-relative z-1">
-            <div className="col-12 col-md-7">
+            {/* Avatar Profile Frame */}
+            <div className="col-12 col-md-5 text-center order-1 order-md-2 mb-2 mb-md-0">
+              <Tilt className="avatar-tilt-wrapper">
+                <div className="avatar-glow-ring mx-auto">
+                  <BlurImage
+                    src={`${import.meta.env.BASE_URL}assets/avatar.JPG`}
+                    alt="Nguyễn Minh Trí"
+                    width={280}
+                    height={280}
+                    className="rounded-circle img-fluid avatar-hero-img"
+                    imgProps={{ loading: 'eager', decoding: 'async', fetchPriority: 'high' }}
+                    style={{ width: '100%', maxWidth: '280px', aspectRatio: '1/1', objectFit: 'cover' }}
+                  />
+                </div>
+              </Tilt>
+            </div>
+
+            {/* Text & Action Column */}
+            <div className="col-12 col-md-7 order-2 order-md-1 text-center text-md-start">
               {/* Status pill */}
               <div className="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3 status-pill">
                 <span className="pulse-dot" />
@@ -132,7 +150,7 @@ export default function Home() {
               </h1>
 
               <div className="lead text-secondary mb-3 fw-medium">
-                AI & Quantum ML Research Enthusiast
+                AI &amp; Quantum ML Research Enthusiast
               </div>
 
               {/* Dynamic Typewriter */}
@@ -154,7 +172,7 @@ export default function Home() {
               </div>
 
               {/* CTA Buttons */}
-              <div className="d-flex flex-wrap gap-2 pt-1">
+              <div className="d-flex flex-wrap justify-content-center justify-content-md-start gap-2 pt-1">
                 <Link to="/cv" className="btn-roman btn-roman-primary">
                   <i className="bi bi-file-earmark-person me-1"></i> View CV
                 </Link>
@@ -173,23 +191,6 @@ export default function Home() {
                   <i className="bi bi-github me-1"></i> GitHub
                 </a>
               </div>
-            </div>
-
-            {/* Avatar Profile Frame */}
-            <div className="col-12 col-md-5 text-center">
-              <Tilt className="avatar-tilt-wrapper">
-                <div className="avatar-glow-ring mx-auto">
-                  <BlurImage
-                    src={`${import.meta.env.BASE_URL}assets/avatar.JPG`}
-                    alt="Nguyễn Minh Trí"
-                    width={280}
-                    height={280}
-                    className="rounded-circle img-fluid avatar-hero-img"
-                    imgProps={{ loading: 'eager', decoding: 'async', fetchPriority: 'high' }}
-                    style={{ width: '100%', maxWidth: '280px', aspectRatio: '1/1', objectFit: 'cover' }}
-                  />
-                </div>
-              </Tilt>
             </div>
           </div>
         </section>

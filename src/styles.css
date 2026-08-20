@@ -2470,6 +2470,7 @@ header.sticky-top.header-hidden {
   font-family: var(--font-mono);
   font-size: 0.875rem;
   margin-bottom: 1.5rem;
+  max-width: 100%;
 }
 
 .prose-content code:not(pre code) {
@@ -2496,4 +2497,191 @@ header.sticky-top.header-hidden {
   max-width: 100%;
   height: auto;
   margin: 1.5rem 0;
+}
+
+/* ============================================================
+   COMPREHENSIVE MOBILE RESPONSIVENESS & TOUCH UX
+   ============================================================ */
+
+/* Global Mobile Overflow Guard */
+html, body, #root, .app {
+  max-width: 100vw;
+  overflow-x: clip;
+}
+
+/* Mobile Drawer & Overlay */
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: var(--z-modal-back, 1040);
+}
+
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(340px, 86vw);
+  height: 100vh;
+  height: 100dvh;
+  background: var(--bg-surface) !important;
+  border-left: 1px solid var(--border-zinc) !important;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.6);
+  z-index: var(--z-modal, 1050);
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-link {
+  color: var(--text-secondary) !important;
+  transition: all var(--duration-fast) var(--ease-standard);
+  border: 1px solid transparent;
+}
+
+.mobile-link:hover,
+.mobile-link:active,
+.mobile-link.active {
+  background: rgba(201, 168, 76, 0.1) !important;
+  border-color: rgba(201, 168, 76, 0.25) !important;
+  color: var(--accent-gold) !important;
+}
+
+/* Responsive Breakpoint: Tablet & Below (< 992px) */
+@media (max-width: 991.98px) {
+  .sidebar-wrapper {
+    margin-bottom: 0.5rem;
+  }
+
+  .section-chips .chips-row {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 4px 2px;
+  }
+  .section-chips .chips-row::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Responsive Breakpoint: Mobile Phones (< 768px) */
+@media (max-width: 767.98px) {
+  /* Hero section scaling */
+  .hero-section {
+    padding: 1.5rem 1.25rem !important;
+    border-radius: 20px !important;
+  }
+
+  .hero-title {
+    font-size: clamp(1.85rem, 6.5vw, 2.5rem);
+    line-height: 1.15;
+  }
+
+  /* Card padding and radius */
+  .roman-card,
+  .roman-card-elevated {
+    border-radius: 18px !important;
+  }
+
+  .roman-card-inner {
+    padding: 1.15rem !important;
+  }
+
+  /* Avatar scaling on mobile */
+  .avatar-glow-ring {
+    max-width: 180px !important;
+    padding: 4px !important;
+    margin: 0 auto;
+  }
+
+  /* Key Metrics 2x2 grid on mobile */
+  .roman-metric {
+    padding: 0.75rem !important;
+    border-radius: 14px !important;
+  }
+
+  .roman-metric .fs-3 {
+    font-size: 1.5rem !important;
+  }
+
+  /* Touch-friendly buttons (min 42px touch height) */
+  .btn-roman {
+    min-height: 42px;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  /* Typewriter Box on small screens */
+  .typewriter-box {
+    max-width: 100%;
+    font-size: 0.78rem;
+    padding: 0.45rem 0.75rem !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Code blocks & LaTeX math formulas horizontal swipe */
+  pre,
+  .prose-content pre {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 1rem !important;
+    font-size: 0.8rem !important;
+  }
+
+  .katex-display {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 0.5rem 0;
+  }
+
+  /* Publication card details on mobile */
+  .publication-image {
+    max-height: 160px;
+  }
+
+  /* Search inputs */
+  .input-roman {
+    min-height: 42px;
+    font-size: 0.875rem;
+  }
+}
+
+/* Responsive Breakpoint: Small Mobile (< 576px) */
+@media (max-width: 575.98px) {
+  .hero-section {
+    padding: 1.25rem 1rem !important;
+  }
+
+  .hero-title {
+    font-size: 1.85rem;
+  }
+
+  .avatar-glow-ring {
+    max-width: 150px !important;
+  }
+
+  /* Full-width touch CTA actions on small phones */
+  .hero-section .btn-roman {
+    flex-grow: 1;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .navbar {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
 }

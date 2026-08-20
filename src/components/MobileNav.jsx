@@ -185,14 +185,23 @@ export default function MobileNav({ open, onClose }) {
 
               {/* Social Profiles */}
               <div className="roman-eyebrow mb-2">Connect</div>
-              <div className="d-flex gap-2 mb-3">
-                <a className="icon-btn" href={social.github} target="_blank" rel="noopener" aria-label="GitHub">
+              <div className="d-flex gap-2 flex-wrap mb-3">
+                <a className="icon-btn" href={social.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
                   <i className="bi bi-github"></i>
                 </a>
-                <a className="icon-btn" href={social.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn">
+                <a className="icon-btn" href={social.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
                   <i className="bi bi-linkedin"></i>
                 </a>
-                <a className="icon-btn" href={social.email} aria-label="Email">
+                <a className="icon-btn" href={social.kaggle} target="_blank" rel="noopener noreferrer" aria-label="Kaggle" title="Kaggle">
+                  <img src={`${import.meta.env.BASE_URL}assets/kaggle.svg`} alt="Kaggle" width="14" height="14" />
+                </a>
+                <a className="icon-btn" href={social.scholar} target="_blank" rel="noopener noreferrer" aria-label="Google Scholar" title="Google Scholar">
+                  <i className="bi bi-mortarboard"></i>
+                </a>
+                <a className="icon-btn" href={social.orcid} target="_blank" rel="noopener noreferrer" aria-label="ORCID" title="ORCID">
+                  <i className="bi bi-person-badge"></i>
+                </a>
+                <a className="icon-btn" href={social.email} aria-label="Email" title="Email">
                   <i className="bi bi-envelope"></i>
                 </a>
               </div>

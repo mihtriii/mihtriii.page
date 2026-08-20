@@ -104,15 +104,15 @@ export default function Header() {
             </div>
 
             {/* Desktop nav */}
-            <div className="d-none d-xl-flex align-items-center gap-2 ms-auto">
+            <div className="d-none d-lg-flex align-items-center gap-2 ms-auto">
               <PillNav t={t} prefetchData={prefetch} />
               
               <a
                 href={`${import.meta.env.BASE_URL}CV_NguyenMinhTri.pdf`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-roman btn-roman-ghost btn-sm d-inline-flex align-items-center gap-1 ms-2"
-                style={{ fontSize: '0.8rem', padding: '0.35rem 0.75rem' }}
+                className="btn-roman btn-roman-ghost btn-sm d-inline-flex align-items-center gap-1 ms-1"
+                style={{ fontSize: '0.78rem', padding: '0.35rem 0.65rem' }}
                 title="Download Curriculum Vitae PDF"
               >
                 <i className="bi bi-file-earmark-pdf"></i>
@@ -125,20 +125,20 @@ export default function Header() {
                 type="button"
                 aria-label={`Theme: ${themeMode}`}
                 title={`Theme: ${themeMode}`}
-                style={{ width: 36, height: 36, padding: 0 }}
+                style={{ width: 34, height: 34, padding: 0 }}
               >
                 <i className={`bi ${getThemeIcon()}`}></i>
               </button>
             </div>
 
             {/* Mobile / Tablet controls */}
-            <div className="d-flex d-xl-none align-items-center gap-2 ms-auto">
+            <div className="d-flex d-lg-none align-items-center gap-2 ms-auto">
               <button
                 onClick={toggleTheme}
                 className="btn-roman btn-roman-ghost btn-sm btn-icon"
                 type="button"
                 aria-label={`Theme: ${themeMode}`}
-                style={{ width: 36, height: 36, padding: 0 }}
+                style={{ width: 34, height: 34, padding: 0 }}
               >
                 <i className={`bi ${getThemeIcon()}`}></i>
               </button>
@@ -148,7 +148,7 @@ export default function Header() {
                 aria-label={t('common.openMenu')}
                 aria-expanded={mobileOpen}
                 onClick={() => setMobileOpen(true)}
-                style={{ height: 36, padding: '0 0.75rem' }}
+                style={{ height: 34, padding: '0 0.75rem' }}
               >
                 <i className="bi bi-list fs-6 me-1"></i>
                 <span className="small fw-semibold">{t('common.menu')}</span>

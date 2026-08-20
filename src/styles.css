@@ -2357,6 +2357,19 @@ header.sticky-top.header-hidden {
   -webkit-text-fill-color: transparent;
 }
 
+[data-bs-theme="light"] .text-gradient-gold {
+  background: linear-gradient(135deg, #1A1A16 0%, #8B7234 60%, #C9A84C 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-bs-theme="light"] .roman-badge-gold {
+  background: rgba(201, 168, 76, 0.12);
+  color: #8B7234;
+  border-color: rgba(201, 168, 76, 0.3);
+}
+
 /* Hero Title */
 .hero-title {
   font-size: clamp(2.25rem, 5vw, 3.75rem);

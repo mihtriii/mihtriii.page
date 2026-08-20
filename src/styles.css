@@ -511,73 +511,96 @@ p, li, span, div, a, button, input, textarea, label { font-family: var(--font-bo
 @media (min-width: 768px) { .page-container { padding: 0 1.5rem 4rem; } }
 @media (min-width: 1200px) { .page-container { padding: 0 2.5rem 5rem; } }
 
-/* Sidebar */
-.sidebar {
-  width: 272px;
-  flex-shrink: 0;
-  background: var(--bg-surface);
-  border-right: 1px solid var(--border-zinc);
+/* ---- Unified Master Sidebar ---- */
+.sticky-sidebar {
   position: sticky;
-  top: 72px;
-  height: calc(100vh - 72px);
-  overflow-y: auto;
-  padding: 1.5rem 1rem 2rem;
-  z-index: var(--z-sticky);
+  top: 84px;
+  z-index: var(--z-sticky, 1020);
 }
-.sidebar .roman-eyebrow { margin-bottom: 1rem; }
 
-/* Sidebar Navigation (spy-list) */
+.unified-sidebar-card {
+  border-radius: 20px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-zinc);
+  box-shadow: var(--shadow-card), var(--shadow-inner-gold);
+  overflow: hidden;
+  transition: border-color var(--duration-base) var(--ease-standard), box-shadow var(--duration-base) var(--ease-standard);
+}
+
+.unified-sidebar-card:hover {
+  border-color: var(--border-gold-dim);
+  box-shadow: var(--shadow-glow-gold);
+}
+
+/* Sidebar Spy Links */
 .spy-list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
-.spy-item {
-  display: flex;
+
+.sidebar-spy-link {
+  color: var(--text-secondary);
+  transition: all var(--duration-fast) var(--ease-standard);
+  border: 1px solid transparent;
+}
+
+.sidebar-spy-link:hover {
+  background: rgba(201, 168, 76, 0.08);
+  color: var(--accent-gold);
+  transform: translateX(2px);
+}
+
+.sidebar-spy-link.active {
+  background: rgba(201, 168, 76, 0.12);
+  border-color: rgba(201, 168, 76, 0.25);
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
+.sidebar-spy-link.active .sidebar-link-num {
+  color: var(--accent-gold) !important;
+}
+
+/* Sidebar Recent Notes */
+.sidebar-recent-item {
+  transition: all var(--duration-fast) var(--ease-standard);
+  border: 1px solid transparent;
+}
+
+.sidebar-recent-item:hover {
+  background: rgba(201, 168, 76, 0.06);
+  border-color: rgba(201, 168, 76, 0.18);
+  transform: translateX(2px);
+}
+
+.sidebar-recent-item:hover .fw-medium {
+  color: var(--accent-gold) !important;
+}
+
+/* Icon Buttons with luxury styling */
+.icon-btn {
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-zinc);
   color: var(--text-secondary);
   text-decoration: none;
-  transition: color 0.2s var(--ease-standard), background 0.2s var(--ease-standard);
-  position: relative;
+  transition: all var(--duration-fast) var(--ease-spring);
 }
-.spy-item:hover {
-  color: var(--accent-gold);
-  background: rgba(201, 168, 76, 0.08);
-}
-.spy-item.active {
-  color: var(--accent-gold);
-  background: rgba(201, 168, 76, 0.12);
-}
-.spy-item .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: transparent;
-  border: 2px solid var(--text-muted);
-  transition: all 0.2s var(--ease-standard);
-  flex-shrink: 0;
-}
-.spy-item:hover .dot {
+
+.icon-btn:hover {
+  background: rgba(201, 168, 76, 0.15);
   border-color: var(--accent-gold);
+  color: var(--accent-gold-light);
+  transform: translateY(-2px) scale(1.08);
+  box-shadow: 0 0 12px rgba(201, 168, 76, 0.25);
 }
-.spy-item.active .dot {
-  background: var(--accent-gold);
-  border-color: var(--accent-gold);
-  box-shadow: 0 0 8px rgba(201, 168, 76, 0.4);
-}
-.spy-highlight {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: var(--accent-gold);
-  border-radius: 0 8px 8px 0;
-  opacity: 0.8;
-}
+
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr;

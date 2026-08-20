@@ -88,16 +88,18 @@ export default function LineSidebarNav({ sectionIds, activeId, isSmall, sections
   if (!sectionIds || sectionIds.length === 0) return null;
 
   return (
-    <div className="roman-card mb-3 card-animate" data-animate>
-      <div className="roman-card-inner py-2">
+    <div className="roman-card mb-3 beam-border" data-animate>
+      <div className="roman-card-inner py-3 px-3">
         <div className="d-flex justify-content-between align-items-center mb-2">
+          <span className="roman-eyebrow">On This Page</span>
           {isSmall && (
             <button
               type="button"
-              className="roman-btn-ghost btn-sm"
+              className="btn-roman btn-roman-ghost btn-sm btn-icon"
               aria-expanded={sectionsOpen}
               aria-controls="sidebar-sections"
               onClick={() => setSectionsOpen((v) => !v)}
+              style={{ width: 26, height: 26, padding: 0 }}
             >
               <i className={`bi ${sectionsOpen ? 'bi-chevron-up' : 'bi-chevron-down'}`} />
             </button>

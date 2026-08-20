@@ -7,57 +7,60 @@ import { useMagnetic } from '../hooks/useMagnetic.js';
 import { blogPosts } from '../blog/manifest.js';
 
 function BlogPostCard({ post }) {
-  const magneticRef = useMagnetic(0.08);
+  const magneticRef = useMagnetic(0.06);
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.3 }}
-      whileHover={{ y: -8 }}
+      exit={{ opacity: 0, y: -15 }}
+      transition={{ duration: 0.25 }}
+      whileHover={{ y: -6 }}
+      className="h-100"
     >
       <div
         ref={magneticRef}
-        className="card-roman magnetic-card project-card h-100 text-decoration-none beam-border"
+        className="roman-card beam-border h-100 p-4"
       >
         <Link className="text-decoration-none h-100 d-flex flex-column" to={`/blog/${post.slug}`}>
-          <div className="card-body d-flex flex-column h-100">
-            <div className="d-flex justify-content-between align-items-baseline mb-2">
-              <h2 className="h6 mb-0 fw-semibold font-display group-hover:text-primary transition-colors">
-                {post.title}
-              </h2>
-              {post.date && <span className="text-secondary small">{post.date}</span>}
-            </div>
+          <div className="d-flex justify-content-between align-items-baseline mb-2">
+            <h2 className="h6 mb-0 fw-bold font-display text-primary">
+              {post.title}
+            </h2>
+            {post.date && <span className="text-secondary small font-mono ms-2" style={{ fontSize: '0.72rem' }}>{post.date}</span>}
+          </div>
 
-            {post.summary && <p className="mb-3 text-secondary small flex-grow-1">{post.summary}</p>}
+          {post.summary && (
+            <p className="mb-3 text-secondary small flex-grow-1" style={{ lineHeight: '1.6' }}>
+              {post.summary}
+            </p>
+          )}
 
-            {/* Tags and Reading Time */}
-            <div className="d-flex justify-content-between align-items-center mt-auto pt-3 border-top border-zinc">
-              <div className="d-flex flex-wrap gap-1">
-                {post.tags.slice(0, 2).map((tag) => (
-                  <span
-                    key={tag}
-                    className="roman-badge-gold"
-                    style={{ fontSize: '0.7rem' }}
-                  >
-                    {tag}
-                  </span>
-                ))}
-                {post.tags.length > 2 && (
-                  <span
-                    className="roman-badge-gold"
-                    style={{ fontSize: '0.7rem' }}
-                  >
-                    +{post.tags.length - 2}
-                  </span>
-                )}
-              </div>
-              <span className="text-secondary small d-flex align-items-center gap-1">
-                <i className="bi bi-clock"></i>
-                {post.readingTime ? `${post.readingTime} min` : 'Read'}
-              </span>
+          {/* Tags and Reading Time */}
+          <div className="d-flex justify-content-between align-items-center mt-auto pt-3 border-top border-zinc">
+            <div className="d-flex flex-wrap gap-1">
+              {post.tags.slice(0, 3).map((tag) => (
+                <span
+                  key={tag}
+                  className="roman-badge-gold"
+                  style={{ fontSize: '0.68rem' }}
+                >
+                  {tag}
+                </span>
+              ))}
+              {post.tags.length > 3 && (
+                <span
+                  className="roman-badge-gold"
+                  style={{ fontSize: '0.68rem' }}
+                >
+                  +{post.tags.length - 3}
+                </span>
+              )}
             </div>
+            <span className="text-gold small d-flex align-items-center gap-1 font-mono" style={{ fontSize: '0.75rem' }}>
+              <i className="bi bi-clock"></i>
+              {post.readingTime ? `${post.readingTime} min` : 'Read'}
+            </span>
           </div>
         </Link>
       </div>

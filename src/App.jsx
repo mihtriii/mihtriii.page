@@ -2,6 +2,7 @@ import React, { Suspense, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
+import ToastContainer from './components/Toast.jsx';
 import { useI18n } from './i18n/index.jsx';
 
 // Pages (lazy loaded for code splitting)
@@ -84,6 +85,7 @@ export default function App() {
         </Suspense>
       </main>
       <Footer />
+      <ToastContainer />
     </div>
   );
 }

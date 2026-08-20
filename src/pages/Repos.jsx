@@ -179,38 +179,34 @@ export default function Repos() {
           </div>
         </div>
 
-        {/* Filter Controls - Roman Style */}
+        {/* Filter Controls */}
         <div className="roman-card beam-border mb-4" data-animate>
-          <div className="roman-card-inner reveal-stagger">
-            <div className="d-flex flex-wrap gap-2 mb-3">
-              <span className="roman-eyebrow me-2 align-self-center">Filter by Language</span>
-              <motion.div
-                className="d-flex flex-wrap gap-2"
-                initial="hidden"
-                animate="visible"
-                variants={{
-                  visible: { transition: { staggerChildren: 0.03 } },
-                }}
-              >
+          <div className="roman-card-inner p-3 p-md-4">
+            <div className="d-flex flex-column gap-3">
+              <div className="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                <span className="roman-eyebrow">Filter by Language</span>
+                <span className="roman-metric-pill">
+                  <span className="roman-metric-value">{filtered.length} Repos</span>
+                </span>
+              </div>
+
+              {/* Language Chips */}
+              <div className="d-flex gap-1 overflow-x-auto pb-1">
                 {languages.map((l) => (
-                  <motion.button
+                  <button
                     key={l}
-                    variants={{
-                      hidden: { opacity: 0, scale: 0.8 },
-                      visible: { opacity: 1, scale: 1 },
-                    }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`btn-roman ${langFilter === l ? 'btn-roman-primary' : 'btn-roman-ghost'} btn-sm`}
+                    className={`btn-roman btn-sm flex-shrink-0 ${langFilter === l ? 'btn-roman-primary' : 'btn-roman-ghost'}`}
                     onClick={() => setLangFilter(l)}
+                    style={{ fontSize: '0.75rem' }}
                   >
                     {l}
-                  </motion.button>
+                  </button>
                 ))}
-              </motion.div>
-              <div className="ms-auto"></div>
-              <div className="position-relative" style={{ maxWidth: 280 }}>
-                <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary z-1"></i>
+              </div>
+
+              {/* Search Bar */}
+              <div className="position-relative">
+                <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary"></i>
                 <input
                   className="input-roman ps-5 form-control-sm"
                   placeholder={t('repos.searchPlaceholder')}
@@ -218,14 +214,6 @@ export default function Repos() {
                   onChange={(e) => setQuery(e.target.value)}
                 />
               </div>
-            </div>
-            
-            {/* Results Count */}
-            <div className="d-flex justify-content-end">
-              <span className="roman-metric-pill">
-                <span className="roman-metric-label">Repo</span>
-                <span className="roman-metric-value">{filtered.length}</span>
-              </span>
             </div>
           </div>
         </div>

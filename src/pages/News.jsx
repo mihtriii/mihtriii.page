@@ -100,6 +100,29 @@ export default function News() {
   const newsItems = useMemo(
     () => [
       {
+        id: 'aita-lab-miwai-2026',
+        title: 'SlimFusion Paper Accepted at MIWAI 2026 (Springer LNAI)',
+        date: 'Aug 2026',
+        source: 'Springer LNAI / AiTA Lab',
+        category: 'Research',
+        icon: 'bi-patch-check-fill',
+        summary:
+          'Our research paper "SlimFusion: Lightweight Audio–Visual Emotion Recognition for Edge Inference" has been accepted for presentation and publication in Springer Lecture Notes in Artificial Intelligence (LNAI) at the 19th MIWAI 2026.',
+        highlights: [
+          'Ultra-lightweight multi-modal audio-visual fusion framework',
+          'Cross-attention distillation optimized for low-latency edge inference',
+          'Accepted into Springer LNAI Proceedings',
+        ],
+        url: 'https://miwai26.miwai.org/',
+        relatedLinks: [
+          {
+            label: 'View in Publications',
+            url: '/publications',
+            icon: 'bi-journal-bookmark',
+          },
+        ],
+      },
+      {
         id: 'aita-lab-ieee-icce-2026',
         title: t('news.aitaIeee.title'),
         date: t('news.aitaIeee.date'),

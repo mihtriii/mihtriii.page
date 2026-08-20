@@ -115,29 +115,24 @@ export default function Blog() {
         <Sidebar />
       </aside>
       <div className="col-12 col-lg-9">
-        {/* Hero Section with React Bits styling */}
+        {/* Hero Section */}
         <section
-          className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden spotlight floating-orbs"
+          className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden spotlight"
+          id="main-content"
           data-animate
         >
           <div className="hero-ambient" aria-hidden="true" />
-          <div className="glitter-layer" aria-hidden="true" />
           
-          <span className="roman-eyebrow d-block mb-3 reveal">Blog</span>
-          <h1 className="font-display fw-bold mb-2 text-gradient-animate reveal" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+          <span className="roman-eyebrow d-block mb-3">Research Notes &amp; Writings</span>
+          <h1 className="font-display fw-bold mb-2 hero-title text-gradient-gold">
             {t('blog.title')}
           </h1>
-          <p className="text-secondary mb-0 reveal">{t('blog.subtitle')}</p>
-
-          {/* Scroll Indicator */}
-          <div className="scroll-indicator" aria-hidden="true">
-            <span>Scroll</span>
-          </div>
+          <p className="text-secondary mb-0">{t('blog.subtitle')}</p>
         </section>
 
-        {/* Search and Filter Controls - Roman Style */}
+        {/* Search and Filter Controls */}
         <div className="roman-card beam-border mb-4" data-animate>
-          <div className="roman-card-inner reveal-stagger">
+          <div className="roman-card-inner p-4">
             <div className="row g-3">
               {/* Search Input */}
               <div className="col-12 col-md-6">

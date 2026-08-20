@@ -77,52 +77,81 @@ export default function Header() {
 
       <div className="scroll-progress" style={{ transform: `scaleX(${scrollProgress})` }} aria-hidden="true" />
 
-      <header ref={headerRef} className="sticky-top bg-body border-bottom header-auto">
-        <nav className="navbar glass py-2" aria-label="Primary">
+      <header ref={headerRef} className="sticky-top header-auto">
+        <nav className="navbar glass py-2 px-1" aria-label="Primary">
           <div className="container d-flex align-items-center justify-content-between">
-            <Link to="/" className="navbar-brand fw-bold d-flex align-items-center text-decoration-none me-2">
-              <img
-                src={`${import.meta.env.BASE_URL}assets/logo.svg`}
-                alt="Logo"
-                width="28"
-                height="28"
-                className="me-2"
-              />
-              <span className="font-display fw-bold" style={{ fontSize: '1.25rem' }}>NMTrí</span>
-            </Link>
+            <div className="d-flex align-items-center gap-3">
+              <Link to="/" className="navbar-brand fw-bold d-flex align-items-center text-decoration-none m-0">
+                <img
+                  src={`${import.meta.env.BASE_URL}assets/logo.svg`}
+                  alt="Logo"
+                  width="28"
+                  height="28"
+                  className="me-2 brand-logo"
+                />
+                <span className="font-display fw-bold brand-name" style={{ fontSize: '1.25rem', letterSpacing: '-0.01em' }}>
+                  NMTrí
+                </span>
+              </Link>
+              
+              {/* Research Active Status Badge */}
+              <div className="d-none d-md-flex align-items-center gap-2 px-2 py-1 rounded-pill status-pill">
+                <span className="pulse-dot" />
+                <span className="status-text font-mono" style={{ fontSize: '0.72rem' }}>
+                  Research @ AiTA Lab
+                </span>
+              </div>
+            </div>
 
             {/* Desktop nav */}
-            <div className="d-none d-xl-flex align-items-center ms-auto">
+            <div className="d-none d-xl-flex align-items-center gap-2 ms-auto">
               <PillNav t={t} prefetchData={prefetch} />
+              
+              <a
+                href={`${import.meta.env.BASE_URL}CV_NguyenMinhTri.pdf`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-roman btn-roman-ghost btn-sm d-inline-flex align-items-center gap-1 ms-2"
+                style={{ fontSize: '0.8rem', padding: '0.35rem 0.75rem' }}
+                title="Download Curriculum Vitae PDF"
+              >
+                <i className="bi bi-file-earmark-pdf"></i>
+                <span>CV.pdf</span>
+              </a>
+
               <button
                 onClick={toggleTheme}
-                className="btn btn-outline-secondary btn-sm ms-2"
+                className="btn-roman btn-roman-ghost btn-sm btn-icon"
                 type="button"
                 aria-label={`Theme: ${themeMode}`}
                 title={`Theme: ${themeMode}`}
+                style={{ width: 36, height: 36, padding: 0 }}
               >
                 <i className={`bi ${getThemeIcon()}`}></i>
               </button>
             </div>
 
-            {/* Mobile controls: theme + menu only */}
-            <div className="d-flex d-xl-none align-items-center ms-auto">
+            {/* Mobile / Tablet controls */}
+            <div className="d-flex d-xl-none align-items-center gap-2 ms-auto">
               <button
                 onClick={toggleTheme}
-                className="btn btn-outline-secondary btn-sm me-1"
+                className="btn-roman btn-roman-ghost btn-sm btn-icon"
                 type="button"
                 aria-label={`Theme: ${themeMode}`}
+                style={{ width: 36, height: 36, padding: 0 }}
               >
                 <i className={`bi ${getThemeIcon()}`}></i>
               </button>
               <button
-                className="btn btn-roman-primary btn-sm"
+                className="btn-roman btn-roman-primary btn-sm"
                 type="button"
                 aria-label={t('common.openMenu')}
                 aria-expanded={mobileOpen}
                 onClick={() => setMobileOpen(true)}
+                style={{ height: 36, padding: '0 0.75rem' }}
               >
-                <i className="bi bi-list"></i>
+                <i className="bi bi-list fs-6 me-1"></i>
+                <span className="small fw-semibold">{t('common.menu')}</span>
               </button>
             </div>
           </div>

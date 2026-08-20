@@ -7,6 +7,7 @@ import ToastContainer from './components/Toast.jsx';
 import { I18nProvider } from './i18n/index.jsx';
 import { ThemeProvider } from './contexts/ThemeContext.jsx';
 import { registerServiceWorker } from './utils/pwa.js';
+import DebugPanel from './components/DebugPanel.jsx';
 
 function Root() {
   // Register service worker for PWA

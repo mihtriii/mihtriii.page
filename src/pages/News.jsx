@@ -148,7 +148,7 @@ export default function News() {
   }, [newsItems, searchQuery]);
 
   return (
-    <div className="row g-4">
+    <div className="row g-4 page-transition">
       <aside className="col-12 col-lg-3">
         <Sidebar sectionIds={sectionIds} />
       </aside>
@@ -156,35 +156,37 @@ export default function News() {
       <div className="col-12 col-lg-9">
         <section
           id="featured-news"
-          className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden spotlight floating-orbs"
+          className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden spotlight"
+          id="main-content"
           data-animate
         >
           <div className="hero-ambient" aria-hidden="true" />
-          <div className="glitter-layer" aria-hidden="true" />
           
-          <span className="roman-eyebrow d-block mb-3 reveal">News &amp; Updates</span>
-          <h1 className="font-display fw-bold mb-2 text-gradient-animate reveal" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
-            <span>{t('news.title')}</span>
+          <span className="roman-eyebrow d-block mb-3">News &amp; Updates</span>
+          <h1 className="font-display fw-bold mb-2 hero-title text-gradient-gold">
+            {t('news.title')}
           </h1>
-          <p className="text-secondary mb-0 reveal">{t('news.subtitle')}</p>
+          <p className="text-secondary mb-0">{t('news.subtitle')}</p>
         </section>
 
-        <section id="news-list" className="mb-3" data-animate>
-          <div className="d-flex flex-wrap gap-2 align-items-center mb-3">
-            <div className="fw-semibold">
-              <i className="bi bi-newspaper me-1"></i>
-              {t('news.latest')}
-            </div>
-            <div className="ms-auto"></div>
-            <div className="position-relative">
-              <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary z-1"></i>
-              <input
-                className="input-roman ps-5 form-control-sm"
-                style={{ maxWidth: 280 }}
-                placeholder={t('news.searchPlaceholder')}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
+        <section id="news-list" className="mb-4" data-animate>
+          <div className="roman-card beam-border p-3 mb-4">
+            <div className="d-flex flex-wrap gap-2 align-items-center">
+              <div className="fw-bold font-display">
+                <i className="bi bi-newspaper text-gold me-2"></i>
+                {t('news.latest')}
+              </div>
+              <div className="ms-auto"></div>
+              <div className="position-relative">
+                <i className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary"></i>
+                <input
+                  className="input-roman ps-5 form-control-sm"
+                  style={{ maxWidth: 280 }}
+                  placeholder={t('news.searchPlaceholder')}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
             </div>
           </div>
 

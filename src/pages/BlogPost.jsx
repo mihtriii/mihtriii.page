@@ -66,14 +66,16 @@ export default function BlogPost() {
 
   if (!entry) {
     return (
-      <div className="row g-4">
-        <aside className="col-12 col-lg-4">
+      <div className="row g-4 page-transition">
+        <aside className="col-12 col-lg-3">
           <Sidebar />
         </aside>
-        <div className="col-12 col-lg-8">
-          <div className="alert alert-warning">Post not found.</div>
-          <Link className="btn btn-outline-secondary" to="/blog">
-            {t('blog.backToBlog')}
+        <div className="col-12 col-lg-9">
+          <div className="alert alert-warning roman-card beam-border p-4">
+            Post not found.
+          </div>
+          <Link className="btn-roman btn-roman-secondary btn-sm mt-3" to="/blog">
+            ← {t('blog.backToBlog')}
           </Link>
         </div>
       </div>
@@ -82,14 +84,16 @@ export default function BlogPost() {
 
   if (loadError) {
     return (
-      <div className="row g-4">
-        <aside className="col-12 col-lg-4">
+      <div className="row g-4 page-transition">
+        <aside className="col-12 col-lg-3">
           <Sidebar />
         </aside>
-        <div className="col-12 col-lg-8">
-          <div className="alert alert-danger">Failed to load this post.</div>
-          <Link className="btn btn-outline-secondary" to="/blog">
-            {t('blog.backToBlog')}
+        <div className="col-12 col-lg-9">
+          <div className="alert alert-danger roman-card beam-border p-4">
+            Failed to load this post.
+          </div>
+          <Link className="btn-roman btn-roman-secondary btn-sm mt-3" to="/blog">
+            ← {t('blog.backToBlog')}
           </Link>
         </div>
       </div>
@@ -99,40 +103,69 @@ export default function BlogPost() {
   const Mod = PostComponent;
 
   return (
-    <div className="row g-4">
-      <aside className="col-12 col-lg-4">
+    <div className="row g-4 page-transition">
+      <aside className="col-12 col-lg-3">
         <Sidebar />
       </aside>
-      <div className="col-12 col-lg-8">
-        <section className="page-hero hero-with-bg p-4 mb-3" data-animate>
-          <h1 className="h3 mb-1">
-            <span className="gradient-text">{entry.title || slug}</span>
-          </h1>
-          {entry.date && <p className="text-secondary mb-0">{entry.date}</p>}
-          {entry.tags.length > 0 && (
-            <div className="d-flex flex-wrap gap-1 mt-2">
-              {entry.tags.map((tag) => (
-                <span key={tag} className="badge text-bg-secondary" style={{ fontSize: '0.7rem' }}>
-                  {tag}
+      <div className="col-12 col-lg-9">
+        <article className="roman-card beam-border p-4 p-md-5 mb-4" data-animate>
+          <div className="mb-4 pb-3 border-bottom border-zinc">
+            <Link className="text-decoration-none small text-gold d-inline-flex align-items-center gap-1 mb-3" to="/blog">
+              ← {t('blog.backToBlog')}
+            </Link>
+            <h1 className="font-display fw-bold mb-2 hero-title text-gradient-gold">
+              {entry.title || slug}
+            </h1>
+            <div className="d-flex flex-wrap align-items-center gap-3 text-secondary small font-mono">
+              {entry.date && (
+                <span>
+                  <i className="bi bi-calendar3 me-1"></i>
+                  {entry.date}
                 </span>
-              ))}
+              )}
+              {entry.readingTime && (
+                <span>
+                  <i className="bi bi-clock me-1"></i>
+                  {entry.readingTime} min read
+                </span>
+              )}
+            </div>
+            {entry.tags?.length > 0 && (
+              <div className="d-flex flex-wrap gap-1 mt-3">
+                {entry.tags.map((tag) => (
+                  <span key={tag} className="roman-badge-gold" style={{ fontSize: '0.72rem' }}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {Mod ? (
+            <div className="prose-content" data-animate>
+              <Mod />
+            </div>
+          ) : (
+            <div className="text-center text-secondary py-5" aria-busy="true">
+              {t('common.loading')}
             </div>
           )}
-        </section>
-        {Mod ? (
-          <article className="prose" data-animate>
-            <Mod />
-          </article>
-        ) : (
-          <div className="text-center text-secondary py-5" aria-busy="true">
-            {t('common.loading')}
+
+          <div className="mt-5 pt-3 border-top border-zinc d-flex justify-content-between align-items-center">
+            <Link className="btn-roman btn-roman-secondary btn-sm" to="/blog">
+              ← {t('blog.backToBlog')}
+            </Link>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(window.location.href);
+                toast('Copied article link to clipboard!');
+              }}
+              className="btn-roman btn-roman-ghost btn-sm"
+            >
+              <i className="bi bi-share me-1"></i> Share Post
+            </button>
           </div>
-        )}
-        <div className="mt-4">
-          <Link className="btn btn-outline-secondary btn-sm" to="/blog">
-            ← {t('blog.backToBlog')}
-          </Link>
-        </div>
+        </article>
       </div>
     </div>
   );

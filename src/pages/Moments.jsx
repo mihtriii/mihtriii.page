@@ -844,36 +844,27 @@ export default function Moments() {
       <div className="col-12 col-lg-9">
         {/* Hero */}
         <section
-          className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden spotlight floating-orbs"
+          className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden spotlight"
+          id="main-content"
           data-animate
         >
           <div className="hero-ambient" aria-hidden="true" />
-          <div className="glitter-layer" aria-hidden="true" />
 
-          <h1 className="h3 mb-1 reveal">
-            <span className="text-gradient-animate font-display">{t('moments.title')}</span>
+          <span className="roman-eyebrow d-block mb-3">Timeline &amp; Gallery</span>
+          <h1 className="font-display fw-bold mb-2 hero-title text-gradient-gold">
+            {t('moments.title')}
           </h1>
-          <p className="text-secondary mb-2 reveal">{t('moments.subtitle')}</p>
-          {t('moments.intro') && (
-            <p className="text-secondary small mb-2 reveal" style={{ maxWidth: 720 }}>
-              {t('moments.intro')}
-            </p>
-          )}
-          <div className="d-flex flex-wrap gap-2 small text-secondary reveal">
+          <p className="text-secondary mb-3">{t('moments.subtitle')}</p>
+          <div className="d-flex flex-wrap gap-2 small text-secondary">
             <span className="roman-metric-pill d-inline-flex align-items-center gap-1">
-              <i className="bi bi-shield-check" /> {t('moments.metaEvidence')}
+              <i className="bi bi-shield-check text-gold" /> {t('moments.metaEvidence')}
             </span>
             <span className="roman-metric-pill d-inline-flex align-items-center gap-1">
-              <i className="bi bi-images" /> {t('moments.metaLinks')}
+              <i className="bi bi-images text-gold" /> {t('moments.metaLinks')}
             </span>
             <span className="roman-metric-pill d-inline-flex align-items-center gap-1">
-              <i className="bi bi-clock-history" /> {t('moments.metaUpdated')} 2026
+              <i className="bi bi-clock-history text-gold" /> Updated 2026
             </span>
-          </div>
-
-          {/* Scroll Indicator */}
-          <div className="scroll-indicator" aria-hidden="true">
-            <span>Scroll</span>
           </div>
         </section>
 

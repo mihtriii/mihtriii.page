@@ -2212,10 +2212,288 @@ header.sticky-top.header-hidden {
   50% { transform: rotate(45deg) translateY(8px); opacity: 1; }
 }
 
+/* ---- Debug Panel ---- */
+.debug-panel {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 10000;
+  width: 360px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border-zinc);
+  border-radius: 16px;
+  box-shadow: var(--shadow-glow-large);
+  padding: 16px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.debug-panel[data-bs-theme="light"] {
+  background: var(--bg-surface);
+  border-color: var(--border-zinc);
+  color: var(--text-primary);
+}
+
+.debug-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-zinc);
+}
+
+.debug-header h3 {
+  margin: 0;
+  color: var(--accent-gold);
+}
+
+.debug-content {
+  margin-bottom: 12px;
+}
+
+.debug-section {
+  margin-bottom: 16px;
+}
+
+.debug-section h4 {
+  margin: 0 0 8px 0;
+  color: var(--accent-gold);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.debug-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.debug-list li {
+  margin-bottom: 6px;
+  list-style-type: none;
+  position: relative;
+}
+
+.debug-list li::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-gold);
+}
+
+.debug-status {
+  margin-right: 8px;
+  color: var(--accent-gold);
+  font-weight: bold;
+}
+
+.debug-footer {
+  padding-top: 12px;
+  border-top: 1px solid var(--border-zinc);
+  text-align: right;
+}
+
+.debug-footer i.bi {
+  color: var(--accent-gold);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- End Debug Panel ---- */
+
 /* Publication Image - constrained height, lazy loaded */
 .publication-image {
   max-height: 300px;
   object-fit: contain;
   background: var(--bg-surface);
   content-visibility: auto;
+}
+
+/* ============================================================
+   MODERN ACADEMIC & GLASSMORPHISM ENHANCEMENTS
+   ============================================================ */
+
+/* Text Gradient Gold */
+.text-gradient-gold {
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-gold-light) 60%, var(--accent-gold) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Hero Title */
+.hero-title {
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+
+/* Status Pill */
+.status-pill {
+  background: rgba(201, 168, 76, 0.08);
+  border: 1px solid rgba(201, 168, 76, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Pulse Dot */
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #20C997;
+  display: inline-block;
+  box-shadow: 0 0 0 0 rgba(32, 201, 151, 0.7);
+  animation: pulseRadar 2s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+@keyframes pulseRadar {
+  0% { box-shadow: 0 0 0 0 rgba(32, 201, 151, 0.7); }
+  70% { box-shadow: 0 0 0 8px rgba(32, 201, 151, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(32, 201, 151, 0); }
+}
+
+/* Status Indicator (Online dot on avatar) */
+.status-indicator.online {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #20C997;
+  border: 2px solid var(--bg-card);
+  box-shadow: 0 0 8px rgba(32, 201, 151, 0.6);
+}
+
+/* Avatar Glow Ring & Tilt */
+.avatar-tilt-wrapper {
+  perspective: 1000px;
+  display: inline-block;
+}
+
+.avatar-glow-ring {
+  position: relative;
+  border-radius: 50%;
+  padding: 6px;
+  background: linear-gradient(135deg, rgba(201, 168, 76, 0.5) 0%, rgba(201, 168, 76, 0.08) 50%, rgba(255, 255, 255, 0.15) 100%);
+  box-shadow: 0 0 40px rgba(201, 168, 76, 0.15), 0 8px 32px rgba(0, 0, 0, 0.4);
+  max-width: 292px;
+}
+
+.avatar-hero-img {
+  border: 2px solid var(--border-zinc);
+}
+
+/* Typewriter Container */
+.typewriter-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-zinc);
+  box-shadow: var(--shadow-card);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+
+/* Brand Navbar Elements */
+.brand-logo {
+  transition: transform 0.3s var(--ease-spring);
+}
+.navbar-brand:hover .brand-logo {
+  transform: rotate(15deg) scale(1.1);
+}
+.brand-name {
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+/* Button Icon Utility */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50% !important;
+}
+
+/* Sidebar Recent Links */
+.sidebar-recent-link {
+  transition: all 0.2s var(--ease-standard);
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem !important;
+}
+.sidebar-recent-link:hover {
+  background: rgba(201, 168, 76, 0.08);
+  color: var(--accent-gold) !important;
+}
+
+/* Prose Reader Content for Blog */
+.prose-content {
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.prose-content h1,
+.prose-content h2,
+.prose-content h3,
+.prose-content h4 {
+  font-family: var(--font-display);
+  color: var(--text-primary);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.prose-content p {
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+}
+
+.prose-content pre {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-zinc);
+  border-radius: 12px;
+  padding: 1.25rem;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  margin-bottom: 1.5rem;
+}
+
+.prose-content code:not(pre code) {
+  background: rgba(201, 168, 76, 0.12);
+  color: var(--accent-gold);
+  padding: 0.2rem 0.4rem;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+
+.prose-content blockquote {
+  border-left: 3px solid var(--accent-gold);
+  padding-left: 1.25rem;
+  margin-left: 0;
+  margin-right: 0;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.prose-content img {
+  border-radius: 12px;
+  border: 1px solid var(--border-zinc);
+  max-width: 100%;
+  height: auto;
+  margin: 1.5rem 0;
 }

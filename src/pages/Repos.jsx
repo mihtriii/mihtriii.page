@@ -151,30 +151,25 @@ export default function Repos() {
   };
 
   return (
-    <div className="row g-4">
+    <div className="row g-4 page-transition">
       <aside className="col-12 col-lg-3">
         <Sidebar />
       </aside>
       <div className="col-12 col-lg-9">
         <section
-          className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden spotlight floating-orbs"
+          className="hero-section roman-card-elevated p-4 p-md-5 mb-4 position-relative overflow-hidden spotlight"
+          id="main-content"
           data-animate
           style={{ '--mouse-x': `${mousePos.x}%`, '--mouse-y': `${mousePos.y}%` }}
           onMouseMove={handleHeroMouseMove}
         >
           <div className="hero-ambient" aria-hidden="true" />
-          <div className="glitter-layer" aria-hidden="true" />
           
-          <span className="roman-eyebrow d-block mb-3 reveal">Repositories</span>
-          <h1 className="font-display fw-bold mb-2 text-gradient-animate reveal" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+          <span className="roman-eyebrow d-block mb-3">Open Source &amp; Codebases</span>
+          <h1 className="font-display fw-bold mb-2 hero-title text-gradient-gold">
             {t('repos.title')}
           </h1>
-          <p className="text-secondary mb-0 reveal">{t('repos.subtitle')}</p>
-
-          {/* Scroll Indicator */}
-          <div className="scroll-indicator" aria-hidden="true">
-            <span>Scroll</span>
-          </div>
+          <p className="text-secondary mb-0">{t('repos.subtitle')}</p>
         </section>
 
         {/* GitHub Commit Activity Chart */}
